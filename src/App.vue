@@ -7,6 +7,8 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import { Toast } from 'mint-ui';
+Toast('提示信息');
 
 export default {
   name: 'app',
