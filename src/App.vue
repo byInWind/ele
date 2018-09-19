@@ -1,30 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <about v-if="xxx"></about>
+        <!--<router-link v-if="xxx" to="/views/login/login">login</router-link>-->
+    </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import { Toast } from 'mint-ui';
-Toast('提示信息');
+    import router from './router'
+    import about from './views/About'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        data: function () {
+            return {
+                xxx: true
+            }
+        },
+        methods: {
+            onLogin: function () {
+                router.replace('/views/login/login');
+            }
+        },
+        components: {
+            about
+        }
+    }
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+    }
 </style>
