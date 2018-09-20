@@ -16,7 +16,6 @@
         },
         methods: {
             onLogin: function () {
-                router.replace('/views/login/login');
             }
         },
         components: {
@@ -24,7 +23,8 @@
         }
     }
 </script>
-<style>
+<style lang="scss">
+    @import "/assets/css/base";
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

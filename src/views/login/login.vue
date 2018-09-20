@@ -5,37 +5,68 @@
         <div class="center">
             <div class="title">短信登录</div>
             <section class="box">
-                <input type="text" placeholder="手机号">
+                <input type="text" maxlength="11" v-model="account" placeholder="手机号">
             </section>
             <section class="box">
-                <input type="text" placeholder="验证码">
+                <input type="text" maxlength="4" v-model="captcha" placeholder="验证码">
             </section>
             <section class="text">
                 温馨提示：未注册饿了么账号的手机号，登录时将自动注册，且代表您已同意
                 <a class="link" href="">《用户服务协议》</a></section>
+
+            <div class="SubmitButton" @click="sign">登录</div>
+            <a href="javascript:;" class="about">关于我们</a>
         </div>
-        <button class="SubmitButton">登录</button>
-        <a href="javascript:;" class="about">关于我们</a>
+
     </section>
 </template>
 
 <script>
+    import axios from 'axios'
+    import {Toast} from 'mint-ui';
+    import router from '../../router'
     export default {
         data: function () {
             return {
-                captcha: ''
+                account: null,
+                captcha: null
             }
         },
         name: "login",
-        components: {
-            // Field.name:Field
+        components: {},
+        methods: {
+            sign() {
+                if (this.account && this.captcha) {
+                    console.log(1)
+                    axios.post('https://elm.cangdu.org/v2/login', {
+                        account: this.account,
+                        captcha: this.captcha
+                    }).then(function (response) {
+                        let xxx = JSON.parse(response.config.data)
+                        console.log(xxx.account)
+                        //跳转
+                        router.push('/views/goods-list/goods-list');
+                    }).catch(function (response) {
+                        Toast({
+                            message: response,
+                            position: 'bottom',
+                            duration: 1500
+                        });
+                    })
+                } else {
+                    Toast({
+                        message: '账号密码不能为空',
+                        position: 'bottom',
+                        duration: 1500
+                    });
+                }
+            }
         }
     }
 
 </script>
 
 <style lang="scss" scoped>
-    @import "/src/assets/css/base.css";
 
     .center {
         width: 80%;
@@ -78,25 +109,28 @@
                 /*text-decoration: none;*/
             }
         }
+        .SubmitButton {
+            display: block;
+            width: 100%;
+            height: 42px;
+            margin-top: 30px;
+            border-radius: 4px;
+            background: #4cd96f;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            line-height: 42px;
+        }
+
+        .about {
+            margin-top: 20px;
+            text-align: center;
+            color: #999;
+            display: block;
+            font-size: 12px;
+        }
     }
 
-    .SubmitButton {
-        display: block;
-        width: 100%;
-        height: 42px;
-        margin-top: 30px;
-        border-radius: 4px;
-        background: #4cd96f;
-        color: #fff;
-        cursor: pointer;
-        text-align: center;
-        font-size: 16px;
-        line-height: 42px;
-    }
 
-    .about {
-        margin-top: 20px;
-        text-align: center;
-        color: #999;
-    }
 </style>
