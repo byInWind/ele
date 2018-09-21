@@ -30,44 +30,20 @@
                 </ul>
             </div>
             <div class="shop-item-box">
-                <div class="shop-item">
-                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
-                    <div class="center">
-                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
-                        <p class="info">评分：45 月售4518单</p>
-                        <p class="tips">¥20起送 配送费¥4</p>
-                    </div>
-                    <div class="center-right">
-                        <p>...</p>
-                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
-                        <p>100m | 28分钟</p>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
-                    <div class="center">
-                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
-                        <p class="info">评分：45 月售4518单</p>
-                        <p class="tips">¥20起送 配送费¥4</p>
-                    </div>
-                    <div class="center-right">
-                        <p>...</p>
-                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
-                        <p>100m | 28分钟</p>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
-                    <div class="center">
-                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
-                        <p class="info">评分：45 月售4518单</p>
-                        <p class="tips">¥20起送 配送费¥4</p>
-                    </div>
-                    <div class="center-right">
-                        <p>...</p>
-                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
-                        <p>100m | 28分钟</p>
-                    </div>
+                <div v-for="(item,index) in items" :key="index" class="shop-item">
+                    <router-link to="/views/search/search">
+                        <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
+                        <div class="center">
+                            <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
+                            <p class="info">评分：45 月售4518单</p>
+                            <p class="tips">¥20起送 配送费¥4</p>
+                        </div>
+                        <div class="center-right">
+                            <p>...</p>
+                            <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
+                            <p>100m | 28分钟</p>
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </section>
@@ -85,11 +61,13 @@
 <script>
     import Vue from 'vue'
     import router from '../../router'
+    import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui';
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     export default {
+        name: "goods-list",
         data: function () {
             return {
                 imgs: ['https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg',
@@ -100,14 +78,25 @@
                     'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
                     'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg',
                     'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
-                    'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg']
+                    'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg'],
+                items: []
             }
-        },
-        name: "goods-list",
-        methods: {
+        }, methods: {
             search() {
                 router.push('/views/search/search')
             }
+        },
+        mounted: function () {
+            var that = this;
+            axios.get('https://elm.cangdu.org/shopping/restaurants', {
+                params: {
+                    latitude: 31.22967,
+                    longitude: 121.4762
+                }
+            }).then(function (response) {
+                console.log(response.data, that.items);
+                that.items = response.data
+            })
         }
     }
 </script>
@@ -197,32 +186,37 @@
     }
 
     .shop-item-box {
+        color: #666;
         text-align: left;
         font-size: 12px;
-        color: #666;
+        margin-bottom: 50px;
         .shop-item {
-            padding: 20px 10px;
             border-top: 1px solid #e9e9e9;
-            img {
-                width: 64px;
-                height: 64px;
-            }
-            .center {
-                display: inline-block;
-                position: absolute;
-                .title {
-                    color: black;
-                    font-size: 14px;
+            a {
+                padding: 20px 10px;
+                display: block;
+                color: #666;
+                img {
+                    width: 64px;
+                    height: 64px;
                 }
-                .info {
-                    margin: 5px 0;
+                .center {
+                    display: inline-block;
+                    position: absolute;
+                    .title {
+                        color: black;
+                        font-size: 14px;
+                    }
+                    .info {
+                        margin: 5px 0;
+                    }
                 }
-            }
-            .center-right {
-                text-align: right;
-                float: right;
-                .info {
-                    margin: 5px 0;
+                .center-right {
+                    text-align: right;
+                    float: right;
+                    .info {
+                        margin: 5px 0;
+                    }
                 }
             }
         }
