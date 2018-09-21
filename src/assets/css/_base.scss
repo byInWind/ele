@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  border-box: box-sizing;
+  box-sizing:border-box;
 }
 
 a {
@@ -15,14 +15,19 @@ ul {
 input {
   outline: none;
 }
+
 body .mint-swipe-indicator.is-active {
   background: blue;
 }
 
 body .mint-swipe-indicator {
-  width: 20px!important;
+  width: 20px;
   height: 3px;
   display: inline-block;
   border-radius: 0;
   background: #a5a1a1;
+}
+
+body .mint-swipe-indicators {
+  bottom: 0px;
 }

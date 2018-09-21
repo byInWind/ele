@@ -19,6 +19,57 @@
                     </ul>
                 </mt-swipe-item>
             </mt-swipe>
+
+            <div class="recommend">-- 推荐商家 --</div>
+            <div class="item-box">
+                <ul>
+                    <li>美食外卖</li>
+                    <li>排序</li>
+                    <li>距离最近</li>
+                    <li>筛选</li>
+                </ul>
+            </div>
+            <div class="shop-item-box">
+                <div class="shop-item">
+                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
+                    <div class="center">
+                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
+                        <p class="info">评分：45 月售4518单</p>
+                        <p class="tips">¥20起送 配送费¥4</p>
+                    </div>
+                    <div class="center-right">
+                        <p>...</p>
+                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
+                        <p>100m | 28分钟</p>
+                    </div>
+                </div>
+                <div class="shop-item">
+                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
+                    <div class="center">
+                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
+                        <p class="info">评分：45 月售4518单</p>
+                        <p class="tips">¥20起送 配送费¥4</p>
+                    </div>
+                    <div class="center-right">
+                        <p>...</p>
+                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
+                        <p>100m | 28分钟</p>
+                    </div>
+                </div>
+                <div class="shop-item">
+                    <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
+                    <div class="center">
+                        <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
+                        <p class="info">评分：45 月售4518单</p>
+                        <p class="tips">¥20起送 配送费¥4</p>
+                    </div>
+                    <div class="center-right">
+                        <p>...</p>
+                        <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
+                        <p>100m | 28分钟</p>
+                    </div>
+                </div>
+            </div>
         </section>
         <footer>
             <ul class="footer">
@@ -124,5 +175,56 @@
         }
     }
 
+    .recommend {
+        margin: 10px 0;
+    }
 
+    .item-box {
+        ul {
+            font-size: 0;
+            li {
+                display: inline-block;
+                width: 25%;
+                margin: 10px 0;
+                font-size: 14px;
+                color: #3a3838;
+                border-right: 1px solid #c3c1c1;
+            }
+            li:nth-child(4) {
+                border: none;
+            }
+        }
+    }
+
+    .shop-item-box {
+        text-align: left;
+        font-size: 12px;
+        color: #666;
+        .shop-item {
+            padding: 20px 10px;
+            border-top: 1px solid #e9e9e9;
+            img {
+                width: 64px;
+                height: 64px;
+            }
+            .center {
+                display: inline-block;
+                position: absolute;
+                .title {
+                    color: black;
+                    font-size: 14px;
+                }
+                .info {
+                    margin: 5px 0;
+                }
+            }
+            .center-right {
+                text-align: right;
+                float: right;
+                .info {
+                    margin: 5px 0;
+                }
+            }
+        }
+    }
 </style>
