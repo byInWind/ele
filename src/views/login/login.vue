@@ -3,7 +3,7 @@
 
         <header>ele</header>
         <div class="center">
-            <div class="title">短信登录</div>
+            <div class="title">短信登录(随便写)</div>
             <section class="box">
                 <input type="text" maxlength="11" v-model="account" placeholder="手机号">
             </section>
@@ -90,7 +90,6 @@
             width: 100%;
             height: 100%;
             left: 0;
-            outline: none;
             padding-left: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;

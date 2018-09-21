@@ -25,4 +25,5 @@ sass 使用中绝对路径报错（改相对路径）
 路由跳转(待解决)
 在vue项目中全局引入一个 .scss文件 放在app.vue里,不加scope  
 配置eslint关闭config,在package.json里配置 
-"rules": {"no-console": "off"}
+"rules": {"no-console": "off"}  
+mint-ui在单文件里修改它的样式无效，放到总的base.scss里就可以修改了

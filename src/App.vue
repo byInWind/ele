@@ -5,7 +5,7 @@
     </div>
 </template>
 <script>
-    import router from './router'
+    // import router from './router'
     import about from './views/About'
 
     export default {
