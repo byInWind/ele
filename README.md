@@ -20,6 +20,7 @@ npm run build
 npm run lint
 ```
 第二天：登录页
+第四天：商铺列表
 bug记录:  
 sass 使用中绝对路径报错（改相对路径）  
 路由跳转(待解决)
