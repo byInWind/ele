@@ -30,3 +30,4 @@ sass 使用中绝对路径报错（改相对路径）
 "rules": {"no-console": "off"}  
 mint-ui在单文件里修改它的样式无效，放到总的base.scss里就可以修改了  
 this改变的问题
+ 
