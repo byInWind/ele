@@ -5,7 +5,7 @@
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
         </header>
         <section>
-            <mt-swipe class="swipe" :auto="300000">
+            <mt-swipe class="swipe" :auto="3000">
                 <mt-swipe-item>
                     <ul>
                         <li v-for="(item, index) in imgs" :key="index"><img :src=item alt="">
@@ -31,8 +31,11 @@
             </div>
             <div class="shop-item-box">
                 <div v-for="(item,index) in items" :key="index" class="shop-item">
-                    <router-link to="/views/search/search">
-                        <img :src="imgBaseUrl +item.image_path" alt="xxxx">
+                    {{item.id}}
+                    <section @click="jump(item.id)">
+                        <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
+                        <!--<img :src="imgBaseUrl +item.image_path" alt="xxxx">-->
+                        <img src="" alt="xxxx">
                         <div class="center">
                             <h4 class="title"><span class="brand">品牌</span>{{item.name}}</h4>
                             <p class="info">评分：45 月售4518单</p>
@@ -40,10 +43,11 @@
                         </div>
                         <div class="center-right">
                             <p>...</p>
-                            <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
+                            <p class="info" v-if="item.delivery_mode"><span>{{item.delivery_mode.text}}</span></p>
                             <p>{{item.distance}} | {{item.order_lead_time}}</p>
                         </div>
-                    </router-link>
+                        <!--</router-link>-->
+                    </section>
                 </div>
             </div>
         </section>
@@ -85,6 +89,9 @@
         }, methods: {
             search() {
                 router.push('/views/search/search')
+            },
+            jump: function (id) {
+                router.push({path: '/views/shopDetails/shopDetails/' + id})
             }
         },
         mounted: function () {
@@ -193,7 +200,7 @@
         margin-bottom: 50px;
         .shop-item {
             border-top: 1px solid #e9e9e9;
-            a {
+            section {
                 padding: 20px 10px;
                 display: block;
                 color: #666;
@@ -218,6 +225,12 @@
                     float: right;
                     .info {
                         margin: 5px 0;
+                        span {
+                            color: #fff;
+                            border: .133333vw solid #0097ff;
+                            background-image: -webkit-linear-gradient(45deg, #0085ff, #0af);
+                            background-image: linear-gradient(45deg, #0085ff, #0af);
+                        }
                     }
                 }
             }
