@@ -32,16 +32,16 @@
             <div class="shop-item-box">
                 <div v-for="(item,index) in items" :key="index" class="shop-item">
                     <router-link to="/views/search/search">
-                        <img src="https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg" alt="">
+                        <img :src="imgBaseUrl +item.image_path" alt="xxxx">
                         <div class="center">
-                            <h4 class="title"><span class="brand">品牌</span>家乐福(北京中关村店)</h4>
+                            <h4 class="title"><span class="brand">品牌</span>{{item.name}}</h4>
                             <p class="info">评分：45 月售4518单</p>
-                            <p class="tips">¥20起送 配送费¥4</p>
+                            <p class="tips">¥20起送 {{item.piecewise_agent_fee.tips}}</p>
                         </div>
                         <div class="center-right">
                             <p>...</p>
                             <p class="info"><span>蜂鸟专送</span><span>准时达</span></p>
-                            <p>100m | 28分钟</p>
+                            <p>{{item.distance}} | {{item.order_lead_time}}</p>
                         </div>
                     </router-link>
                 </div>
@@ -79,7 +79,8 @@
                     'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg',
                     'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
                     'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg'],
-                items: []
+                items: [],
+                imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
             }
         }, methods: {
             search() {
@@ -94,7 +95,7 @@
                     longitude: 121.4762
                 }
             }).then(function (response) {
-                console.log(response.data, that.items);
+                console.log(response);
                 that.items = response.data
             })
         }
@@ -199,6 +200,7 @@
                 img {
                     width: 64px;
                     height: 64px;
+                    display: inline-block;
                 }
                 .center {
                     display: inline-block;
