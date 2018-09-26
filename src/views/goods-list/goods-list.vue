@@ -129,7 +129,11 @@
 </script>
 
 <style lang="scss" scoped>
-    header {
+    footer /deep/ ul.footer li:nth-child(1) {
+        a {
+            color: #3190e8;
+        }
+    }  header {
         background-image: linear-gradient(90deg, #0af, #0085ff);
         color: #fff;
         padding: 10px 15px;

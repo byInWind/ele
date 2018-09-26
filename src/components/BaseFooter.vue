@@ -1,7 +1,9 @@
 <template>
     <footer>
         <ul class="footer">
-            <li>外卖</li>
+            <li>
+                <router-link to="/views/goods-list/goods-list">外卖</router-link>
+            </li>
             <li>搜索</li>
             <li>订单</li>
             <li>
