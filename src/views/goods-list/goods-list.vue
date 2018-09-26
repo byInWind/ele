@@ -28,7 +28,7 @@
                     <li>距离最近</li>
                     <li>筛选</li>
                 </ul>
-                <ul class="next-box">
+                <ul class="next-box none">
                     <li>综合排序</li>
                     <li>销量最高</li>
                     <li>配送速度最快</li>
@@ -58,14 +58,7 @@
                 </div>
             </div>
         </section>
-        <footer>
-            <ul class="footer">
-                <li>外卖</li>
-                <li>搜索</li>
-                <li>订单</li>
-                <li>我的</li>
-            </ul>
-        </footer>
+       <BaseFooter></BaseFooter>
     </div>
 </template>
 
@@ -75,11 +68,13 @@
     import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui'
     import $ from 'jquery'
+    import BaseFooter from "../../components/BaseFooter";
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     export default {
         name: "goods-list",
+        components: {BaseFooter},
         data: function () {
             return {
                 imgs: ['https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg',
@@ -157,25 +152,6 @@
             text-indent: 15px;
             text-align: center;
             border-radius: 2px;
-        }
-    }
-
-    footer {
-        ul.footer {
-            position: fixed;
-            font-size: 0;
-            width: 100%;
-            bottom: 0;
-            border-top: 1px solid #e9e9e9;
-            background-color: white;
-            height: 46px;
-            line-height: 46px;
-            li {
-                font-size: 16px;
-                text-align: center;
-                width: 25%;
-                display: inline-block;
-            }
         }
     }
 

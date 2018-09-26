@@ -5,6 +5,7 @@
             <input type="search" v-model="val" placeholder="搜索饿了么商家、商品名称"/>
             <span class="right" @click="search">搜索</span>
         </header>
+        <BaseFooter></BaseFooter>
     </section>
 </template>
 

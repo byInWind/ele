@@ -3,6 +3,7 @@
         11、餐馆详情
         {{ $route.params.id }}
         {{$route.query.id}}
+        <BaseFooter></BaseFooter>
     </div>
 </template>
 
