@@ -34,3 +34,4 @@ this改变的问题
 为div加滚动事件，需要设置高度且 overflow: scroll;  
 属性position: sticky;  
 vue里可以获取window,比如用在滚动里（饿了吗，滚动到一定距离变成固定定位,最后效果会稍微跳一下）
+ 
