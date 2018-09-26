@@ -30,4 +30,6 @@ sass 使用中绝对路径报错（改相对路径）
 "rules": {"no-console": "off"}  
 mint-ui在单文件里修改它的样式无效，放到总的base.scss里就可以修改了  
 this改变的问题  
-为div加滚动事件，需要设置高度且 overflow: scroll;
+为div加滚动事件，需要设置高度且 overflow: scroll;  
+属性position: sticky;  
+vue里可以获取window,比如用在滚动里（饿了吗，滚动到一定距离变成固定定位,最后效果会稍微跳一下）

@@ -1,5 +1,5 @@
 <template>
-    <div id="scrollBox" @scroll.passive="scrollFun">
+    <div>
         <header>
             <div>地址</div>
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
@@ -21,8 +21,8 @@
             </mt-swipe>
 
             <div class="recommend">-- 推荐商家 --</div>
-            <div class="item-box">
-                <ul>
+            <div class="item-box ">
+                <ul >
                     <li>美食外卖</li>
                     <li>排序</li>
                     <li>距离最近</li>
@@ -84,6 +84,7 @@
                     'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg'],
                 items: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+                isFixed: false
             }
         }, methods: {
             search() {
@@ -91,10 +92,6 @@
             },
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
-            },
-            scrollFun: function () {
-                console.log(11);
-
             }
         },
         mounted: function () {
@@ -107,18 +104,23 @@
             }).then(function (response) {
                 console.log(response);
                 that.items = response.data
-            })
+            });
+            // window.onscroll = function () {
+            //     console.log(that)
+            //     var top = document.body.scrollTop || document.documentElement.scrollTop;
+            //     if (top > 220) {
+            //         console.log(1, that.isFixed)
+            //         that.isFixed = true
+            //     } else {
+            //         that.isFixed = false
+            //         console.log(2, that.isFixed)
+            //     }
+            // }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    #scrollBox {
-        width: 100%;
-        height: 100vh;
-        overflow: scroll;
-    }
-
     header {
         background-image: linear-gradient(90deg, #0af, #0085ff);
         color: #fff;
@@ -190,24 +192,40 @@
         margin: 10px 0;
     }
 
+    /*.fix {*/
+        /*width: 100%;*/
+        /*position: fixed !important;*/
+        /*top: 97px;*/
+        /*z-index: 100;*/
+        /*height: 41px;*/
+        /*background: white;*/
+        /*border-bottom: 1px solid #ddd;*/
+    /*}*/
+
     .item-box {
-        ul {
-            font-size: 0;
-            li {
-                display: inline-block;
-                width: 25%;
-                margin: 10px 0;
-                font-size: 14px;
-                color: #3a3838;
-                border-right: 1px solid #c3c1c1;
-            }
-            li:nth-child(4) {
-                border: none;
-            }
+        /*height: 0;*/
+        /*position: relative;*/
+        position: sticky;
+        top: 97px;
+        z-index: 100;
+        background: white;
+        border-bottom: 1px solid #ddd;
+        font-size: 0;
+        li {
+            display: inline-block;
+            width: 25%;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #3a3838;
+            border-right: 1px solid #c3c1c1;
+        }
+        li:nth-child(4) {
+            border: none;
         }
     }
 
     .shop-item-box {
+        /*margin-top: 41px;*/
         color: #666;
         text-align: left;
         font-size: 12px;
