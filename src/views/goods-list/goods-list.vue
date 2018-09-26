@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="scrollBox" @scroll.passive="scrollFun">
         <header>
             <div>地址</div>
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
@@ -31,7 +31,6 @@
             </div>
             <div class="shop-item-box">
                 <div v-for="(item,index) in items" :key="index" class="shop-item">
-                    {{item.id}}
                     <section @click="jump(item.id)">
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
                         <!--<img :src="imgBaseUrl +item.image_path" alt="xxxx">-->
@@ -92,6 +91,10 @@
             },
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
+            },
+            scrollFun: function () {
+                console.log(1);
+
             }
         },
         mounted: function () {
@@ -110,10 +113,20 @@
 </script>
 
 <style lang="scss" scoped>
+    #scrollBox {
+        width: 100%;
+        height: 100vh;
+        overflow: scroll;
+    }
+
     header {
         background-image: linear-gradient(90deg, #0af, #0085ff);
         color: #fff;
         padding: 10px 15px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 99;
         div {
             padding-bottom: 10px;
             text-align: left;
@@ -152,6 +165,7 @@
     }
 
     .swipe {
+        margin-top: 97px;
         height: 177px;
         /*background-color: #7457ff;*/
         ul {
@@ -204,6 +218,7 @@
                 padding: 20px 10px;
                 display: block;
                 color: #666;
+                position: relative;
                 img {
                     width: 64px;
                     height: 64px;

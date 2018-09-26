@@ -1,6 +1,6 @@
 # ele
 
-## Project setup
+## 安装
 ```
 npm install
 ```
@@ -29,4 +29,5 @@ sass 使用中绝对路径报错（改相对路径）
 配置eslint关闭config,在package.json里配置 
 "rules": {"no-console": "off"}  
 mint-ui在单文件里修改它的样式无效，放到总的base.scss里就可以修改了  
-this改变的问题
+this改变的问题  
+为div加滚动事件，需要设置高度且 overflow: scroll;
