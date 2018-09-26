@@ -22,11 +22,19 @@
 
             <div class="recommend">-- 推荐商家 --</div>
             <div class="item-box ">
-                <ul >
-                    <li>美食外卖</li>
-                    <li>排序</li>
+                <ul>
+                    <li @click="togleBox">美食外卖</li>
+                    <li>综合排序</li>
                     <li>距离最近</li>
                     <li>筛选</li>
+                </ul>
+                <ul class="next-box">
+                    <li>综合排序</li>
+                    <li>销量最高</li>
+                    <li>配送速度最快</li>
+                    <li>评分最高</li>
+                    <li>距离最近</li>
+                    <li>起送价最低</li>
                 </ul>
             </div>
             <div class="shop-item-box">
@@ -65,7 +73,8 @@
     import Vue from 'vue'
     import router from '../../router'
     import axios from 'axios'
-    import {Swipe, SwipeItem} from 'mint-ui';
+    import {Swipe, SwipeItem} from 'mint-ui'
+    import $ from 'jquery'
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
@@ -84,7 +93,7 @@
                     'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg'],
                 items: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
-                isFixed: false
+                // isFixed: false
             }
         }, methods: {
             search() {
@@ -92,6 +101,10 @@
             },
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
+            },
+            togleBox() {
+                $('.next-box').slideToggle()
+
             }
         },
         mounted: function () {
@@ -193,13 +206,13 @@
     }
 
     /*.fix {*/
-        /*width: 100%;*/
-        /*position: fixed !important;*/
-        /*top: 97px;*/
-        /*z-index: 100;*/
-        /*height: 41px;*/
-        /*background: white;*/
-        /*border-bottom: 1px solid #ddd;*/
+    /*width: 100%;*/
+    /*position: fixed !important;*/
+    /*top: 97px;*/
+    /*z-index: 100;*/
+    /*height: 41px;*/
+    /*background: white;*/
+    /*border-bottom: 1px solid #ddd;*/
     /*}*/
 
     .item-box {
@@ -209,7 +222,7 @@
         top: 97px;
         z-index: 100;
         background: white;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #E9E9E9;
         font-size: 0;
         li {
             display: inline-block;
@@ -221,6 +234,19 @@
         }
         li:nth-child(4) {
             border: none;
+        }
+        .next-box {
+            width: 100%;
+            position: absolute;
+            background: white;
+            border-bottom: 1px solid #E9E9E9;
+            li {
+                width: 100%;
+                height: 40px;
+                line-height: 40px;
+                text-align: left;
+                padding-left: 30px;
+            }
         }
     }
 
