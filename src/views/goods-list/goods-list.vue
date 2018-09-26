@@ -93,7 +93,7 @@
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
             },
             scrollFun: function () {
-                console.log(1);
+                console.log(11);
 
             }
         },
