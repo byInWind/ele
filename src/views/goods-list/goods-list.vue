@@ -8,39 +8,41 @@
             <mt-swipe class="swipe" :auto="3000">
                 <mt-swipe-item>
                     <ul>
-                        <li v-for="(item, index) in imgs" :key="index"><img :src=item alt="">
-                            <p>美食外卖</p></li>
+                        <li v-for="(item,index) in categoryItems" :key="index">
+                            <img :src="imgBaseUrl + item.image_url">
+                            <p>{{item.title}}</p></li>
                     </ul>
                 </mt-swipe-item>
                 <mt-swipe-item>
                     <ul>
-                        <li v-for="(item, index) in imgs" :key="index"><img :src=item alt="">
-                            <p>美食外卖</p></li>
+                        <li v-if="index>10" v-for="(item,index) in categoryItems" :key="index">
+                            <img :src="imgBaseUrl + item.image_url">
+                            <p>{{item.title}}</p></li>
                     </ul>
                 </mt-swipe-item>
             </mt-swipe>
 
             <div class="recommend">-- 推荐商家 --</div>
-            <div class="item-box ">
+            <div class="item-box">
                 <ul>
-                    <li @click="toggleBox">美食外卖</li>
+                    <li class="sendFood" @click="toggleBox">{{sortnormal}}</li>
                     <li>综合排序</li>
                     <li>距离最近</li>
                     <li>筛选</li>
                 </ul>
                 <section class="layer none" @click="hideenBox">
                     <ol class="next-box">
-                        <li>综合排序</li>
-                        <li>销量最高</li>
-                        <li>配送速度最快</li>
-                        <li>评分最高</li>
-                        <li>距离最近</li>
-                        <li>起送价最低</li>
+                        <li @click="toSort(4,'综合排序')">综合排序</li>
+                        <li @click="toSort(6,'销量最高')">销量最高</li>
+                        <li @click="toSort(2,'配送速度最快')">配送速度最快</li>
+                        <li @click="toSort(3,'评分最高')">评分最高</li>
+                        <li @click="toSort(5,'距离最近')">距离最近</li>
+                        <li @click="toSort(1,'起送价最低')">起送价最低</li>
                     </ol>
                 </section>
             </div>
             <div class="shop-item-box">
-                <div v-for="(item,index) in items" :key="index" class="shop-item">
+                <div v-for="(item,index) in restaurantsItems" :key="index" class="shop-item">
                     <section @click="jump(item.id)">
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
                         <!--<img :src="imgBaseUrl +item.image_path" alt="xxxx">-->
@@ -79,18 +81,11 @@
         components: {BaseFooter},
         data: function () {
             return {
-                imgs: ['https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg',
-                    'https://fuss10.elemecdn.com/b/7e/d1890cf73ae6f2adb97caa39de7fcjpeg.jpeg',
-                    'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
-                    'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg', 'https://fuss10.elemecdn.com/2/35/696aa5cf9820adada9b11a3d14bf5jpeg.jpeg',
-                    'https://fuss10.elemecdn.com/b/7e/d1890cf73ae6f2adb97caa39de7fcjpeg.jpeg',
-                    'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
-                    'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg',
-                    'https://fuss10.elemecdn.com/0/da/f42235e6929a5cb0e7013115ce78djpeg.jpeg',
-                    'https://fuss10.elemecdn.com/d/38/7bddb07503aea4b711236348e2632jpeg.jpeg'],
-                items: [],
+                sortnormal: '美食外卖',
+                restaurantsItems: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
                 // isFixed: false
+                categoryItems: []
             }
         }, methods: {
             search() {
@@ -100,19 +95,40 @@
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
             },
             toggleBox() {
+                if ($('.layer').css('display') == "block") {
+                    $('.item-box').removeClass('fix');
+                    $('body').css('overflow', 'auto');
+
+                } else {
+                    $('.item-box').addClass('fix');
+                    //禁止滚动
+                    $('body').css('overflow', 'hidden')
+                }
                 $('.layer').slideToggle();
-                $('.item-box').addClass('fix');
-                //禁止滚动
-                $('body').css('overflow', 'hidden')
             },
             hideenBox() {
-                $('.layer').slideToggle(50)
+                $('.layer').slideUp(50)
                 $('body').css('overflow', 'auto');
                 $('.item-box').removeClass('fix');
+            },
+            toSort(num, mesg) {
+                var that = this;
+                axios.get('https://elm.cangdu.org/shopping/restaurants', {
+                    params: {
+                        latitude: 31.22967,
+                        longitude: 121.4762,
+                        order_by: num
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    that.restaurantsItems = response.data
+                });
+                this.sortnormal = mesg;
             }
         },
         mounted: function () {
             var that = this;
+            //商铺列表
             axios.get('https://elm.cangdu.org/shopping/restaurants', {
                 params: {
                     latitude: 31.22967,
@@ -120,8 +136,19 @@
                 }
             }).then(function (response) {
                 console.log(response);
-                that.items = response.data
+                that.restaurantsItems = response.data
             });
+            //食物分类列表
+            axios.get('https://elm.cangdu.org/v2/index_entry', {
+                params: {
+                    latitude: 31.22967,
+                    longitude: 121.4762
+                }
+            }).then(function (res) {
+                console.log(res);
+                that.categoryItems = res.data
+            });
+
             // window.onscroll = function () {
             //     console.log(that)
             //     var top = document.body.scrollTop || document.documentElement.scrollTop;

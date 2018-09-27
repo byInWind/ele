@@ -19,6 +19,7 @@ npm run build
 ```
 npm run lint
 ```
+请用chrome浏览器打开(手机模拟)
 第二天：登录页  
 第四天：商铺列表  
 第五天：解决路由问题  
