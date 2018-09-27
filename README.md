@@ -27,7 +27,7 @@ npm run lint
 第七天：继续完善外卖页，实现code很丑陋的排序功能
 bug记录:   
 sass 使用中绝对路径报错（改相对路径）  
-路由跳转(待解决)
+路由跳转(解决)
 在vue项目中全局引入一个 .scss文件 放在app.vue里,不加scope  
 配置eslint关闭config,在package.json里配置 
 "rules": {"no-console": "off"}  
@@ -36,4 +36,6 @@ this改变的问题,注意在vue与window不同
 为div加滚动事件，需要设置高度且 overflow: scroll;  
 属性position: sticky;  
 vue里可以获取window,比如用在滚动里（饿了吗，滚动到一定距离变成固定定位,最后效果会稍微跳一下）
-   vue改变引用的组件的样式/deep/ https://zhuanlan.zhihu.com/p/29266022
+   vue改变引用的组件的样式/deep/ https://zhuanlan.zhihu.com/p/29266022  
+   设置弹层时引内容过长出现滑动问题，设置body,overflow:hiddent  
+      vue里无法使用jquery的$().html()/.text()，会报错  

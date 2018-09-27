@@ -5,8 +5,31 @@ import 'mint-ui/lib/style.css'
 import App from './App.vue'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
+import axios from 'axios'
+// import forLoading from './components/BaseLoading'
+
 Vue.use(MintUI)
 
+//封装axios      全局loading
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    // forLoading = true
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(function (response) {
+    // Do something with response data
+    // forLoading = false
+    return response;
+}, function (error) {
+    // Do something with response error
+    return Promise.reject(error);
+});
+
+//全局注册组件开始
 const requireComponent = require.context(
     // 其组件目录的相对路径
     './components',
@@ -37,11 +60,13 @@ requireComponent.keys().forEach(fileName => {
         componentConfig.default || componentConfig
     )
 })
+//全局注册组件结束
+
 
 Vue.config.productionTip = false
 
 new Vue({
-    components: { App },
+    components: {App},
     router,
     render: h => h(App)
 }).$mount('#app')

@@ -5,7 +5,7 @@
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
         </header>
         <section>
-            <mt-swipe class="swipe" :auto="3000">
+            <mt-swipe class="swipe" :auto="0">
                 <mt-swipe-item>
                     <ul>
                         <li v-for="(item,index) in categoryItems" :key="index">
@@ -26,9 +26,9 @@
             <div class="item-box">
                 <ul>
                     <li class="sendFood" @click="toggleBox">{{sortnormal}}</li>
-                    <li>综合排序</li>
-                    <li>距离最近</li>
-                    <li>筛选</li>
+                    <li @click="toSort(6,'销量最高')">销量最高</li>
+                    <li @click="toSort(5,'距离最近')">距离最近</li>
+                    <li class="active">筛选</li>
                 </ul>
                 <section class="layer none" @click="hideenBox">
                     <ol class="next-box">
@@ -45,8 +45,8 @@
                 <div v-for="(item,index) in restaurantsItems" :key="index" class="shop-item">
                     <section @click="jump(item.id)">
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
-                        <!--<img :src="imgBaseUrl +item.image_path" alt="xxxx">-->
-                        <img src="" alt="xxxx">
+                        <img :src="imgBaseUrl2 +item.image_path" alt="xxxx">
+                        <!--<img src="" alt="xxxx">-->
                         <div class="center">
                             <h4 class="title"><span class="brand">品牌</span>{{item.name}}</h4>
                             <p class="info">评分：45 月售4518单</p>
@@ -63,6 +63,7 @@
             </div>
         </section>
         <BaseFooter></BaseFooter>
+        <BaseLoading v-if="loading"></BaseLoading>
     </div>
 </template>
 
@@ -84,8 +85,10 @@
                 sortnormal: '美食外卖',
                 restaurantsItems: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+                imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
                 // isFixed: false
-                categoryItems: []
+                categoryItems: [],
+                loading: false
             }
         }, methods: {
             search() {
@@ -120,7 +123,7 @@
                         order_by: num
                     }
                 }).then(function (response) {
-                    console.log(response);
+                    // console.log(response);
                     that.restaurantsItems = response.data
                 });
                 this.sortnormal = mesg;
@@ -145,7 +148,7 @@
                     longitude: 121.4762
                 }
             }).then(function (res) {
-                console.log(res);
+                // console.log(res);
                 that.categoryItems = res.data
             });
 
@@ -227,7 +230,7 @@
         width: 100%;
         position: fixed !important;
         top: 97px;
-        z-index: 100;
+        z-index: 1;
         /*height: 41px;*/
         background: white;
         /*border-bottom: 1px solid #ddd;*/
@@ -238,10 +241,14 @@
         /*position: relative;*/
         position: sticky;
         top: 97px;
-        z-index: 100;
+        z-index: 1;
         background: white;
         border-bottom: 1px solid #E9E9E9;
         font-size: 0;
+        .active {
+            color: black;
+            font-weight: bold;
+        }
         li {
             display: inline-block;
             width: 25%;
@@ -294,6 +301,7 @@
                 img {
                     width: 64px;
                     height: 64px;
+                    margin-right: 10px;
                     display: inline-block;
                 }
                 .center {
