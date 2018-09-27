@@ -23,19 +23,21 @@
             <div class="recommend">-- 推荐商家 --</div>
             <div class="item-box ">
                 <ul>
-                    <li @click="togleBox">美食外卖</li>
+                    <li @click="toggleBox">美食外卖</li>
                     <li>综合排序</li>
                     <li>距离最近</li>
                     <li>筛选</li>
                 </ul>
-                <ul class="next-box none">
-                    <li>综合排序</li>
-                    <li>销量最高</li>
-                    <li>配送速度最快</li>
-                    <li>评分最高</li>
-                    <li>距离最近</li>
-                    <li>起送价最低</li>
-                </ul>
+                <section class="layer none" @click="hideenBox">
+                    <ol class="next-box">
+                        <li>综合排序</li>
+                        <li>销量最高</li>
+                        <li>配送速度最快</li>
+                        <li>评分最高</li>
+                        <li>距离最近</li>
+                        <li>起送价最低</li>
+                    </ol>
+                </section>
             </div>
             <div class="shop-item-box">
                 <div v-for="(item,index) in items" :key="index" class="shop-item">
@@ -58,7 +60,7 @@
                 </div>
             </div>
         </section>
-       <BaseFooter></BaseFooter>
+        <BaseFooter></BaseFooter>
     </div>
 </template>
 
@@ -97,9 +99,16 @@
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
             },
-            togleBox() {
-                $('.next-box').slideToggle()
-
+            toggleBox() {
+                $('.layer').slideToggle();
+                $('.item-box').addClass('fix');
+                //禁止滚动
+                $('body').css('overflow', 'hidden')
+            },
+            hideenBox() {
+                $('.layer').slideToggle(50)
+                $('body').css('overflow', 'auto');
+                $('.item-box').removeClass('fix');
             }
         },
         mounted: function () {
@@ -133,7 +142,9 @@
         a {
             color: #3190e8;
         }
-    }  header {
+    }
+
+    header {
         background-image: linear-gradient(90deg, #0af, #0085ff);
         color: #fff;
         padding: 10px 15px;
@@ -185,15 +196,15 @@
         margin: 10px 0;
     }
 
-    /*.fix {*/
-    /*width: 100%;*/
-    /*position: fixed !important;*/
-    /*top: 97px;*/
-    /*z-index: 100;*/
-    /*height: 41px;*/
-    /*background: white;*/
-    /*border-bottom: 1px solid #ddd;*/
-    /*}*/
+    .fix {
+        width: 100%;
+        position: fixed !important;
+        top: 97px;
+        z-index: 100;
+        /*height: 41px;*/
+        background: white;
+        /*border-bottom: 1px solid #ddd;*/
+    }
 
     .item-box {
         /*height: 0;*/
@@ -215,19 +226,29 @@
         li:nth-child(4) {
             border: none;
         }
-        .next-box {
+        .layer {
+            position: fixed;
             width: 100%;
-            position: absolute;
-            background: white;
-            border-bottom: 1px solid #E9E9E9;
-            li {
+            top: 138px;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            height: 73vh;
+            .next-box {
                 width: 100%;
-                height: 40px;
-                line-height: 40px;
-                text-align: left;
-                padding-left: 30px;
+                position: absolute;
+                background: white;
+                border-bottom: 1px solid #E9E9E9;
+                li {
+                    width: 100%;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: left;
+                    padding-left: 30px;
+                    border-right: none;
+                }
             }
         }
+
     }
 
     .shop-item-box {
