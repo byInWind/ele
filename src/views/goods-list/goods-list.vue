@@ -32,12 +32,12 @@
                 </ul>
                 <section class="layer none" @click="hideenBox">
                     <ol class="next-box">
-                        <li @click="toSort(4,'综合排序')">综合排序</li>
-                        <li @click="toSort(6,'销量最高')">销量最高</li>
-                        <li @click="toSort(2,'配送速度最快')">配送速度最快</li>
-                        <li @click="toSort(3,'评分最高')">评分最高</li>
-                        <li @click="toSort(5,'距离最近')">距离最近</li>
-                        <li @click="toSort(1,'起送价最低')">起送价最低</li>
+                        <li :class="{ listActive: isActive==4 }" @click="toSort(4,'综合排序')">综合排序</li>
+                        <li :class="{ listActive: isActive==6 }" @click="toSort(6,'销量最高')">销量最高</li>
+                        <li :class="{ listActive: isActive==2 }" @click="toSort(2,'配送速度最快')">配送速度最快</li>
+                        <li :class="{ listActive: isActive==3 }" @click="toSort(3,'评分最高')">评分最高</li>
+                        <li :class="{ listActive: isActive==5 }" @click="toSort(5,'距离最近')">距离最近</li>
+                        <li :class="{ listActive: isActive==1 }" @click="toSort(1,'起送价最低')">起送价最低</li>
                     </ol>
                 </section>
             </div>
@@ -82,13 +82,14 @@
         components: {BaseFooter},
         data: function () {
             return {
-                sortnormal: '美食外卖',
+                sortnormal: '综合排序',
                 restaurantsItems: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
                 // isFixed: false
                 categoryItems: [],
-                loading: false
+                loading: false,
+                isActive:4 //筛选列表选中类型
             }
         }, methods: {
             search() {
@@ -127,6 +128,7 @@
                     that.restaurantsItems = response.data
                 });
                 this.sortnormal = mesg;
+                this.isActive = num;
             }
         },
         mounted: function () {
@@ -279,6 +281,10 @@
                     text-align: left;
                     padding-left: 30px;
                     border-right: none;
+                }
+                .listActive {
+                    color: #3190e8;
+                    font-weight: bold;
                 }
             }
         }
