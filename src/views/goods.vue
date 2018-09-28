@@ -1,34 +1,9 @@
 <template>
     <div>
         <header>
-            <div>地址</div>
-            <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
+            <div><BaseBack></BaseBack>{{title}}</div>
         </header>
         <section>
-            <mt-swipe class="swipe" :auto="0">
-                <mt-swipe-item>
-                    <ul>
-                        <li v-for="(item,index) in categoryItems" :key="index">
-                            <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
-                                <img :src="imgBaseUrl + item.image_url">
-                                <p>{{item.title}}</p>
-                            </router-link>
-                        </li>
-                    </ul>
-                </mt-swipe-item>
-                <mt-swipe-item>
-                    <ul>
-                        <li v-if="index>10" v-for="(item,index) in categoryItems" :key="index">
-                            <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
-                                <img :src="imgBaseUrl + item.image_url">
-                                <p>{{item.title}}</p>
-                            </router-link>
-                        </li>
-                    </ul>
-                </mt-swipe-item>
-            </mt-swipe>
-
-            <div class="recommend">-- 推荐商家 --</div>
             <div class="item-box">
                 <ul>
                     <li class="firstList" @click="toggleBox">{{sortnormal}}</li>
@@ -56,16 +31,16 @@
 
 <script>
     import Vue from 'vue'
-    import router from '../../router'
+    import router from '../router'
     import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui'
     import $ from 'jquery'
-    import BaseFooter from "../../components/BaseFooter";
+    import BaseFooter from "../components/BaseFooter";
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     export default {
-        name: "goods-list",
+        name: "goods",
         components: {BaseFooter},
         data: function () {
             return {
@@ -76,7 +51,8 @@
                 // isFixed: false
                 categoryItems: [],
                 loading: false,
-                isActive: 4 //筛选列表选中类型
+                isActive: 4, //筛选列表选中类型,
+                title: ''  //标题
             }
         }, methods: {
             search() {
@@ -119,13 +95,23 @@
                 $('.firstList').addClass('active')
             }
         },
+        watch: {
+            '$route'(to, from) {
+                // 对路由变化作出响应...在调用一遍mounted的事件
+                console.log(to, from)
+
+            }
+        },
         mounted: function () {
+            this.title = this.$route.params.title || '美食外卖';
             var that = this;
+            console.log(that.$route.params.id, this.$route.params)
             //商铺列表
             axios.get('https://elm.cangdu.org/shopping/restaurants', {
                 params: {
                     latitude: 31.22967,
                     longitude: 121.4762,
+                    restaurant_category_id: that.$route.params.id  //餐馆分类id
                 }
             }).then(function (response) {
                 console.log(response);
@@ -173,20 +159,6 @@
         width: 100%;
         z-index: 99;
         div {
-            padding-bottom: 10px;
-            text-align: left;
-        }
-        input {
-            width: 100%;
-            height: 44px;
-            -webkit-appearance: none;
-            background-color: #f8f8f8;
-            font-size: 15px;
-            color: #666;
-            border: none;
-            text-indent: 15px;
-            text-align: center;
-            border-radius: 2px;
         }
     }
 
@@ -216,21 +188,10 @@
         margin: 10px 0;
     }
 
-    .fix {
+    .item-box {
         width: 100%;
         position: fixed !important;
-        top: 97px;
-        z-index: 1;
-        /*height: 41px;*/
-        background: white;
-        /*border-bottom: 1px solid #ddd;*/
-    }
-
-    .item-box {
-        /*height: 0;*/
-        /*position: relative;*/
-        position: sticky;
-        top: 97px;
+        top: 43px;
         z-index: 1;
         background: white;
         border-bottom: 1px solid #E9E9E9;
@@ -286,4 +247,5 @@
         }
 
     }
+
 </style>
