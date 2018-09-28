@@ -163,7 +163,7 @@
             //     } else {
             //         that.isFixed = false
             //         console.log(2, that.isFixed)
-            //     }
+            //     } 
             // }
         }
     }
