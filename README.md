@@ -40,4 +40,4 @@ vue里可以获取window,比如用在滚动里（饿了吗，滚动到一定距�
    vue改变引用的组件的样式/deep/ https://zhuanlan.zhihu.com/p/29266022  
    设置弹层时引内容过长出现滑动问题，设置body,overflow:hiddent  
      vue里无法使用jquery的$().html()/.text()，会报错  
-需要监控路由变化
+需要监控路由变化 
