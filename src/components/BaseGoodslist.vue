@@ -13,11 +13,14 @@
                             <p class="tips">¥20起送 {{item.piecewise_agent_fee.tips}}</p>
                         </div>
                         <div class="center-right">
-                            <p>...</p>
+                            <p @click.stop="toast(index)">...</p>
                             <p class="info" v-if="item.delivery_mode"><span>{{item.delivery_mode.text}}</span></p>
                             <p>{{item.distance}} | {{item.order_lead_time}}</p>
                         </div>
                         <!--</router-link>-->
+                        <div @click.stop="hide(index)"  class="toast none">
+                            <button>sssss</button>
+                        </div>
                     </section>
                 </div>
             </div>
@@ -44,7 +47,17 @@
                 isActive: 4, //筛选列表选中类型,
                 title: ''  //标题
             }
-        }, methods: {
+        },
+        methods: {
+            toast(index){
+                if (index){
+
+                }
+                $('.toast').show()
+            },
+            hide(index){
+                $('.toast').hide()
+            },
             search() {
                 router.push('/views/search/search')
             },
@@ -141,6 +154,15 @@
         margin: 83px 0 50px;
         .shop-item {
             border-top: 1px solid #e9e9e9;
+            position: relative;
+            .toast{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.4);
+            }
             section {
                 padding: 20px 10px;
                 display: block;

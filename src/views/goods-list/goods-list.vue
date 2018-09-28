@@ -158,6 +158,9 @@
 </script>
 
 <style lang="scss" scoped>
+    /deep/ .shop-item-box{
+        margin-top: -1px;
+    }
     footer /deep/ ul.footer li:nth-child(1) {
         a {
             color: #3190e8;
