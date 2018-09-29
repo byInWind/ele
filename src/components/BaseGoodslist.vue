@@ -3,7 +3,7 @@
         <section>
             <div class="shop-item-box">
                 <div v-for="(item,index) in restaurantsItems" :key="index" class="shop-item">
-                    <section @click="jump(item.id)">
+                    <section @click="jump(item.id)"> 
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
                         <img :src="imgBaseUrl2 +item.image_path" alt="xxxx">
                         <!--<img src="" alt="xxxx">-->
