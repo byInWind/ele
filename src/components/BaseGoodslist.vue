@@ -3,7 +3,7 @@
         <section>
             <div class="shop-item-box">
                 <div v-for="(item,index) in restaurantsItems" :key="index" class="shop-item">
-                    <section @click="jump(item.id)"> 
+                    <section v-show="index!=num2" @click="jump(item.id)">
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
                         <img :src="imgBaseUrl2 +item.image_path" alt="xxxx">
                         <!--<img src="" alt="xxxx">-->
@@ -19,7 +19,7 @@
                         </div>
                         <!--</router-link>-->
                         <div v-show="index==num" @click.stop="hide()" class="toast">
-                            <button>sssss</button>
+                            <div @click.stop="hidebox(index)">不喜欢</div>
                         </div>
                     </section>
                 </div>
@@ -32,6 +32,7 @@
     import router from '../router'
     import axios from 'axios'
     import $ from 'jquery'
+    import {Toast} from 'mint-ui';
 
     export default {
         name: "BaseGoodslist",
@@ -46,7 +47,8 @@
                 loading: false,
                 isActive: 4, //筛选列表选中类型,
                 title: '',  //标题
-                num: -1
+                num: -1,
+                num2: -1
             }
         },
         methods: {
@@ -55,6 +57,14 @@
             },
             hide() {
                 this.num = -1
+            },
+            hidebox(index) {
+                this.num2 = index
+                Toast({
+                    message: '已将此商家置于底部',
+                    position: 'bottom',
+                    duration: 1500
+                })
             },
             search() {
                 router.push('/views/search/search')
@@ -160,6 +170,20 @@
                 width: 100%;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.4);
+                div {
+                    position: absolute;
+                    width: 50px;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 50px;
+                    border-radius: 100%;
+                    text-align: center;
+                    height: 50px;
+                    color: #333;
+                    padding-top: 15px;
+                    background-color: white;
+                }
             }
             section {
                 padding: 20px 10px;
