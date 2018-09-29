@@ -18,7 +18,7 @@
                             <p>{{item.distance}} | {{item.order_lead_time}}</p>
                         </div>
                         <!--</router-link>-->
-                        <div @click.stop="hide(index)"  class="toast none">
+                        <div v-show="index==num" @click.stop="hide()" class="toast">
                             <button>sssss</button>
                         </div>
                     </section>
@@ -45,18 +45,16 @@
                 categoryItems: [],
                 loading: false,
                 isActive: 4, //筛选列表选中类型,
-                title: ''  //标题
+                title: '',  //标题
+                num: -1
             }
         },
         methods: {
-            toast(index){
-                if (index){
-
-                }
-                $('.toast').show()
+            toast(index) {
+                this.num = index
             },
-            hide(index){
-                $('.toast').hide()
+            hide() {
+                this.num = -1
             },
             search() {
                 router.push('/views/search/search')
@@ -155,13 +153,13 @@
         .shop-item {
             border-top: 1px solid #e9e9e9;
             position: relative;
-            .toast{
+            .toast {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(0,0,0,0.4);
+                background-color: rgba(0, 0, 0, 0.4);
             }
             section {
                 padding: 20px 10px;
