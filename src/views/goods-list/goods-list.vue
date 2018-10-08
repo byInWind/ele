@@ -50,7 +50,7 @@
             <BaseGoodslist></BaseGoodslist>
         </section>
         <BaseFooter></BaseFooter>
-        <BaseLoading v-if="loading"></BaseLoading>
+        <!--<BaseLoading></BaseLoading>-->
     </div>
 </template>
 
@@ -75,7 +75,7 @@
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
                 // isFixed: false
                 categoryItems: [],
-                loading: false,
+                // showLoading: true,
                 isActive: 4 //筛选列表选中类型
             }
         }, methods: {
@@ -130,6 +130,8 @@
             }).then(function (response) {
                 console.log(response);
                 that.restaurantsItems = response.data
+                // that.showLoading = false
+
             });
             //食物分类列表
             axios.get('https://elm.cangdu.org/v2/index_entry', {
@@ -158,9 +160,10 @@
 </script>
 
 <style lang="scss" scoped>
-    /deep/ .shop-item-box{
+    /deep/ .shop-item-box {
         margin-top: -1px;
     }
+
     footer /deep/ ul.footer li:nth-child(1) {
         a {
             color: #3190e8;

@@ -6,14 +6,16 @@ import App from './App.vue'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import axios from 'axios'
-// import forLoading from './components/BaseLoading'
+import forLoading from './components/BaseLoading'
 
+Vue.component('forLoading', forLoading)
 Vue.use(MintUI)
 
 //封装axios      全局loading
+// var  that =this;
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
-    // forLoading = true
+    // that.forLoading = true
     return config;
 }, function (error) {
     // Do something with request error
@@ -22,7 +24,7 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data
-    // forLoading = false
+    // that.forLoading = false
     return response;
 }, function (error) {
     // Do something with response error
