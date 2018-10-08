@@ -203,7 +203,7 @@
                     font-size: .293333rem;
                     color: #666;
                 }
-            }
+            } 
             .discount {
 
             }
