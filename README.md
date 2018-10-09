@@ -42,4 +42,4 @@ vue里可以获取window,比如用在滚动里（饿了吗，滚动到一定距�
      vue里无法使用jquery的$().html()/.text()，会报错  
 需要监控路由变化   
 vue实现，在循环列表里点击当前项，处理当前项的操作  
-vue因null数据渲染报错https://stackoverflow.com/questions/46897776/vue-warn-error-in-render-function-typeerror-cannot-read-property-first-na/46898157
+vue因null数据渲染报错https://stackoverflow.com/questions/46897776/vue-warn-error-in-render-function-typeerror-cannot-read-property-first-na/46898157 
