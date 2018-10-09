@@ -2,8 +2,6 @@
     <div>
         <header>
             <base-back></base-back>
-            <!--<img :src="" alt="">-->
-            {{shopDetailData.name}}
             <div class="shopDetailsBox">
                 <div class="box-img">
                     <img src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
@@ -15,23 +13,22 @@
                          src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
                 </div><!---->
                 <div class="title-box">
-                    <h2 class="top"><span>田老师红烧肉(中关村图书大厦店)</span><i @click="showBox"
-                                                                    class="">⬇</i></h2>
-                    <div class="bottom"><span>评价4.7</span><span>月售2336单</span><span>蜂鸟专送<span>约20分钟</span></span>
+                    <h2 class="top"><span>{{shopDetailData.name}}</span><i @click="showBox"
+                                                                           class="">⬇</i></h2>
+                    <div class="bottom">
+                        <span>评价{{shopDetailData.rating}}</span><span>月售{{shopDetailData.recent_order_num}}单</span><span>蜂鸟快送<span>约20分钟</span></span>
                     </div>
                 </div>
                 <div class="index-3Zu2B"></div>
                 <div @click="showDiscount" class="discount">
                     <div class="left">
-                            <span class=""
-                                  style="background-color: rgb(240, 115, 115);">满减</span>
+                        <span class="jian">满减</span>
                         <span class="">满10减5，满40减15，满70减25</span>
                     </div>
                     <div class="right">17个优惠</div>
                 </div>
-                <p class="index-TmrYy">公告：喜迎国庆、美食特惠</p></div>
+            </div>
         </header>
-        {{ $route.params.id }}
         <mt-navbar v-model="selected">
             <mt-tab-item id="1">点餐</mt-tab-item>
             <mt-tab-item id="2">评价</mt-tab-item>
@@ -39,14 +36,48 @@
         </mt-navbar>
         <mt-tab-container v-model="selected" style="text-align: left">
             <mt-tab-container-item id="1">
-                1
                 <div v-for="(item,index) in items" :key="index">{{item.name}}</div>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
-                2
+                <div class="rating_header">
+                    <section class="rating_header_left">
+                        <p>{{shopDetailData.rating}}</p>
+                        <p>综合评价</p>
+                        <p>高于周边商家{{(ratingScoresData.compare_rating*100).toFixed(1)}}%</p>
+                    </section>
+                    <section class="rating_header_right">
+                        <p>
+                            <span>服务态度</span>
+                            <rating-star :rating='ratingScoresData.service_score'></rating-star>
+                            <span class="rating_num">{{ratingScoresData.service_score.toFixed(1)}}</span>
+                        </p>
+                        <p>
+                            <span>菜品评价</span>
+                            <rating-star :rating='ratingScoresData.food_score'></rating-star>
+                            <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
+                        </p>
+                        <p>
+                            <span>送达时间</span>
+                            <span class="delivery_time">{{shopDetailData.order_lead_time}}分钟</span>
+                        </p>
+                    </section>
+                </div>
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
-                3
+                <section class="shop_status_info">
+                    <header>商家信息</header>
+                    <p>{{shopDetailData.name}}</p>
+                    <p>地址：{{shopDetailData.address}}</p>
+                    <p>营业时间：[{{shopDetailData.opening_hours[0]}}]</p>
+                    <p @click="showLicenseImg(shopDetailData.license.business_license_image)">
+                        <span>营业执照</span>
+                        <img src="" alt="">
+                    </p>
+                    <p @click="showLicenseImg(shopDetailData.license.catering_service_license_image)">
+                        <span>餐饮服务许可证</span>
+                        <img src="" alt="">
+                    </p>
+                </section>
             </mt-tab-container-item>
         </mt-tab-container>
     </div>
@@ -108,6 +139,9 @@
             showBox() {
                 //alert()
                 this.showInfo = true
+            },
+            showDiscount() {
+
             }
         },
         mounted: function () {
@@ -120,7 +154,7 @@
                     restaurant_id: that.$route.params.id
                 }
             }).then(function (response) {
-                console.log(response);
+                console.log('items', response);
                 that.items = response.data
                 // that.showLoading = false
 
@@ -132,12 +166,26 @@
                 that.shopDetailData = response.data
 
             });
+            //评价列表
+            axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings'
+            ).then(function (response) {
+                console.log(response);
+                that.ratingList = response.data
+
+            });
+            //评价分数
+            axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings/scores'
+            ).then(function (response) {
+                console.log('aaaa', response);
+                that.ratingScoresData = response.data
+
+            });
         }
     }
 </script>
 
 <style scoped lang="scss">
-    header{
+    header {
         font-size: 14px;
         .shopDetailsBox {
             position: relative;
@@ -202,12 +250,89 @@
                     margin-top: 1.733333vw;
                     font-size: .293333rem;
                     color: #666;
+                    span + span {
+                        margin-left: 7px;
+                    }
                 }
-            } 
+            }
             .discount {
+                display: flex;
+                justify-content: space-between;
+                margin-top: .5rem;
+                padding-right: 1rem;
+                font-size: 13px;
+                .left {
+                    width: 84%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    .jian {
+                        padding: 0 3px;
+                        margin-right: 3px;
+                        border-radius: .1rem;
+                        font-size: .4rem;
+                        display: inline-block;
+                        color: #fff;
+                        background-color: rgb(240, 115, 115);
+                        border-color: rgb(240, 115, 115)
+                    }
+                }
+            }
+        }
+    }
 
+    .rating_header {
+        display: flex;
+        background-color: #fff;
+        padding: .8rem .5rem;
+        margin-bottom: 0.5rem;
+        .rating_header_left {
+
+        }
+        .rating_header_right {
+            flex: 4;
+            p {
+                font-size: .65rem;
+                line-height: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                span:nth-of-type(1) {
+                    color: #666;
+                    margin-right: .5rem;
+                }
+                .rating_num {
+                    width: 3rem;
+                }
+                .delivery_time {
+                }
+            }
+        }
+    }
+
+    .activities_container {
+        background-color: #fff;
+        margin: .4rem 0;
+        padding-bottom: .6rem;
+        header {
+            line-height: 1.8rem;
+            padding-left: .6rem;
+            border-bottom: 1px solid #f1f1f1;
+            margin-bottom: .3rem;
+        }
+        .actibities_ul {
+            padding: 0 .6rem;
+            li {
+                margin-bottom: .2rem;
+                span:nth-of-type(1) {
+                    padding: .1rem;
+                    border: 1px;
+                    border-radius: 0.1rem;
+                    margin-right: .2rem;
+                }
+                span:nth-of-type(2) {
+                }
             }
         }
     }
 </style>
-

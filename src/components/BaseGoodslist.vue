@@ -9,7 +9,7 @@
                         <!--<img src="" alt="xxxx">-->
                         <div class="center">
                             <h4 class="title"><span class="brand">品牌</span>{{item.name}}</h4>
-                            <p class="info">评分：45 月售4518单</p>
+                            <p class="info">评分：{{item.rating}} 月售{{item.recent_order_num}}单</p>
                             <p class="tips">¥20起送 {{item.piecewise_agent_fee.tips}}</p>
                         </div>
                         <div class="center-right">
