@@ -333,6 +333,6 @@
                 span:nth-of-type(2) {
                 }
             }
-        }
+        } 
     } 
 </style>
