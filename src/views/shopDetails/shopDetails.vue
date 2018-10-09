@@ -36,7 +36,79 @@
         </mt-navbar>
         <mt-tab-container v-model="selected" style="text-align: left">
             <mt-tab-container-item id="1">
-                <div v-for="(item,index) in items" :key="index">{{item.name}}</div>
+                <!--<div v-for="(item,index) in items" :key="index">{{item.name}}</div>-->
+                <section class="menu_container">
+                    <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
+                        <ul>
+                            <li v-for="(item,index) in menuList" :key="index" class="menu_left_li"
+                                :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
+                                <span>{{item.name}}</span>
+                                <span class="category_num">11</span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="menu_right" ref="menuFoodList">
+                        <ul>
+                            <li v-for="(item,index) in menuList" :key="index">
+                                <header class="menu_detail_header">
+                                    <section class="menu_detail_header_left">
+                                        <strong class="menu_item_title">{{item.name}}</strong>
+                                        <span class="menu_item_description">{{item.description}}</span>
+                                    </section>
+                                    <span class="menu_detail_header_right" @click="showTitleDetail(index)"></span>
+                                    <p class="description_tip" v-if="index == TitleDetailIndex">
+                                        <span>{{item.name}}</span>
+                                        {{item.description}}
+                                    </p>
+                                </header>
+                                <section v-for="(foods,foodindex) in item.foods" :key="foodindex"
+                                         class="menu_detail_list">
+                                    <router-link
+                                            :to="{path: 'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}"
+                                            tag="div" class="menu_detail_link">
+                                        <section class="menu_food_img">
+                                            <img :src="imgBaseUrl + foods.image_path">
+                                        </section>
+                                        <section class="menu_food_description">
+                                            <h3 class="food_description_head">
+                                                <strong class="description_foodname">{{foods.name}}</strong>
+                                                <ul v-if="foods.attributes.length" class="attributes_ul">
+                                                    <li v-for="(attribute, foodindex) in foods.attributes"
+                                                        :key="foodindex"
+                                                        :style="{color: '#' + attribute.icon_color,borderColor:'#' +attribute.icon_color}"
+                                                        :class="{attribute_new: attribute.icon_name == '新'}">
+                                                        <p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">
+                                                            {{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>
+                                                    </li>
+                                                </ul>
+
+                                            </h3>
+                                            <p class="food_description_content">{{foods.description}}</p>
+                                            <p class="food_description_sale_rating">
+                                                <span>月售{{foods.month_sales}}份</span>
+                                                <span>好评率{{foods.satisfy_rate}}%</span>
+                                            </p>
+                                            <p v-if="foods.activity" class="food_activity">
+                                                <span :style="{color: '#' + foods.activity.image_text_color,borderColor:'#' +foods.activity.icon_color}">{{foods.activity.image_text}}</span>
+                                            </p>
+                                        </section>
+                                    </router-link>
+                                    <footer class="menu_detail_footer">
+                                        <section class="food_price">
+                                            <span>¥</span>
+                                            <span>{{foods.specfoods[0].price}}</span>
+                                            <span v-if="foods.specifications.length">起</span>
+                                        </section>
+                                        <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart"
+                                                  @showChooseList="showChooseList" @showReduceTip="showReduceTip"
+                                                  @showMoveDot="showMoveDotFun"></buy-cart>
+                                    </footer>
+                                </section>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
                 <div class="rating_header">
@@ -96,13 +168,13 @@
         components: {BaseBack},
         data: function () {
             return {
-                items: [],
+                imgBaseUrl: '//elm.cangdu.org/img/',
                 //需要是字符串类型，num类型无效
                 selected: "1",
                 showInfo: false,
                 shopDetailData: null, //商铺详情
                 showActivities: false, //是否显示活动详情
-                menuList: [], //食品列表
+                menuList: [], //食品分类列表
                 menuIndex: 0, //已选菜单索引值，默认为0
                 menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
                 shopListTop: [], //商品列表的高度集合
@@ -142,7 +214,11 @@
             },
             showDiscount() {
 
-            }
+            },
+            //点击左侧食品列表标题，相应列表移动到最顶层
+            chooseMenu(index) {
+                this.menuIndex = index;
+            },
         },
         mounted: function () {
             var that = this;
@@ -154,8 +230,8 @@
                     restaurant_id: that.$route.params.id
                 }
             }).then(function (response) {
-                console.log('items', response);
-                that.items = response.data
+                console.log('menuList', response);
+                that.menuList = response.data
                 // that.showLoading = false
 
             });
@@ -334,5 +410,204 @@
                 }
             }
         }
-    } 
+    }
+
+    .menu_container {
+        display: flex;
+        flex: 1;
+        overflow-y: hidden;
+        position: relative;
+        .menu_left {
+            background-color: #f5f5f5;
+            width: 3.8rem;
+            .menu_left_li {
+                padding: .7rem .3rem;
+                border-bottom: 0.025rem solid #ededed;
+                box-sizing: border-box;
+                border-left: 0.15rem solid #f8f8f8;
+                position: relative;
+                span {
+                }
+                .category_num {
+                    position: absolute;
+                    top: .1rem;
+                    right: .1rem;
+                    background-color: #ff461d;
+                    line-height: 15px;
+                    text-align: center;
+                    border-radius: 50%;
+                    border: 0.025rem solid #ff461d;
+                    min-width: .6rem;
+                    height: 15px;
+                    font-family: Helvetica Neue, Tahoma, Arial;
+                    padding: 0px 4px;
+                    color: white;
+                    font-size: 12px;
+                }
+            }
+            .activity_menu {
+                border-left: 0.15rem solid #3190e8;
+                background-color: #fff;
+                span:nth-of-type(1) {
+                    font-weight: bold;
+                }
+            }
+        }
+        .menu_right {
+            flex: 4;
+            overflow-y: auto;
+            .menu_detail_header {
+                width: 100%;
+                padding: .4rem;
+                position: relative;
+                align-items: center;
+                .menu_detail_header_left {
+                    background-color: #f5f5f5;
+                    width: 11rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    .menu_item_title {
+                        font-weight: bold;
+                    }
+                    .menu_item_description {
+                        width: 30%;
+                        overflow: hidden;
+                    }
+                }
+                .menu_detail_header_right {
+                    display: block;
+                    background-size: 100% .4rem;
+                    background-position: left center;
+                }
+                .description_tip {
+                    background-color: #39373a;
+                    opacity: 0.95;
+                    position: absolute;
+                    top: 1.5rem;
+                    z-index: 14;
+                    width: 8rem;
+                    right: .2rem;
+                    padding: .5rem .4rem;
+                    border: 1px;
+                    border-radius: .2rem;
+                    span {
+                        color: #fff;
+                        line-height: .6rem;
+                        font-size: .55rem;
+                    }
+                }
+                .description_tip::after {
+                    content: '';
+                    position: absolute;
+                    background-color: #39373a;
+                    top: -.5rem;
+                    right: .7rem;
+                    transform: rotate(-45deg) translateY(.41rem);
+                }
+            }
+            .menu_detail_list {
+                background-color: #fff;
+                padding: .6rem .4rem;
+                border-bottom: 1px solid #f8f8f8;
+                position: relative;
+                overflow: hidden;
+                .menu_detail_link {
+                    display: flex;
+                    .menu_food_img {
+                        margin: 0 10px;
+                        img {
+                            width: 52px;
+                            height: 100%;
+                            display: block;
+                        }
+                    }
+                    .menu_food_description {
+                        width: 100%;
+                        .food_description_head {
+                            display: flex;
+                            -ms-flex-pack: justify;
+                            justify-content: space-between;
+                            margin-bottom: .2rem;
+                            .description_foodname {
+                            }
+                            .attributes_ul {
+                                display: flex;
+                                li {
+                                    font-size: .3rem;
+                                    height: .6rem;
+                                    line-height: .35rem;
+                                    padding: .1rem;
+                                    border: 1px solid #666;
+                                    border-radius: 0.3rem;
+                                    margin-right: .1rem;
+                                    transform: scale(.8);
+                                    p {
+                                        white-space: nowrap;
+                                    }
+                                }
+                                .attribute_new {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    background-color: #4cd964;
+                                    display: flex;
+                                    align-items: flex-end;
+                                    transform: rotate(-45deg) translate(-.1rem, -1.5rem);
+                                    border: none;
+                                    border-radius: 0;
+                                    p {
+                                        text-align: center;
+                                        flex: 1;
+                                    }
+                                }
+                            }
+                        }
+                        .food_description_content {
+                            line-height: 15px;
+                            font-size: 13px;
+                            color: #999;
+                        }
+                        .food_description_sale_rating {
+                            line-height: 15px;
+                            font-size: 13px;
+                            span {
+                            }
+                        }
+                        .food_activity {
+                            line-height: 13px;
+                            span {
+                                font-size: .3rem;
+                                border: 1px solid currentColor;
+                                border-radius: 0.3rem;
+                                padding: .08rem;
+                                display: inline-block;
+                                transform: scale(.8);
+                                margin-left: -0.35rem;
+
+                            }
+                        }
+                    }
+                }
+                .menu_detail_footer {
+                    margin-left: 2.4rem;
+                    font-size: 0;
+                    margin-top: .3rem;
+                    .food_price {
+                        span {
+                            font-family: 'Helvetica Neue', Tahoma, Arial;
+                        }
+                        span:nth-of-type(1) {
+                            margin-right: .05rem;
+                        }
+                        span:nth-of-type(2) {
+                            font-weight: bold;
+                            margin-right: .3rem;
+                        }
+                        span:nth-of-type(3) {
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>
