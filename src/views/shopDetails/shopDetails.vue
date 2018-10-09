@@ -12,7 +12,7 @@
                     <img class="index-3eDRn"
                          src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
                 </div><!---->
-                <div class="title-box">
+                <div class="title-box" v-if="shopDetailData">
                     <h2 class="top"><span>{{shopDetailData.name}}</span><i @click="showBox"
                                                                            class="">⬇</i></h2>
                     <div class="bottom">
@@ -36,8 +36,7 @@
         </mt-navbar>
         <mt-tab-container v-model="selected" style="text-align: left">
             <mt-tab-container-item id="1">
-                <!--<div v-for="(item,index) in items" :key="index">{{item.name}}</div>-->
-                <section class="menu_container">
+                <section class="menu_container" v-if="menuList">
                     <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
                         <ul>
                             <li v-for="(item,index) in menuList" :key="index" class="menu_left_li"
@@ -63,8 +62,7 @@
                                 </header>
                                 <section v-for="(foods,foodindex) in item.foods" :key="foodindex"
                                          class="menu_detail_list">
-                                    <router-link
-                                            :to="{path: 'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}"
+                                    <router-link to=""
                                             tag="div" class="menu_detail_link">
                                         <section class="menu_food_img">
                                             <img :src="imgBaseUrl + foods.image_path">
@@ -99,9 +97,6 @@
                                             <span>{{foods.specfoods[0].price}}</span>
                                             <span v-if="foods.specifications.length">起</span>
                                         </section>
-                                        <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart"
-                                                  @showChooseList="showChooseList" @showReduceTip="showReduceTip"
-                                                  @showMoveDot="showMoveDotFun"></buy-cart>
                                     </footer>
                                 </section>
                             </li>
@@ -111,32 +106,30 @@
 
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
-                <div class="rating_header">
+                <div class="rating_header" v-if="ratingScoresData">
                     <section class="rating_header_left">
-                        <p>{{shopDetailData.rating}}</p>
+                        <p>{{ratingScoresData.rating}}</p>
                         <p>综合评价</p>
                         <p>高于周边商家{{(ratingScoresData.compare_rating*100).toFixed(1)}}%</p>
                     </section>
                     <section class="rating_header_right">
                         <p>
                             <span>服务态度</span>
-                            <rating-star :rating='ratingScoresData.service_score'></rating-star>
                             <span class="rating_num">{{ratingScoresData.service_score.toFixed(1)}}</span>
                         </p>
                         <p>
                             <span>菜品评价</span>
-                            <rating-star :rating='ratingScoresData.food_score'></rating-star>
                             <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
                         </p>
                         <p>
                             <span>送达时间</span>
-                            <span class="delivery_time">{{shopDetailData.order_lead_time}}分钟</span>
+                            <span class="delivery_time">{{ratingScoresData.order_lead_time}}分钟</span>
                         </p>
                     </section>
                 </div>
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
-                <section class="shop_status_info">
+                <section class="shop_status_info" v-if="shopDetailData">
                     <header>商家信息</header>
                     <p>{{shopDetailData.name}}</p>
                     <p>地址：{{shopDetailData.address}}</p>
