@@ -1,3 +1,5 @@
+<!--suppress VueDuplicateTag -->
+<script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
 <template>
     <div>
         <header>
@@ -37,7 +39,7 @@
         <mt-tab-container v-model="selected" style="text-align: left">
             <mt-tab-container-item id="1">
                 <section class="menu_container" v-if="menuList">
-                    <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
+                    <section class="menu_left" id="wrapper_menu">
                         <ul>
                             <li v-for="(item,index) in menuList" :key="index" class="menu_left_li"
                                 :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
@@ -46,7 +48,7 @@
                             </li>
                         </ul>
                     </section>
-                    <section class="menu_right" ref="menuFoodList">
+                    <section class="menu_right">
                         <ul>
                             <li v-for="(item,index) in menuList" :key="index">
                                 <header class="menu_detail_header">
@@ -96,6 +98,14 @@
                                             <span>¥</span>
                                             <span>{{foods.specfoods[0].price}}</span>
                                             <span v-if="foods.specifications.length">起</span>
+                                            <div>
+                                                <!--选购商品的按钮,,,用了一个可能不是num的值-->
+                                                <img v-if="foods['__v']>0" @click="minusShops(foods)" class="minus"
+                                                     :src="`${baseUrl}-.png`" alt="">
+                                                <i v-if="foods['__v']>0">{{foods.__v}}</i>
+                                                <img @click="addShops(foods)" class="add" :src="`${baseUrl}+.png`"
+                                                     alt="">
+                                            </div>
                                         </section>
                                     </footer>
                                 </section>
@@ -103,6 +113,58 @@
                         </ul>
                     </section>
                 </section>
+                <section class="buy_cart_container">
+                    <section @click="" class="cart_icon_num">
+                        <div class="cart_icon_container"
+                             :class="{cart_icon_activity: totalPrice > 0, move_in_cart:receiveInCart}">
+                                <span class="cart_list_length">
+                                    {{totalNum}}
+                                </span>
+                            <img class="cart_icon"/>
+                        </div>
+                        <div class="cart_num">
+                            <div>¥ {{totalPrice}}</div>
+                            <div>配送费¥{{deliveryFee}}</div>
+                        </div>
+                    </section>
+                    <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
+                        <span class="gotopay_button_style">还差¥{{minimumOrderAmount}}起送</span>
+                        <router-link to="" class="gotopay_button_style">去结算
+                        </router-link>
+                    </section>
+                </section>
+                <transition name="toggle-cart">
+                    <section class="cart_food_list">
+                        <header>
+                            <h4>购物车</h4>
+                            <div @click="">
+                                <img src="" alt="">
+                                <span class="clear_cart">清空</span>
+                            </div>
+                        </header>
+                        <section class="cart_food_details" id="cartFood">
+                            <ul>
+                                <li v-for="(item, index) in cartFoodList" :key="index" class="cart_food_li">
+                                    <div class="cart_list_num">
+                                        <p class="ellipsis">{{item.name}}</p>
+                                        <p class="ellipsis">{{item.specs}}</p>
+                                    </div>
+                                    <div class="cart_list_price">
+                                        <span>¥</span>
+                                        <span>{{item.price}}</span>
+                                    </div>
+                                    <section class="cart_list_control">
+                                            <span @click="">
+                                               <img src="" alt="">
+                                            </span>
+                                        <span class="cart_num">{{item.num}}</span>
+                                        <img src="" alt="" class="cart_add">
+                                    </section>
+                                </li>
+                            </ul>
+                        </section>
+                    </section>
+                </transition>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
                 <div class="rating_header" v-if="ratingScoresData">
@@ -146,7 +208,6 @@
         </mt-tab-container>
     </div>
 </template>
-
 <script>
     import Vue from 'vue'
     import {Navbar, TabItem} from 'mint-ui';
@@ -160,6 +221,7 @@
         components: {BaseBack},
         data: function () {
             return {
+                baseUrl: process.env.BASE_URL,
                 imgBaseUrl: '//elm.cangdu.org/img/',
                 //需要是字符串类型，num类型无效
                 selected: "1",
@@ -211,6 +273,16 @@
             chooseMenu(index) {
                 this.menuIndex = index;
             },
+            //增加商品
+            addShops(food) {
+                console.log(food.__v)
+                food.__v++
+            },
+            //减少商品
+            minusShops(food) {
+                food.__v--
+
+            }
         },
         mounted: function () {
             var that = this;
@@ -605,6 +677,164 @@
                         }
                         span:nth-of-type(3) {
                         }
+                        div {
+                            float: right;
+                            margin-right: 20px;
+                            img {
+                                width: 25px;
+                                /*height: 10px;*/
+                            }
+                            i {
+                                font-size: 18px;
+                                padding: 0 8px;
+                                vertical-align: super;
+                            }
+                            .add {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .buy_cart_container {
+        position: absolute;
+        background-color: #3d3d3f;
+        bottom: 0;
+        left: 0;
+        z-index: 13;
+        display: flex;
+        .cart_icon_num {
+            flex: 1;
+            .cart_icon_container {
+                display: flex;
+                background-color: #3d3d3f;
+                position: absolute;
+                padding: .4rem;
+                border: 0.18rem solid #444;
+                border-radius: 50%;
+                left: .5rem;
+                top: -.7rem;
+                .cart_icon {
+                }
+                .cart_list_length {
+                    position: absolute;
+                    top: -.25rem;
+                    right: -.25rem;
+                    background-color: #ff461d;
+                    line-height: .7rem;
+                    text-align: center;
+                    border-radius: 50%;
+                    border: 0.025rem solid #ff461d;
+                    min-width: .7rem;
+                    height: .7rem;
+                    font-family: Helvetica Neue, Tahoma, Arial;
+                }
+            }
+            .move_in_cart {
+                animation: mymove .5s ease-in-out;
+            }
+            .cart_icon_activity {
+                background-color: #3190e8;
+            }
+            .cart_num {
+                left: 3.5rem;
+
+                div {
+                    color: #fff;
+                }
+                div:nth-of-type(1) {
+                    font-size: .8rem;
+                    font-weight: bold;
+                    margin-bottom: .1rem;
+                }
+                div:nth-of-type(2) {
+                    font-size: .4rem;
+                }
+            }
+        }
+        .gotopay {
+            position: absolute;
+            right: 0;
+            background-color: #535356;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .gotopay_button_style {
+                font-weight: bold;
+            }
+        }
+        .gotopay_acitvity {
+            background-color: #4cd964;
+        }
+    }
+
+    .cart_food_list {
+        position: fixed;
+        width: 100%;
+        padding-bottom: 2rem;
+        z-index: 12;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        header {
+            align-items: center;
+            padding: .3rem .6rem;
+            background-color: #eceff1;
+            img {
+                vertical-align: middle;
+            }
+            h4 {
+            }
+            .clear_cart {
+            }
+        }
+        .cart_food_details {
+            background-color: #fff;
+            max-height: 20rem;
+            overflow-y: auto;
+            .cart_food_li {
+                padding: .6rem .5rem;
+                .cart_list_num {
+                    width: 55%;
+                    p:nth-of-type(1) {
+                        font-weight: bold;
+                    }
+                    p:nth-of-type(2) {
+                    }
+                }
+                .cart_list_price {
+                    font-size: 0;
+                    span:nth-of-type(1) {
+                        font-family: Helvetica Neue, Tahoma;
+
+                    }
+                    span:nth-of-type(2) {
+                        font-family: Helvetica Neue, Tahoma;
+                        font-weight: bold;
+                    }
+                }
+                .cart_list_control {
+                    display: flex;
+                    align-items: center;
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    img {
+                        fill: #3190e8;
+                    }
+                    .specs_reduce_icon {
+                        fill: #999;
+                    }
+                    .cart_num {
+                        min-width: 1rem;
+                        text-align: center;
+                        font-family: Helvetica Neue, Tahoma;
                     }
                 }
             }
