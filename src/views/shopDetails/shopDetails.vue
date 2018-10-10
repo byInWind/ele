@@ -485,7 +485,7 @@
         .menu_container {
             display: flex;
             flex: 1;
-            height: 63.5vh;
+            height: 62vh;
             overflow-y: hidden;
             position: relative;
             .menu_left {
@@ -528,10 +528,11 @@
             }
             .menu_right {
                 position: absolute;
-                top: 0px;
+                top: 0;
                 height: 63.5vh;
                 margin-left: 80px;
                 overflow: scroll;
+                padding-bottom: 7px;
                 .menu_detail_header {
                     width: 100%;
                     padding: .4rem;
@@ -716,18 +717,22 @@
             left: 0;
             z-index: 13;
             display: flex;
+            width: 100%;
+            height: 50px;
             .cart_icon_num {
                 flex: 1;
                 .cart_icon_container {
                     display: flex;
                     background-color: #3d3d3f;
                     position: absolute;
-                    padding: .4rem;
+                    padding: 14px;
                     border: 0.18rem solid #444;
                     border-radius: 50%;
-                    left: .5rem;
-                    top: -.7rem;
+                    left: 15px;
+                    top: -23px;
                     .cart_icon {
+                        width: 30px;
+                        height: 30px;
                     }
                     .cart_list_length {
                         position: absolute;
@@ -750,18 +755,21 @@
                     background-color: #3190e8;
                 }
                 .cart_num {
-                    left: 3.5rem;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 90px;
 
                     div {
                         color: #fff;
                     }
                     div:nth-of-type(1) {
-                        font-size: .8rem;
+                        font-size: 18px;
                         font-weight: bold;
-                        margin-bottom: .1rem;
+                        margin-bottom: -7px;
                     }
                     div:nth-of-type(2) {
-                        font-size: .4rem;
+                        font-size: 12px;
                     }
                 }
             }
@@ -769,7 +777,10 @@
                 position: absolute;
                 right: 0;
                 background-color: #535356;
+                width: 130px;
+                height: 100%;
                 text-align: center;
+                display: -ms-flexbox;
                 display: flex;
                 align-items: center;
                 justify-content: center;
