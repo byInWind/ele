@@ -42,7 +42,7 @@
                             <li v-for="(item,index) in menuList" :key="index" class="menu_left_li"
                                 :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
                                 <span>{{item.name}}</span>
-                                <span class="category_num">11</span>
+                                <span class="category_num">1</span>
                             </li>
                         </ul>
                     </section>
@@ -63,12 +63,12 @@
                                 <section v-for="(foods,foodindex) in item.foods" :key="foodindex"
                                          class="menu_detail_list">
                                     <router-link to=""
-                                            tag="div" class="menu_detail_link">
+                                                 tag="div" class="menu_detail_link">
                                         <section class="menu_food_img">
                                             <img :src="imgBaseUrl + foods.image_path">
                                         </section>
                                         <section class="menu_food_description">
-                                            <h3 class="food_description_head">
+                                            <h4 class="food_description_head">
                                                 <strong class="description_foodname">{{foods.name}}</strong>
                                                 <ul v-if="foods.attributes.length" class="attributes_ul">
                                                     <li v-for="(attribute, foodindex) in foods.attributes"
@@ -80,7 +80,7 @@
                                                     </li>
                                                 </ul>
 
-                                            </h3>
+                                            </h4>
                                             <p class="food_description_content">{{foods.description}}</p>
                                             <p class="food_description_sale_rating">
                                                 <span>月售{{foods.month_sales}}份</span>
@@ -103,7 +103,6 @@
                         </ul>
                     </section>
                 </section>
-
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
                 <div class="rating_header" v-if="ratingScoresData">
@@ -412,13 +411,15 @@
         position: relative;
         .menu_left {
             background-color: #f5f5f5;
-            width: 3.8rem;
+            text-align: center;
+            font-size: 12px;
             .menu_left_li {
                 padding: .7rem .3rem;
                 border-bottom: 0.025rem solid #ededed;
                 box-sizing: border-box;
                 border-left: 0.15rem solid #f8f8f8;
                 position: relative;
+                width: 80px;
                 span {
                 }
                 .category_num {
@@ -447,23 +448,25 @@
             }
         }
         .menu_right {
-            flex: 4;
-            overflow-y: auto;
+            /*flex: 4;*/
+            /*overflow-y: auto;*/
             .menu_detail_header {
                 width: 100%;
                 padding: .4rem;
                 position: relative;
                 align-items: center;
+                background-color: #f5f5f5;
                 .menu_detail_header_left {
                     background-color: #f5f5f5;
-                    width: 11rem;
                     white-space: nowrap;
                     overflow: hidden;
                     .menu_item_title {
                         font-weight: bold;
+                        font-size: 16px;
                     }
                     .menu_item_description {
                         width: 30%;
+                        margin-left: 8px;
                         overflow: hidden;
                     }
                 }
@@ -509,8 +512,8 @@
                     .menu_food_img {
                         margin: 0 10px;
                         img {
-                            width: 52px;
-                            height: 100%;
+                            width: 90px;
+                            height: 90px;
                             display: block;
                         }
                     }
@@ -527,9 +530,9 @@
                                 display: flex;
                                 li {
                                     font-size: .3rem;
-                                    height: .6rem;
-                                    line-height: .35rem;
-                                    padding: .1rem;
+                                    height: 16px;
+                                    line-height: 15px;
+                                    padding: 1px;
                                     border: 1px solid #666;
                                     border-radius: 0.3rem;
                                     margin-right: .1rem;
@@ -556,12 +559,12 @@
                             }
                         }
                         .food_description_content {
-                            line-height: 15px;
+                            line-height: 22px;
                             font-size: 13px;
                             color: #999;
                         }
                         .food_description_sale_rating {
-                            line-height: 15px;
+                            line-height: 22px;
                             font-size: 13px;
                             span {
                             }
@@ -583,7 +586,7 @@
                 }
                 .menu_detail_footer {
                     margin-left: 2.4rem;
-                    font-size: 0;
+                    font-size: 10px;
                     margin-top: .3rem;
                     .food_price {
                         span {
@@ -591,9 +594,13 @@
                         }
                         span:nth-of-type(1) {
                             margin-right: .05rem;
+                            font-size: 14px;
+                            color: #f60;
                         }
                         span:nth-of-type(2) {
-                            font-weight: bold;
+                            font-size: 17px;
+                            color: #f60;
+                            font-weight: 700;
                             margin-right: .3rem;
                         }
                         span:nth-of-type(3) {
