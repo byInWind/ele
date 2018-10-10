@@ -8,7 +8,7 @@
                 <div class="box-img">
                     <img src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
 
-                </div>
+                </div> 
                 <div class="img">
                     <span class="mini-tag">品牌</span>
                     <img class="index-3eDRn"
