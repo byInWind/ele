@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div>
         <header>
             <base-back></base-back>
