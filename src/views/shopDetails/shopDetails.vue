@@ -8,7 +8,7 @@
                 <div class="box-img">
                     <img src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
 
-                </div> 
+                </div>
                 <div class="img">
                     <span class="mini-tag">品牌</span>
                     <img class="index-3eDRn"
@@ -512,8 +512,7 @@
                         border: 0.025rem solid #ff461d;
                         min-width: .6rem;
                         height: 15px;
-                        font-family: Helvetica Neue, Tahoma, Arial;
-                        padding: 0px 4px;
+                        padding: 0 4px;
                         color: white;
                         font-size: 12px;
                     }
@@ -673,7 +672,7 @@
                         margin-top: .3rem;
                         .food_price {
                             span {
-                                font-family: 'Helvetica Neue', Tahoma, Arial;
+
                             }
                             span:nth-of-type(1) {
                                 margin-right: .05rem;
@@ -745,11 +744,9 @@
                         border: 0.025rem solid #ff461d;
                         min-width: .7rem;
                         height: .7rem;
-                        font-family: Helvetica Neue, Tahoma, Arial;
                     }
                 }
                 .move_in_cart {
-                    animation: mymove .5s ease-in-out;
                 }
                 .cart_icon_activity {
                     background-color: #3190e8;
@@ -831,11 +828,9 @@
                     .cart_list_price {
                         font-size: 0;
                         span:nth-of-type(1) {
-                            font-family: Helvetica Neue, Tahoma;
 
                         }
                         span:nth-of-type(2) {
-                            font-family: Helvetica Neue, Tahoma;
                             font-weight: bold;
                         }
                     }
@@ -856,7 +851,6 @@
                         .cart_num {
                             min-width: 1rem;
                             text-align: center;
-                            font-family: Helvetica Neue, Tahoma;
                         }
                     }
                 }

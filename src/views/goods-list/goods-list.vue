@@ -47,7 +47,7 @@
                     </ol>
                 </section>
             </div>
-            <BaseGoodslist></BaseGoodslist>
+            <BaseGoodslist :restaurantsItems='restaurantsItems'></BaseGoodslist>
         </section>
         <BaseFooter></BaseFooter>
         <!--<BaseLoading></BaseLoading>-->
@@ -78,7 +78,7 @@
                 // showLoading: true,
                 isActive: 4 //筛选列表选中类型
             }
-        }, methods: {
+        }, watch: {}, methods: {
             search() {
                 router.push('/views/search/search')
             },
@@ -111,12 +111,15 @@
                         order_by: num
                     }
                 }).then(function (response) {
-                    // console.log(response);
+                    console.log('response', that.restaurantsItems);
                     that.restaurantsItems = response.data
+                    console.log('response222', response.data);
+
                 });
                 this.sortnormal = mesg;
                 this.isActive = num;
                 $('.firstList').addClass('active')
+
             }
         },
         mounted: function () {
