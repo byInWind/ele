@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div> 
         <header>
             <div>地址</div>
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
