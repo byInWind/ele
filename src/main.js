@@ -8,14 +8,14 @@ import camelCase from 'lodash/camelCase'
 import axios from 'axios'
 import forLoading from './components/BaseLoading'
 
-Vue.component('forLoading', forLoading)
-Vue.use(MintUI)
+import store from './assets/vuex/store';
 
+Vue.use(MintUI)
+Vue.component('forLoading', forLoading)
 //封装axios      全局loading
-// var  that =this;
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
-    // that.forLoading = true
+    store.commit('showLoading', true)
     return config;
 }, function (error) {
     // Do something with request error
@@ -24,7 +24,7 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data
-    // that.forLoading = false
+    store.commit('showLoading', false)
     return response;
 }, function (error) {
     // Do something with response error
@@ -63,7 +63,6 @@ requireComponent.keys().forEach(fileName => {
     )
 })
 //全局注册组件结束
-
 
 Vue.config.productionTip = false
 

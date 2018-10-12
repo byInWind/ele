@@ -1,19 +1,19 @@
 <template>
     <div id="app">
+        <base-loading v-show="fetchLoading"></base-loading>
         <router-view></router-view>
     </div>
 </template>
 <script>
-    // import router from './router'
+    import store from './assets/vuex/store';
 
     export default {
         data: function () {
-            return {
-                xxx: true
-            }
+            return {}
         },
-        methods: {
-            onLogin: function () {
+        computed: {
+            fetchLoading() {
+               return store.state.fetchLoading
             }
         }
     }

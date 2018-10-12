@@ -111,9 +111,7 @@
                         order_by: num
                     }
                 }).then(function (response) {
-                    console.log('response', that.restaurantsItems);
                     that.restaurantsItems = response.data
-                    console.log('response222', response.data);
 
                 });
                 this.sortnormal = mesg;
@@ -131,7 +129,6 @@
                     longitude: 121.4762,
                 }
             }).then(function (response) {
-                console.log(response);
                 that.restaurantsItems = response.data
                 // that.showLoading = false
 

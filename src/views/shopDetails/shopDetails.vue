@@ -274,7 +274,7 @@
             },
             //增加商品
             addShops(food) {
-                console.log(food.__v)
+                // console.log(food.__v)
                 food.__v++
             },
             //减少商品
@@ -293,7 +293,7 @@
                     restaurant_id: that.$route.params.id
                 }
             }).then(function (response) {
-                console.log('menuList', response);
+                // console.log('menuList', response);
                 that.menuList = response.data
                 // that.showLoading = false
 
@@ -301,21 +301,21 @@
             //餐馆详情
             axios.get('https://elm.cangdu.org/shopping/restaurant/' + that.$route.params.id
             ).then(function (response) {
-                console.log(response);
+                // console.log(response);
                 that.shopDetailData = response.data
 
             });
             //评价列表
             axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings'
             ).then(function (response) {
-                console.log(response);
+                // console.log(response);
                 that.ratingList = response.data
 
             });
             //评价分数
             axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings/scores'
             ).then(function (response) {
-                console.log('aaaa', response);
+                // console.log('aaaa', response);
                 that.ratingScoresData = response.data
 
             });

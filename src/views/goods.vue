@@ -24,8 +24,7 @@
             </div>
             <BaseGoodslist></BaseGoodslist>
         </section>
-        <BaseFooter></BaseFooter>
-        <BaseLoading v-if="loading"></BaseLoading>
+        <BaseGoodslist :restaurantsItems='restaurantsItems'></BaseGoodslist>
     </div>
 </template>
 
@@ -50,11 +49,11 @@
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
                 // isFixed: false
                 categoryItems: [],
-                loading: false,
                 isActive: 4, //筛选列表选中类型,
                 title: ''  //标题
             }
-        }, methods: {
+        },
+        methods: {
             search() {
                 router.push('/views/search/search')
             },
@@ -98,14 +97,14 @@
         watch: {
             '$route'(to, from) {
                 // 对路由变化作出响应...在调用一遍mounted的事件
-                console.log(to, from)
+                // console.log(to, from)
 
             }
         },
         mounted: function () {
             this.title = this.$route.params.title || '美食外卖';
             var that = this;
-            console.log(that.$route.params.id, this.$route.params)
+            // console.log(that.$route.params.id, this.$route.params)
             //商铺列表
             axios.get('https://elm.cangdu.org/shopping/restaurants', {
                 params: {
@@ -114,7 +113,7 @@
                     restaurant_category_id: that.$route.params.id  //餐馆分类id
                 }
             }).then(function (response) {
-                console.log(response);
+                // console.log(response);
                 that.restaurantsItems = response.data
             });
             //食物分类列表
