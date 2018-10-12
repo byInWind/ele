@@ -1,6 +1,6 @@
 <template>
     <div class="loading_container">
-        <div class="load_img" :style="{backgroundPositionY: -(positionY%7)*2.5 + 'rem'}">
+        <div class="load_img" :style="{backgroundPositionY: -(positionY%7)*75 + 'px'}">
         </div>
         <img class="load_ellipse" src="../../public/a.png" alt="">
     </div>
@@ -32,7 +32,7 @@
             transform: translateY(0px);
         }
         50% {
-            transform: translateY(-50px);
+            transform: translateY(-75px);
         }
         100% {
             transform: translateY(0px);
