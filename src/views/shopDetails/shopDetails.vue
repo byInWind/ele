@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
-<template> 
+<template>
     <div>
         <header>
             <base-back></base-back>
@@ -98,11 +98,16 @@
                                             <span>¥</span>
                                             <span>{{foods.specfoods[0].price}}</span>
                                             <span v-if="foods.specifications.length">起</span>
-                                            <div>
+                                            <div class="food_price-div">
                                                 <!--选购商品的按钮,,,用了一个可能不是num的值-->
-                                                <img v-if="foods['__v']>0" @click="minusShops(foods)" class="minus"
-                                                     :src="`${baseUrl}-.png`" alt="">
-                                                <i v-if="foods['__v']>0">{{foods.__v}}</i>
+                                                <!--需要一个小动画-->
+                                                <transition name="animate1" :duration="10000">
+                                                    <section v-if="foods.__v>0">
+                                                        <img @click="minusShops(foods)" class="minus"
+                                                             :src="`${baseUrl}-.png`" alt="">
+                                                        <i>{{foods.__v}}</i>
+                                                    </section>
+                                                </transition>
                                                 <img @click="addShops(foods)" class="add" :src="`${baseUrl}+.png`"
                                                      alt="">
                                             </div>
@@ -113,9 +118,10 @@
                         </ul>
                     </section>
                 </section>
-                <section class="buy_cart_container">
+                <section class="buy_cart_container" v-if="shopDetailData">
                     <section @click="" class="cart_icon_num">
-                        <div class="cart_icon_container cart_icon_activity move_in_cart">
+                        <!--价格大于0添加class-->
+                        <div class="cart_icon_container move_in_cart" :class="totalPrice>0?'cart_icon_activity':''">
                                 <span class="cart_list_length">
 
                                 </span>
@@ -123,12 +129,16 @@
                         </div>
                         <div class="cart_num">
                             <div>¥ {{totalPrice}}</div>
-                            <div>配送费¥</div>
+                            <div>配送费: {{shopDetailData.float_delivery_fee}}元</div>
                         </div>
                     </section>
-                    <section class="gotopay gotopay_acitvity">
-                        <span class="gotopay_button_style">还差¥起送</span>
-                        <router-link v-if="false" to="" class="gotopay_button_style">去结算</router-link>
+                    <section class="gotopay"
+                             :class="shopDetailData.float_minimum_order_amount-totalPrice<=0? 'gotopay_acitvity':''">
+                        <span v-if="shopDetailData.float_minimum_order_amount-totalPrice<=0?false:true"
+                              class="gotopay_button_style">还差¥{{shopDetailData.float_minimum_order_amount}}起送</span>
+                        <router-link v-if="shopDetailData.float_minimum_order_amount-totalPrice<=0?true:false" to=""
+                                     class="gotopay_button_style">去结算
+                        </router-link>
                     </section>
                 </section>
                 <transition name="toggle-cwart">
@@ -271,17 +281,18 @@
             //点击左侧食品列表标题，相应列表移动到最顶层
             chooseMenu(index) {
                 this.menuIndex = index;
+
             },
-            //增加商品
-            addShops(food) {
+            //增加商品,计算价格
+            addShops(foods) {
                 // console.log(food.__v)
-                food.__v++;
-                this.totalPrice += food.__v * food.specfoods[0].price
+                foods.__v++;
+                this.totalPrice += foods.__v * foods.specfoods[0].price
             },
-            //减少商品
-            minusShops(food) {
-                food.__v--;
-                this.totalPrice -= food.specfoods[0].price
+            //减少商品,计算价格
+            minusShops(foods) {
+                foods.__v--;
+                this.totalPrice -= foods.specfoods[0].price
             }
         },
         mounted: function () {
@@ -296,8 +307,6 @@
             }).then(function (response) {
                 // console.log('menuList', response);
                 that.menuList = response.data
-                // that.showLoading = false
-
             });
             //餐馆详情
             axios.get('https://elm.cangdu.org/shopping/restaurant/' + that.$route.params.id
@@ -318,7 +327,6 @@
             ).then(function (response) {
                 // console.log('aaaa', response);
                 that.ratingScoresData = response.data
-
             });
         }
     }
@@ -688,9 +696,13 @@
                             }
                             span:nth-of-type(3) {
                             }
-                            div {
+                            .food_price-div {
                                 float: right;
                                 margin-right: 20px;
+                                section {
+                                    float: left;
+                                    margin-top: -2px;
+                                }
                                 img {
                                     width: 25px;
                                     /*height: 10px;*/
@@ -784,6 +796,7 @@
                 justify-content: center;
                 .gotopay_button_style {
                     font-weight: bold;
+                    color: white;
                 }
             }
             .gotopay_acitvity {
@@ -857,5 +870,20 @@
                 }
             }
         }
+    }
+
+    /*动画部分*/
+    .animate1-enter-active,.animate1-leave-active {
+        transition: all 0.2s linear;
+    }
+
+    .animate1-enter {
+        /*opacity: 0;*/
+        transform: translateX(80%);
+    }
+
+    .animate1-leave-to {
+        /*opacity: 0;*/
+
     }
 </style>
