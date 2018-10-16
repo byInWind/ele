@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
-<template>
+<template> 
     <div>
         <header>
             <base-back></base-back>
