@@ -6,12 +6,10 @@ import App from './App.vue'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import axios from 'axios'
-import forLoading from './components/BaseLoading'
 
 import store from './assets/vuex/store';
 
 Vue.use(MintUI)
-Vue.component('forLoading', forLoading)
 //封装axios      全局loading
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent

@@ -128,8 +128,7 @@
                     </section>
                     <section class="gotopay gotopay_acitvity">
                         <span class="gotopay_button_style">还差¥起送</span>
-                        <router-link to="" class="gotopay_button_style">去结算
-                        </router-link>
+                        <router-link v-if="false" to="" class="gotopay_button_style">去结算</router-link>
                     </section>
                 </section>
                 <transition name="toggle-cwart">
@@ -257,6 +256,7 @@
                 ratingScroll: null, //评论页Scroll
             }
         },
+        watch: {},
         methods: {
             focuss() {
                 console.log(1)
@@ -275,12 +275,13 @@
             //增加商品
             addShops(food) {
                 // console.log(food.__v)
-                food.__v++
+                food.__v++;
+                this.totalPrice += food.__v * food.specfoods[0].price
             },
             //减少商品
             minusShops(food) {
-                food.__v--
-
+                food.__v--;
+                this.totalPrice -= food.specfoods[0].price
             }
         },
         mounted: function () {
@@ -485,7 +486,7 @@
         .menu_container {
             display: flex;
             flex: 1;
-            height: 62vh;
+            height: 60.4vh;
             overflow-y: hidden;
             position: relative;
             .menu_left {
