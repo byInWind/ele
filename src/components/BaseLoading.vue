@@ -74,7 +74,7 @@
     .load_ellipse {
         position: absolute;
         top: 81px;
-        left: -17px;
+        left: 28px;
         animation: ellipse .6s infinite ease-in-out;
     }
 </style>

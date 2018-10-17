@@ -46,4 +46,4 @@ vue实现，在循环列表里点击当前项，处理当前项的操作
 vue因null数据渲染报错https://stackoverflow.com/questions/46897776/vue-warn-error-in-render-function-typeerror-cannot-read-property-first-na/46898157  
 购物车:问题 1，添加商品，num全部改变，方法：不使用num，方法里传每项的值   
 全局loading 想显示隐藏loading,首先需要获取loading的状态，设置v-show,一个变量用来存储状态，单页面共享状态比较困难，所以引入vuex,(不引入自己暂时无法实现)，状态存在vuex中，取出使用时需放在vue的computed里
-:duration="{ enter: 5000 }进入无效？？待解决
+:duration="{ enter: 5000 }进入无效？效果与-enter-active不完全相同，在是否写-enter-to里产生了差异，以实际效果为准吧

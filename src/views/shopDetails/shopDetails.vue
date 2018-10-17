@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
-<template> 
+<template>
     <div>
         <header>
             <base-back></base-back>
@@ -101,7 +101,7 @@
                                             <div class="food_price-div">
                                                 <!--选购商品的按钮,,,用了一个可能不是num的值-->
                                                 <!--需要一个小动画-->
-                                                <transition name="animate1" :duration="10000">
+                                                <transition name="animate1">
                                                     <section v-if="foods.__v>0">
                                                         <img @click="minusShops(foods)" class="minus"
                                                              :src="`${baseUrl}-.png`" alt="">
@@ -121,9 +121,10 @@
                 <section class="buy_cart_container" v-if="shopDetailData">
                     <section @click="" class="cart_icon_num">
                         <!--价格大于0添加class-->
-                        <div class="cart_icon_container move_in_cart" :class="totalPrice>0?'cart_icon_activity':''">
+                        <div class="cart_icon_container"
+                             :class="{cart_icon_activity:totalPrice > 0,move_in_cart: addClick}">
                                 <span class="cart_list_length">
-
+                                    2
                                 </span>
                             <img :src="`${baseUrl}buy1.png`" class="cart_icon"/>
                         </div>
@@ -245,7 +246,7 @@
                 totalPrice: 0, //总共价格
                 cartFoodList: [], //购物车商品列表
                 showCartList: false,//显示购物车列表
-                receiveInCart: false, //购物车组件下落的圆点是否到达目标位置
+                addClick: false, //添加按钮点击
                 ratingList: null, //评价列表
                 ratingOffset: 0, //评价获取数据offset值
                 ratingScoresData: null, //评价总体分数
@@ -285,7 +286,10 @@
             },
             //增加商品,计算价格
             addShops(foods) {
-                // console.log(food.__v)
+                this.addClick = true;
+                setTimeout(() => {
+                    this.addClick = false;
+                }, 500);
                 foods.__v++;
                 this.totalPrice += foods.__v * foods.specfoods[0].price
             },
@@ -733,6 +737,9 @@
             height: 50px;
             .cart_icon_num {
                 flex: 1;
+                .move_in_cart {
+                    animation: mymove .5s ease-in-out;
+                }
                 .cart_icon_container {
                     display: flex;
                     background-color: #3d3d3f;
@@ -873,17 +880,29 @@
     }
 
     /*动画部分*/
-    .animate1-enter-active,.animate1-leave-active {
+    .animate1-enter-active, .animate1-leave-active {
         transition: all 0.2s linear;
     }
 
     .animate1-enter {
-        /*opacity: 0;*/
         transform: translateX(80%);
     }
 
-    .animate1-leave-to {
-        /*opacity: 0;*/
-
+    @keyframes mymove {
+        0% {
+            transform: scale(1)
+        }
+        25% {
+            transform: scale(.8)
+        }
+        50% {
+            transform: scale(1.1)
+        }
+        75% {
+            transform: scale(.9)
+        }
+        100% {
+            transform: scale(1)
+        }
     }
 </style>
