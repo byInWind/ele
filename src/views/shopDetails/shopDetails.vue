@@ -2,7 +2,7 @@
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
 <template>
     <div>
-        <header>
+        <header> 
             <base-back></base-back>
             <div class="shopDetailsBox">
                 <div class="box-img">
