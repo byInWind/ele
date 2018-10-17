@@ -2,7 +2,7 @@
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
 <template>
     <div>
-        <header> 
+        <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
                 <div class="box-img">
@@ -123,8 +123,8 @@
                         <!--价格大于0添加class-->
                         <div class="cart_icon_container"
                              :class="{cart_icon_activity:totalPrice > 0,move_in_cart: addClick}">
-                                <span class="cart_list_length">
-                                    2
+                                <span v-if="categoryNum" class="cart_list_length">
+                                    {{categoryNum}}
                                 </span>
                             <img :src="`${baseUrl}buy1.png`" class="cart_icon"/>
                         </div>
@@ -242,7 +242,7 @@
                 menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
                 shopListTop: [], //商品列表的高度集合
                 TitleDetailIndex: null, //点击展示列表头部详情
-                categoryNum: [], //商品类型右上角已加入购物车的数量
+                categoryNum: null, //商品类型右上角已加入购物车的数量
                 totalPrice: 0, //总共价格
                 cartFoodList: [], //购物车商品列表
                 showCartList: false,//显示购物车列表
@@ -258,7 +258,6 @@
                 foodScroll: null,  //食品列表scroll
                 showSpecs: false,//控制显示食品规格
                 specsIndex: 0, //当前选中的规格索引值
-                choosedFoods: null, //当前选中视频数据
                 showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
                 showMoveDot: [], //控制下落的小圆点显示隐藏
                 windowHeight: null, //屏幕的高度
@@ -286,6 +285,7 @@
             },
             //增加商品,计算价格
             addShops(foods) {
+                this.categoryNum++;
                 this.addClick = true;
                 setTimeout(() => {
                     this.addClick = false;
@@ -295,6 +295,7 @@
             },
             //减少商品,计算价格
             minusShops(foods) {
+                this.categoryNum--;
                 foods.__v--;
                 this.totalPrice -= foods.specfoods[0].price
             }
@@ -758,12 +759,14 @@
                         top: -.25rem;
                         right: -.25rem;
                         background-color: #ff461d;
-                        line-height: .7rem;
+                        line-height: 14px;
                         text-align: center;
                         border-radius: 50%;
                         border: 0.025rem solid #ff461d;
-                        min-width: .7rem;
-                        height: .7rem;
+                        min-width: 14px;
+                        height: 14px;
+                        font-size: 12px;
+                        color: white;
                     }
                 }
                 .move_in_cart {
