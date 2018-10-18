@@ -1,18 +1,17 @@
 <!--suppress VueDuplicateTag -->
-<script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
 <template>
     <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
                 <div class="box-img">
-                    <img src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
+                    <img v-if="shopDetailData" :src="imgBaseUrl+shopDetailData.image_path">
 
                 </div>
                 <div class="img">
                     <span class="mini-tag">品牌</span>
                     <img class="index-3eDRn"
-                         src="//fuss10.elemecdn.com/f/8c/a0243ff6b05f952b127524b5bf99ajpeg.jpeg?imageMogr/format/webp/thumbnail/150x/">
+                         v-if="shopDetailData" :src="imgBaseUrl+shopDetailData.image_path">
                 </div><!---->
                 <div class="title-box" v-if="shopDetailData">
                     <h2 class="top"><span>{{shopDetailData.name}}</span><i @click="showBox"
@@ -137,7 +136,8 @@
                              :class="shopDetailData.float_minimum_order_amount-totalPrice<=0? 'gotopay_acitvity':''">
                         <span v-if="shopDetailData.float_minimum_order_amount-totalPrice<=0?false:true"
                               class="gotopay_button_style">还差¥{{shopDetailData.float_minimum_order_amount}}起送</span>
-                        <router-link v-if="shopDetailData.float_minimum_order_amount-totalPrice<=0?true:false" to=""
+                        <router-link to="/views/payment"
+                                     v-if="shopDetailData.float_minimum_order_amount-totalPrice<=0?true:false"
                                      class="gotopay_button_style">去结算
                         </router-link>
                     </section>
