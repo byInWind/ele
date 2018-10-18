@@ -95,11 +95,6 @@
             }
         },
         watch: {
-            '$route'(to, from) {
-                // 对路由变化作出响应...在调用一遍mounted的事件
-                // console.log(to, from)
-
-            }
         },
         mounted: function () {
             this.title = this.$route.params.title || '美食外卖';

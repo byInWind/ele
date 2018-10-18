@@ -1,7 +1,7 @@
 <!--suppress VueDuplicateTag -->
 <script src="../../../../shopping_cart-master/js/shopping_cart.js"></script>
 <template>
-    <div> 
+    <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
@@ -268,8 +268,17 @@
         },
         watch: {},
         methods: {
+            calculation() {
+                let price = 0;
+                for (let i = 0; i < this.menuList.length; i++) {
+                    for (let j = 0; j < this.menuList[i].foods.length; j++) {
+                        this.menuList[i].foods[j].__v = this.menuList[i].foods[j].__v || 0
+                        price += this.menuList[i].foods[j].__v * this.menuList[i].foods[j].specfoods[0].price
+                    }
+                }
+                this.totalPrice = price
+            },
             focuss() {
-                console.log(1)
             },
             showBox() {
                 //alert()
@@ -291,13 +300,14 @@
                     this.addClick = false;
                 }, 500);
                 foods.__v++;
-                this.totalPrice += foods.__v * foods.specfoods[0].price
+                this.calculation();
+
             },
             //减少商品,计算价格
             minusShops(foods) {
                 this.categoryNum--;
                 foods.__v--;
-                this.totalPrice -= foods.specfoods[0].price
+                this.calculation()
             }
         },
         mounted: function () {
