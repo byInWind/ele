@@ -1,5 +1,5 @@
 <!--suppress VueDuplicateTag -->
-<template> 
+<template>
     <div>
         <header>
             <base-back></base-back>
@@ -118,7 +118,7 @@
                     </section>
                 </section>
                 <section class="buy_cart_container" v-if="shopDetailData">
-                    <section @click="" class="cart_icon_num">
+                    <section @click="toggleFoodList" class="cart_icon_num">
                         <!--价格大于0添加class-->
                         <div class="cart_icon_container"
                              :class="{cart_icon_activity:totalPrice > 0,move_in_cart: addClick}">
@@ -143,36 +143,38 @@
                     </section>
                 </section>
                 <transition name="toggle-cwart">
-                    <section class="cart_food_list">
-                        <header>
-                            <h4>购物车</h4>
-                            <div @click="">
-                                <img :src="`${baseUrl}buy1.png`" alt="">
-                                <span class="clear_cart">清空</span>
-                            </div>
-                        </header>
-                        <section class="cart_food_details" id="cartFood">
-                            <ul>
-                                <li v-for="(item, index) in cartFoodList" :key="index" class="cart_food_li">
-                                    <div class="cart_list_num">
-                                        <p class="ellipsis">{{item.name}}</p>
-                                        <p class="ellipsis">{{item.specs}}</p>
-                                    </div>
-                                    <div class="cart_list_price">
-                                        <span>¥</span>
-                                        <span>{{item.price}}</span>
-                                    </div>
-                                    <section class="cart_list_control">
+                    <div class="fill_box">
+                        <section class="cart_food_list">
+                            <header>
+                                <h4>购物车</h4>
+                                <div @click="">
+                                    <img :src="`${baseUrl}buy1.png`" alt="">
+                                    <span class="clear_cart">清空</span>
+                                </div>
+                            </header>
+                            <section class="cart_food_details" id="cartFood">
+                                <ul>
+                                    <li v-for="(item, index) in cartFoodList" :key="index" class="cart_food_li">
+                                        <div class="cart_list_num">
+                                            <p class="ellipsis">{{item.name}}</p>
+                                            <p class="ellipsis">{{item.specs}}</p>
+                                        </div>
+                                        <div class="cart_list_price">
+                                            <span>¥</span>
+                                            <span>{{item.price}}</span>
+                                        </div>
+                                        <section class="cart_list_control">
                                             <span @click="">
-                                               <img :src="`${baseUrl}buy1.png`" alt="">
+                                               <img :src="`${baseUrl}-.png`" alt="">
                                             </span>
-                                        <span class="cart_num">{{item.num}}</span>
-                                        <img :src="`${baseUrl}buy1.png`" alt="" class="cart_add">
-                                    </section>
-                                </li>
-                            </ul>
+                                            <span class="cart_num">{{item.num}}</span>
+                                            <img ::src="`${baseUrl}+.png`" alt="" class="cart_add">
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
                         </section>
-                    </section>
+                    </div>
                 </transition>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
@@ -217,6 +219,7 @@
     </div>
 </template>
 <script>
+    import $ from 'jquery'
     import Vue from 'vue'
     import {Navbar, TabItem} from 'mint-ui';
     import axios from 'axios'
@@ -265,46 +268,51 @@
                 ratingScroll: null, //评论页Scroll
             }
         },
-        watch: {
-            //购物车中总共商品的数量
-            // totalNum: function () {
-            //     for (let i = 0; i < this.categoryNum.length; i++) {
-            //         this.totalNum += this.categoryNum[i]
-            //     }
-            //     console.log(this.totalNum)
-            //     return this.totalNum
-            // }
-        },
+        watch: {},
         methods: {
-            //计算总价和选购数以及购物车中总共商品的数量
+            //计算总价和选购数以及购物车中总共商品的数量,把食物push到cartFoodList里
             calculation() {
                 let price = 0;
                 for (let i = 0; i < this.menuList.length; i++) {
                     let num = 0;
                     for (let j = 0; j < this.menuList[i].foods.length; j++) {
-                        this.menuList[i].foods[j].__v = this.menuList[i].foods[j].__v || 0;
+                        //foodsnum食物数量
+                        let foodsnum = this.menuList[i].foods[j].__v;
                         //计算总价
-                        price += this.menuList[i].foods[j].__v * this.menuList[i].foods[j].specfoods[0].price;
+                        price += foodsnum * this.menuList[i].foods[j].specfoods[0].price;
+                        //如果foodsnum>0把食物列表记录到cartFoodList里
+                        if (foodsnum > 0) {
+                            this.cartFoodList.push({
+                                name: this.menuList[i].foods[j].name,
+                                price: this.menuList[i].foods[j].specfoods[0].price,
+                                num: foodsnum
+                            })
+                        }
                         //计算一级菜单的选购数
-                        num += this.menuList[i].foods[j].__v;
+                        num += foodsnum;
                     }
                     this.categoryNum[i] = num;
-                    //计算购物车中总共商品的数量
-                    //this.totalNum += num;
                 }
+                //总价
                 this.totalPrice = price;
+                //计算购物车中总共商品的数量
                 let num = 0;
                 for (let i = 0; i < this.categoryNum.length; i++) {
                     num += this.categoryNum[i]
                 }
                 this.totalNum = num
+                console.log(this.cartFoodList)
+            },
+            toggleFoodList() {
+                if (this.totalNum > 0) {
+                    $('.fill_box').show()
+                }
             },
             showBox() {
                 //alert()
                 this.showInfo = true
             },
             showDiscount() {
-
             },
             //点击左侧食品列表标题，相应列表移动到最顶层
             chooseMenu(index) {
@@ -319,8 +327,6 @@
                     this.addClick = false;
                 }, 500);
                 foods.__v++;
-                //热销榜等一级菜单的选购数=二级菜单里foods.__v的和
-
                 this.calculation();
             },
             //减少商品,计算价格
@@ -499,11 +505,10 @@
         .menu_container {
             display: flex;
             flex: 1;
-            height: 60.4vh;
-            overflow-y: hidden;
+            height: 61.4vh;
+            overflow-y: scroll;
             position: relative;
             .menu_left {
-                background-color: #f5f5f5;
                 text-align: center;
                 font-size: 13px;
                 .menu_left_li {
@@ -513,6 +518,7 @@
                     border-left: 0.15rem solid #f8f8f8;
                     position: relative;
                     width: 80px;
+                    background-color: #f5f5f5;
                     span {
                     }
                     .category_num {
@@ -813,130 +819,142 @@
                 background-color: #4cd964;
             }
         }
-
-        .cart_food_list {
+        .fill_box {
             display: none;
             position: fixed;
-            width: 100%;
-            padding-bottom: 2rem;
-            z-index: 12;
+            top: 0;
             bottom: 0;
             left: 0;
-            background-color: #fff;
-            header {
-                align-items: center;
-                padding: .3rem .6rem;
-                background-color: #eceff1;
-                img {
-                    vertical-align: middle;
-                }
-                h4 {
-                }
-                .clear_cart {
-                }
-            }
-            .cart_food_details {
+            right: 0;
+            background-color: rgba(0, 0, 0, .3);
+            z-index: 11;
+            .cart_food_list {
+                position: fixed;
+                width: 100%;
+                z-index: 12;
+                bottom: 50px;
+                left: 0;
                 background-color: #fff;
-                max-height: 20rem;
-                overflow-y: auto;
-                .cart_food_li {
-                    padding: .6rem .5rem;
-                    .cart_list_num {
-                        width: 55%;
-                        p:nth-of-type(1) {
-                            font-weight: bold;
-                        }
-                        p:nth-of-type(2) {
-                        }
-                    }
-                    .cart_list_price {
-                        font-size: 0;
-                        span:nth-of-type(1) {
-
-                        }
-                        span:nth-of-type(2) {
-                            font-weight: bold;
-                        }
-                    }
-                    .cart_list_control {
-                        display: flex;
-                        align-items: center;
-                        span {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
+                header {
+                    padding: 0 20px;
+                    height: 48px;
+                    line-height: 48px;
+                    background-color: #eceff1;
+                    position: relative;
+                    div {
+                        top: 0;
+                        position: absolute;
+                        right: 20px;
                         img {
-                            fill: #3190e8;
+                            vertical-align: middle;
                         }
-                        .specs_reduce_icon {
-                            fill: #999;
+                        h4 {
                         }
-                        .cart_num {
-                            min-width: 1rem;
-                            text-align: center;
+                        .clear_cart {
+                        }
+                    }
+                }
+                .cart_food_details {
+                    background-color: #fff;
+                    padding: 0 20px;
+                    .cart_food_li {
+                        height: 51px;
+                        line-height: 51px;
+                        .cart_list_num {
+                            width: 55%;
+                            display: inline-block;
+                            p:nth-of-type(1) {
+                                font-weight: bold;
+                            }
+                            p:nth-of-type(2) {
+                            }
+                        }
+                        .cart_list_price {
+                            display: inline-block;
+                            span:nth-of-type(1) {
+
+                            }
+                            span:nth-of-type(2) {
+                                font-weight: bold;
+                            }
+                        }
+                        .cart_list_control {
+                            display: inline-block;
+                            span {
+
+                            }
+                            img {
+                                fill: #3190e8;
+                            }
+                            .specs_reduce_icon {
+                                fill: #999;
+                            }
+                            .cart_num {
+                                text-align: center;
+                            }
                         }
                     }
                 }
             }
-        }
-        .shop_status_info {
-            background-color: #fff;
-            margin-bottom: .4rem;
-            padding-left: 10px;
-            header {
-                font-size: 18px;
-                font-weight: bold;
-                line-height: 38px;
-                padding: 0 .6rem;
-                border-bottom: 0.025rem solid #f1f1f1;
-            }
-            p {
-                padding: .7rem .6rem .7rem 0;
-                margin-left: .6rem;
-                border-bottom: 0.025rem solid #f5f5f5;
-            }
-            span {
-                color: #666;
-            }
-            p:nth-of-type(4), p:nth-of-type(5) {
-                display: flex;
-                justify-content: space-between;
-            }
-        }
-        .rating_header {
-            text-align: center;
-            padding: 20px;
-            .rating_header_left {
-                width: 40%;
-                display: inline-block;
-                b {
-                    font-size: 40px;
-                    color: #ff6000;
+            .shop_status_info {
+                background-color: #fff;
+                margin-bottom: .4rem;
+                padding-left: 10px;
+                header {
+                    font-size: 18px;
+                    font-weight: bold;
+                    line-height: 38px;
+                    padding: 0 .6rem;
+                    border-bottom: 0.025rem solid #f1f1f1;
+                }
+                p {
+                    padding: .7rem .6rem .7rem 0;
+                    margin-left: .6rem;
+                    border-bottom: 0.025rem solid #f5f5f5;
                 }
                 span {
-                    vertical-align: super;
                     color: #666;
                 }
+                p:nth-of-type(4), p:nth-of-type(5) {
+                    display: flex;
+                    justify-content: space-between;
+                }
             }
-            .rating_header_right {
-                width: 60%;
-                display: inline-block;
-                div {
+            .rating_header {
+                text-align: center;
+                padding: 20px;
+                .rating_header_left {
+                    width: 40%;
                     display: inline-block;
-                    width: 30%;
-                    font-size: 13px;
-                    p {
-                        color: #666;
+                    b {
+                        font-size: 40px;
+                        color: #ff6000;
                     }
                     span {
-                        font-size: 20px;
+                        vertical-align: super;
+                        color: #666;
+                    }
+                }
+                .rating_header_right {
+                    width: 60%;
+                    display: inline-block;
+                    div {
                         display: inline-block;
-                        margin-top: 5px;
+                        width: 30%;
+                        font-size: 13px;
+                        p {
+                            color: #666;
+                        }
+                        span {
+                            font-size: 20px;
+                            display: inline-block;
+                            margin-top: 5px;
+                        }
                     }
                 }
             }
         }
+
     }
 
     /*动画部分*/
