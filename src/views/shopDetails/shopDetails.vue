@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div>  
+    <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
@@ -43,7 +43,7 @@
                             <li v-for="(item,index) in menuList" :key="index" class="menu_left_li"
                                 :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
                                 <span>{{item.name}}</span>
-                                <span class="category_num">1</span>
+                                <span class="category_num" v-if="categoryNum[index]>0">{{categoryNum[index]}}</span>
                             </li>
                         </ul>
                     </section>
@@ -122,8 +122,8 @@
                         <!--价格大于0添加class-->
                         <div class="cart_icon_container"
                              :class="{cart_icon_activity:totalPrice > 0,move_in_cart: addClick}">
-                                <span v-if="categoryNum" class="cart_list_length">
-                                    {{categoryNum}}
+                                <span v-if="totalNum>0" class="cart_list_length">
+                                    {{totalNum}}
                                 </span>
                             <img :src="`${baseUrl}buy1.png`" class="cart_icon"/>
                         </div>
@@ -178,23 +178,22 @@
             <mt-tab-container-item id="2">
                 <div class="rating_header" v-if="ratingScoresData">
                     <section class="rating_header_left">
-                        <p>{{ratingScoresData.rating}}</p>
-                        <p>综合评价</p>
-                        <p>高于周边商家{{(ratingScoresData.compare_rating*100).toFixed(1)}}%</p>
+                        <b>{{ratingScoresData.overall_score.toFixed(1)}}</b>
+                        <span>商家评分</span>
                     </section>
                     <section class="rating_header_right">
-                        <p>
-                            <span>服务态度</span>
-                            <span class="rating_num">{{ratingScoresData.service_score.toFixed(1)}}</span>
-                        </p>
-                        <p>
-                            <span>菜品评价</span>
-                            <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
-                        </p>
-                        <p>
-                            <span>送达时间</span>
-                            <span class="delivery_time">{{ratingScoresData.order_lead_time}}分钟</span>
-                        </p>
+                        <div>
+                            <p>服务</p>
+                            <span>{{ratingScoresData.service_score.toFixed(1)}}</span>
+                        </div>
+                        <div>
+                            <p>味道</p>
+                            <span>{{ratingScoresData.food_score.toFixed(1)}}</span>
+                        </div>
+                        <div>
+                            <p>高于周边</p>
+                            <span>{{(ratingScoresData.compare_rating*100).toFixed(1)}}%</span>
+                        </div>
                     </section>
                 </div>
             </mt-tab-container-item>
@@ -242,8 +241,9 @@
                 menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
                 shopListTop: [], //商品列表的高度集合
                 TitleDetailIndex: null, //点击展示列表头部详情
-                categoryNum: null, //商品类型右上角已加入购物车的数量
+                categoryNum: [], //商品类型右上角已加入购物车的数量
                 totalPrice: 0, //总共价格
+                totalNum: 0,    //购物车中总共商品的数量
                 cartFoodList: [], //购物车商品列表
                 showCartList: false,//显示购物车列表
                 addClick: false, //添加按钮点击
@@ -259,26 +259,45 @@
                 showSpecs: false,//控制显示食品规格
                 specsIndex: 0, //当前选中的规格索引值
                 showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
-                showMoveDot: [], //控制下落的小圆点显示隐藏
                 windowHeight: null, //屏幕的高度
                 elLeft: 0, //当前点击加按钮在网页中的绝对top值
                 elBottom: 0, //当前点击加按钮在网页中的绝对left值
                 ratingScroll: null, //评论页Scroll
             }
         },
-        watch: {},
+        watch: {
+            //购物车中总共商品的数量
+            // totalNum: function () {
+            //     for (let i = 0; i < this.categoryNum.length; i++) {
+            //         this.totalNum += this.categoryNum[i]
+            //     }
+            //     console.log(this.totalNum)
+            //     return this.totalNum
+            // }
+        },
         methods: {
+            //计算总价和选购数以及购物车中总共商品的数量
             calculation() {
                 let price = 0;
                 for (let i = 0; i < this.menuList.length; i++) {
+                    let num = 0;
                     for (let j = 0; j < this.menuList[i].foods.length; j++) {
-                        this.menuList[i].foods[j].__v = this.menuList[i].foods[j].__v || 0
-                        price += this.menuList[i].foods[j].__v * this.menuList[i].foods[j].specfoods[0].price
+                        this.menuList[i].foods[j].__v = this.menuList[i].foods[j].__v || 0;
+                        //计算总价
+                        price += this.menuList[i].foods[j].__v * this.menuList[i].foods[j].specfoods[0].price;
+                        //计算一级菜单的选购数
+                        num += this.menuList[i].foods[j].__v;
                     }
+                    this.categoryNum[i] = num;
+                    //计算购物车中总共商品的数量
+                    //this.totalNum += num;
                 }
-                this.totalPrice = price
-            },
-            focuss() {
+                this.totalPrice = price;
+                let num = 0;
+                for (let i = 0; i < this.categoryNum.length; i++) {
+                    num += this.categoryNum[i]
+                }
+                this.totalNum = num
             },
             showBox() {
                 //alert()
@@ -294,18 +313,19 @@
             },
             //增加商品,计算价格
             addShops(foods) {
-                this.categoryNum++;
+                // this.categoryNum++;
                 this.addClick = true;
                 setTimeout(() => {
                     this.addClick = false;
                 }, 500);
                 foods.__v++;
-                this.calculation();
+                //热销榜等一级菜单的选购数=二级菜单里foods.__v的和
 
+                this.calculation();
             },
             //减少商品,计算价格
             minusShops(foods) {
-                this.categoryNum--;
+                // this.categoryNum--;
                 foods.__v--;
                 this.calculation()
             }
@@ -327,8 +347,8 @@
             axios.get('https://elm.cangdu.org/shopping/restaurant/' + that.$route.params.id
             ).then(function (response) {
                 // console.log(response);
-                that.shopDetailData = response.data
-
+                that.shopDetailData = response.data;
+                document.title = that.shopDetailData.name
             });
             //评价列表
             axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings'
@@ -340,7 +360,6 @@
             //评价分数
             axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings/scores'
             ).then(function (response) {
-                // console.log('aaaa', response);
                 that.ratingScoresData = response.data
             });
         }
@@ -447,35 +466,6 @@
     .toggleItem {
         padding-bottom: 10px;
         border-bottom: 1px solid #e6e6e6;
-    }
-
-    .rating_header {
-        display: flex;
-        background-color: #fff;
-        padding: .8rem .5rem;
-        margin-bottom: 0.5rem;
-        .rating_header_left {
-
-        }
-        .rating_header_right {
-            flex: 4;
-            p {
-                font-size: .65rem;
-                line-height: 1rem;
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                span:nth-of-type(1) {
-                    color: #666;
-                    margin-right: .5rem;
-                }
-                .rating_num {
-                    width: 3rem;
-                }
-                .delivery_time {
-                }
-            }
-        }
     }
 
     .activities_container {
@@ -886,6 +876,63 @@
                             min-width: 1rem;
                             text-align: center;
                         }
+                    }
+                }
+            }
+        }
+        .shop_status_info {
+            background-color: #fff;
+            margin-bottom: .4rem;
+            padding-left: 10px;
+            header {
+                font-size: 18px;
+                font-weight: bold;
+                line-height: 38px;
+                padding: 0 .6rem;
+                border-bottom: 0.025rem solid #f1f1f1;
+            }
+            p {
+                padding: .7rem .6rem .7rem 0;
+                margin-left: .6rem;
+                border-bottom: 0.025rem solid #f5f5f5;
+            }
+            span {
+                color: #666;
+            }
+            p:nth-of-type(4), p:nth-of-type(5) {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .rating_header {
+            text-align: center;
+            padding: 20px;
+            .rating_header_left {
+                width: 40%;
+                display: inline-block;
+                b {
+                    font-size: 40px;
+                    color: #ff6000;
+                }
+                span {
+                    vertical-align: super;
+                    color: #666;
+                }
+            }
+            .rating_header_right {
+                width: 60%;
+                display: inline-block;
+                div {
+                    display: inline-block;
+                    width: 30%;
+                    font-size: 13px;
+                    p {
+                        color: #666;
+                    }
+                    span {
+                        font-size: 20px;
+                        display: inline-block;
+                        margin-top: 5px;
                     }
                 }
             }
