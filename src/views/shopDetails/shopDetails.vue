@@ -143,12 +143,12 @@
                     </section>
                 </section>
                 <transition name="toggle-cwart">
-                    <div class="fill_box">
+                    <div class="fill_box" v-if="showFoodsList" @click="showFoodsList = false">
                         <section class="cart_food_list">
                             <header>
                                 <h4>购物车</h4>
                                 <div @click="">
-                                    <img :src="`${baseUrl}buy1.png`" alt="">
+                                    <img :src="`${baseUrl}del.png`" alt="">
                                     <span class="clear_cart">清空</span>
                                 </div>
                             </header>
@@ -168,7 +168,7 @@
                                                <img :src="`${baseUrl}-.png`" alt="">
                                             </span>
                                             <span class="cart_num">{{item.num}}</span>
-                                            <img ::src="`${baseUrl}+.png`" alt="" class="cart_add">
+                                            <img :src="`${baseUrl}+.png`" alt="" class="cart_add">
                                         </section>
                                     </li>
                                 </ul>
@@ -219,7 +219,6 @@
     </div>
 </template>
 <script>
-    import $ from 'jquery'
     import Vue from 'vue'
     import {Navbar, TabItem} from 'mint-ui';
     import axios from 'axios'
@@ -238,7 +237,7 @@
                 selected: "1",
                 showInfo: false,
                 shopDetailData: null, //商铺详情
-                showActivities: false, //是否显示活动详情
+                showFoodsList: false, //是否显示订单列表
                 menuList: [], //食品分类列表
                 menuIndex: 0, //已选菜单索引值，默认为0
                 menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
@@ -305,7 +304,7 @@
             },
             toggleFoodList() {
                 if (this.totalNum > 0) {
-                    $('.fill_box').show()
+                    this.showFoodsList = !this.showFoodsList;
                 }
             },
             showBox() {
@@ -751,11 +750,11 @@
                     display: flex;
                     background-color: #3d3d3f;
                     position: absolute;
-                    padding: 14px;
+                    padding: 9px;
                     border: 0.18rem solid #444;
                     border-radius: 50%;
                     left: 15px;
-                    top: -23px;
+                    top: -12px;
                     .cart_icon {
                         width: 30px;
                         height: 30px;
@@ -820,7 +819,6 @@
             }
         }
         .fill_box {
-            display: none;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -871,9 +869,10 @@
                         }
                         .cart_list_price {
                             display: inline-block;
-                            span:nth-of-type(1) {
-
-                            }
+                            color: #f60;
+                            font-family: Helvetica Neue, Tahoma;
+                            font-weight: 700;
+                            margin-right: 20px;
                             span:nth-of-type(2) {
                                 font-weight: bold;
                             }
@@ -884,12 +883,13 @@
 
                             }
                             img {
-                                fill: #3190e8;
+                                vertical-align: sub;
                             }
                             .specs_reduce_icon {
                                 fill: #999;
                             }
                             .cart_num {
+                                padding: 5px;
                                 text-align: center;
                             }
                         }
