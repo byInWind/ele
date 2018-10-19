@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div> 
+    <div>  
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
