@@ -1,7 +1,7 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div> 
-        <header> 
+    <div>
+        <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
                 <div class="box-img">
@@ -149,7 +149,7 @@
                                 <h4>购物车</h4>
                                 <div>
                                     <img :src="`${baseUrl}del.png`" alt="">
-                                    <span class="clear_cart">清空</span>
+                                    <span class="clear_cart" @click="clearCart">清空</span>
                                 </div>
                             </header>
                             <section class="cart_food_details" id="cartFood">
@@ -165,10 +165,10 @@
                                         </div>
                                         <section class="cart_list_control">
                                             <span>
-                                               <img :src="`${baseUrl}-.png`" alt="">
+                                               <img @click.stop="minusShops2()" :src="`${baseUrl}-.png`" alt="">
                                             </span>
                                             <span class="cart_num">{{item.num}}</span>
-                                            <img :src="`${baseUrl}+.png`" alt="" class="cart_add">
+                                            <img @click.stop="addShops2()" :src="`${baseUrl}+.png`" alt="" class="cart_add">
                                         </section>
                                     </li>
                                 </ul>
@@ -265,6 +265,7 @@
                 elLeft: 0, //当前点击加按钮在网页中的绝对top值
                 elBottom: 0, //当前点击加按钮在网页中的绝对left值
                 ratingScroll: null, //评论页Scroll
+                foods: null,
             }
         },
         watch: {},
@@ -304,7 +305,20 @@
                     num += this.categoryNum[i]
                 }
                 this.totalNum = num
-                console.log(this.cartFoodList)
+            },
+            //清空购物车列表
+            clearCart() {
+                this.cartFoodList = [];
+                this.categoryNum = [];
+                this.totalPrice = 0;
+                this.totalNum = 0;
+                //1 循环设置所有值为0
+                for (let i = 0; i < this.menuList.length; i++) {
+                    for (let j = 0; j < this.menuList[i].foods.length; j++) {
+                        this.menuList[i].foods[j].__v = 0;
+                    }
+                }
+                //2 开始设置vuex？？
             },
             toggleFoodList() {
                 if (this.totalNum > 0) {
@@ -312,7 +326,6 @@
                 }
             },
             showBox() {
-                //alert()
                 this.showInfo = true
             },
             showDiscount() {
@@ -320,23 +333,30 @@
             //点击左侧食品列表标题，相应列表移动到最顶层
             chooseMenu(index) {
                 this.menuIndex = index;
-
             },
             //增加商品,计算价格
             addShops(foods) {
-                // this.categoryNum++;
                 this.addClick = true;
                 setTimeout(() => {
                     this.addClick = false;
                 }, 500);
                 foods.__v++;
                 this.calculation();
+                //保存foods,在下个函数里用
+                this.foods = foods;
             },
             //减少商品,计算价格
             minusShops(foods) {
-                // this.categoryNum--;
                 foods.__v--;
-                this.calculation()
+                this.calculation();
+                //保存foods,在下个函数里用
+                this.foods = foods;
+            },
+            addShops2() {
+                this.addShops(this.foods);
+            },
+            minusShops2() {
+                this.minusShops(this.foods);
             }
         },
         mounted: function () {
