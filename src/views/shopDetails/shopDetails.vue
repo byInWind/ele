@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div> 
+    <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
@@ -26,7 +26,7 @@
                         <span class="jian">满减</span>
                         <span class="">满10减5，满40减15，满70减25</span>
                     </div>
-                    <div class="right">17个优惠</div>
+                    <div class="right"></div>
                 </div>
             </div>
         </header>
@@ -545,37 +545,40 @@
             .menu_left {
                 text-align: center;
                 font-size: 13px;
-                .menu_left_li {
-                    padding: 16px 0;
-                    border-bottom: 0.025rem solid #ededed;
-                    box-sizing: border-box;
-                    border-left: 0.15rem solid #f8f8f8;
-                    position: relative;
-                    width: 80px;
-                    background-color: #f5f5f5;
-                    span {
+                ul {
+                    margin-bottom: 60px;
+                    .menu_left_li {
+                        padding: 16px 0;
+                        border-bottom: 0.025rem solid #ededed;
+                        box-sizing: border-box;
+                        border-left: 0.15rem solid #f8f8f8;
+                        position: relative;
+                        width: 80px;
+                        background-color: #f5f5f5;
+                        span {
+                        }
+                        .category_num {
+                            position: absolute;
+                            top: .1rem;
+                            right: .1rem;
+                            background-color: #ff461d;
+                            line-height: 15px;
+                            text-align: center;
+                            border-radius: 50%;
+                            border: 0.025rem solid #ff461d;
+                            min-width: .6rem;
+                            height: 15px;
+                            padding: 0 4px;
+                            color: white;
+                            font-size: 12px;
+                        }
                     }
-                    .category_num {
-                        position: absolute;
-                        top: .1rem;
-                        right: .1rem;
-                        background-color: #ff461d;
-                        line-height: 15px;
-                        text-align: center;
-                        border-radius: 50%;
-                        border: 0.025rem solid #ff461d;
-                        min-width: .6rem;
-                        height: 15px;
-                        padding: 0 4px;
-                        color: white;
-                        font-size: 12px;
-                    }
-                }
-                .activity_menu {
-                    border-left: 0.15rem solid #3190e8;
-                    background-color: #fff;
-                    span:nth-of-type(1) {
-                        font-weight: bold;
+                    .activity_menu {
+                        border-left: 0.15rem solid #3190e8;
+                        background-color: #fff;
+                        span:nth-of-type(1) {
+                            font-weight: bold;
+                        }
                     }
                 }
             }
@@ -931,65 +934,64 @@
                     }
                 }
             }
-            .shop_status_info {
-                background-color: #fff;
-                margin-bottom: .4rem;
-                padding-left: 10px;
-                header {
-                    font-size: 18px;
-                    font-weight: bold;
-                    line-height: 38px;
-                    padding: 0 .6rem;
-                    border-bottom: 0.025rem solid #f1f1f1;
-                }
-                p {
-                    padding: .7rem .6rem .7rem 0;
-                    margin-left: .6rem;
-                    border-bottom: 0.025rem solid #f5f5f5;
+        }
+        .shop_status_info {
+            background-color: #fff;
+            margin-bottom: .4rem;
+            padding-left: 10px;
+            header {
+                font-size: 18px;
+                font-weight: bold;
+                line-height: 38px;
+                padding: 0 .6rem;
+                border-bottom: 0.025rem solid #f1f1f1;
+            }
+            p {
+                padding: .7rem .6rem .7rem 0;
+                margin-left: .6rem;
+                border-bottom: 0.025rem solid #f5f5f5;
+            }
+            span {
+                color: #666;
+            }
+            p:nth-of-type(4), p:nth-of-type(5) {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .rating_header {
+            text-align: center;
+            padding: 20px;
+            .rating_header_left {
+                width: 40%;
+                display: inline-block;
+                b {
+                    font-size: 40px;
+                    color: #ff6000;
                 }
                 span {
+                    vertical-align: super;
                     color: #666;
                 }
-                p:nth-of-type(4), p:nth-of-type(5) {
-                    display: flex;
-                    justify-content: space-between;
-                }
             }
-            .rating_header {
-                text-align: center;
-                padding: 20px;
-                .rating_header_left {
-                    width: 40%;
+            .rating_header_right {
+                width: 60%;
+                display: inline-block;
+                div {
                     display: inline-block;
-                    b {
-                        font-size: 40px;
-                        color: #ff6000;
-                    }
-                    span {
-                        vertical-align: super;
+                    width: 30%;
+                    font-size: 13px;
+                    p {
                         color: #666;
                     }
-                }
-                .rating_header_right {
-                    width: 60%;
-                    display: inline-block;
-                    div {
+                    span {
+                        font-size: 20px;
                         display: inline-block;
-                        width: 30%;
-                        font-size: 13px;
-                        p {
-                            color: #666;
-                        }
-                        span {
-                            font-size: 20px;
-                            display: inline-block;
-                            margin-top: 5px;
-                        }
+                        margin-top: 5px;
                     }
                 }
             }
         }
-
     }
 
     /*动画部分*/
