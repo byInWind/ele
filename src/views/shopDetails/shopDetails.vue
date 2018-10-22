@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div>  
+    <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
@@ -147,7 +147,7 @@
                         <section class="cart_food_list">
                             <header>
                                 <h4>购物车</h4>
-                                <div @click="">
+                                <div>
                                     <img :src="`${baseUrl}del.png`" alt="">
                                     <span class="clear_cart">清空</span>
                                 </div>
@@ -164,7 +164,7 @@
                                             <span>{{item.price}}</span>
                                         </div>
                                         <section class="cart_list_control">
-                                            <span @click="">
+                                            <span>
                                                <img :src="`${baseUrl}-.png`" alt="">
                                             </span>
                                             <span class="cart_num">{{item.num}}</span>
@@ -272,6 +272,7 @@
             //计算总价和选购数以及购物车中总共商品的数量,把食物push到cartFoodList里
             calculation() {
                 let price = 0;
+                let arr = [];
                 for (let i = 0; i < this.menuList.length; i++) {
                     let num = 0;
                     for (let j = 0; j < this.menuList[i].foods.length; j++) {
@@ -279,9 +280,10 @@
                         let foodsnum = this.menuList[i].foods[j].__v;
                         //计算总价
                         price += foodsnum * this.menuList[i].foods[j].specfoods[0].price;
-                        //如果foodsnum>0把食物列表记录到cartFoodList里
+                        //把食物列表记录到cartFoodList里,,,如果foodsnum>0
+                        //每次点击结果都被push进去了，,,,错误
                         if (foodsnum > 0) {
-                            this.cartFoodList.push({
+                            arr.push({
                                 name: this.menuList[i].foods[j].name,
                                 price: this.menuList[i].foods[j].specfoods[0].price,
                                 num: foodsnum
@@ -292,6 +294,7 @@
                     }
                     this.categoryNum[i] = num;
                 }
+                this.cartFoodList = arr;
                 //总价
                 this.totalPrice = price;
                 //计算购物车中总共商品的数量
