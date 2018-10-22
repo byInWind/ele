@@ -1,5 +1,5 @@
 <!--suppress VueDuplicateTag -->
-<template>
+<template> 
     <div>
         <header>
             <base-back></base-back>
