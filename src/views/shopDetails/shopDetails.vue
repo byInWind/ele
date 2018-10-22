@@ -294,6 +294,7 @@
                     }
                     this.categoryNum[i] = num;
                 }
+                //购物车列表
                 this.cartFoodList = arr;
                 //总价
                 this.totalPrice = price;
