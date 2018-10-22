@@ -1,5 +1,5 @@
 <!--suppress VueDuplicateTag -->
-<template> 
+<template>
     <div>
         <header>
             <base-back></base-back>
@@ -168,7 +168,8 @@
                                                <img @click.stop="minusShops2()" :src="`${baseUrl}-.png`" alt="">
                                             </span>
                                             <span class="cart_num">{{item.num}}</span>
-                                            <img @click.stop="addShops2()" :src="`${baseUrl}+.png`" alt="" class="cart_add">
+                                            <img @click.stop="addShops2()" :src="`${baseUrl}+.png`" alt=""
+                                                 class="cart_add">
                                         </section>
                                     </li>
                                 </ul>
@@ -219,6 +220,7 @@
     </div>
 </template>
 <script>
+    import $ from 'jquery'
     import Vue from 'vue'
     import {Navbar, TabItem} from 'mint-ui';
     import axios from 'axios'
@@ -333,6 +335,14 @@
             //点击左侧食品列表标题，相应列表移动到最顶层
             chooseMenu(index) {
                 this.menuIndex = index;
+                //计算滚动的距离,前n个数的和
+                var distance = 0;
+                for (let i = 1; i < index + 1; i++) {
+                    distance += $('.menu_right>ul>li:nth-child(' + i + ')').height()
+                }
+                //$.scrollTop在浏览器console里有效，在代码里无效??
+                //$('.menu_right').scrollTop = distance
+                document.querySelector('.menu_right').scrollTop = distance
             },
             //增加商品,计算价格
             addShops(foods) {
@@ -351,6 +361,7 @@
                 this.calculation();
                 //保存foods,在下个函数里用
                 this.foods = foods;
+                this.toggleFoodList()
             },
             addShops2() {
                 this.addShops(this.foods);
