@@ -1,7 +1,7 @@
 <!--suppress VueDuplicateTag -->
 <template>
     <div> 
-        <header>
+        <header> 
             <base-back></base-back>
             <div class="shopDetailsBox">
                 <div class="box-img">
