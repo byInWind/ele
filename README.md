@@ -30,5 +30,5 @@ npm run serve
 16. 购物车:问题 1，添加商品，num全部改变，方法：不使用num，方法里传每项的值   
 全局loading 想显示隐藏loading,首先需要获取loading的状态，设置v-show,一个变量用来存储状态，单页面共享状态比较困难，所以引入vuex,(不引入自己暂时无法实现)，状态存在vuex中，取出使用时需放在vue的computed里
 17. :duration="{ enter: 5000 }进入无效？效果与-enter-active不完全相同，在是否写-enter-to里产生了差异，以实际效果为准吧  
-18. $.scrollTop在浏览器console里有效，在代码里无效??
-
+18. $.scrollTop在浏览器console里有效，在代码里无效??  
+19. vue子组件的值如何响应式影响父组件的class，通过点击
