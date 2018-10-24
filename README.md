@@ -9,9 +9,9 @@ npm install
 ```
 npm run serve
 ```
-根据https://github.com/bailicangdu/vue2-elm仿写  
+根据https://github.com/bailicangdu/vue2-elm  仿写  
 ### 截图:
-bug记录:   
+问题记录:   
 1. sass 使用中绝对路径报错（改相对路径）  
 2. 路由跳转(解决)
 3. 在vue项目中全局引入一个 .scss文件 放在app.vue里,不加scope  

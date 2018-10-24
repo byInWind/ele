@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="body" :class="{over_hide: toggle_layer == false}">
         <header>
             <div>地址</div>
-            <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
+            <router-link to="/views/search/search">
+                <input type="search" placeholder="搜索饿了么商家、商品名称"/>
+            </router-link>
         </header>
         <section>
             <mt-swipe class="swipe" :auto="0">
@@ -29,21 +31,20 @@
             </mt-swipe>
 
             <div class="recommend">-- 推荐商家 --</div>
-            <div class="item-box">
+            <div class="item-box" :class="{fix: toggle_layer == false}">
                 <ul>
-                    <li class="firstList" @click="toggleBox">{{sortnormal}}</li>
-                    <li @click="toSort(6,'销量最高')">销量最高</li>
-                    <li @click="toSort(5,'距离最近')">距离最近</li>
+                    <li class="firstList" :class="{ active: isActive!=4 }" @click="toggle_layer = false">
+                        {{sort_normal}}
+                    </li>
+                    <li @click="toSort(arr[1])">销量最高</li>
+                    <li @click="toSort(arr[4])">距离最近</li>
                     <li class="active">筛选</li>
                 </ul>
-                <section class="layer none" @click="hideenBox">
+                <section class="layer" :class="{ none: toggle_layer }" @click="toggle_layer = true">
                     <ol class="next-box">
-                        <li :class="{ listActive: isActive==4 }" @click="toSort(4,'综合排序')">综合排序</li>
-                        <li :class="{ listActive: isActive==6 }" @click="toSort(6,'销量最高')">销量最高</li>
-                        <li :class="{ listActive: isActive==2 }" @click="toSort(2,'配送最快')">配送最快</li>
-                        <li :class="{ listActive: isActive==3 }" @click="toSort(3,'评分最高')">评分最高</li>
-                        <li :class="{ listActive: isActive==5 }" @click="toSort(5,'距离最近')">距离最近</li>
-                        <li :class="{ listActive: isActive==1 }" @click="toSort(1,'起送价最低')">起送价最低</li>
+                        <li v-for="(item,index) in arr" :key="index" :class="{ listActive: isActive==item.index }"
+                            @click="toSort(item)">{{item.name}}
+                        </li>
                     </ol>
                 </section>
             </div>
@@ -58,69 +59,52 @@
     import router from '../../router'
     import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui'
-    import $ from 'jquery'
-    import BaseFooter from "../../components/BaseFooter";
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     export default {
         name: "goods-list",
-        components: {BaseFooter},
         data: function () {
             return {
-                sortnormal: '综合排序',
+                sort_normal: '综合排序',
                 restaurantsItems: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
-                // isFixed: false
                 categoryItems: [],
-                // showLoading: true,
-                isActive: 4 //筛选列表选中类型
+                isActive: '4', //筛选列表选中类型
+                toggle_layer: true,  //显示layer的变量
+                arr: [
+                    {index: 4, name: '综合排序'},
+                    {index: 6, name: '销量最高'},
+                    {index: 2, name: '配送最快'},
+                    {index: 3, name: '评分最高'},
+                    {index: 5, name: '距离最近'},
+                    {index: 1, name: '起送价最低'}
+                ],
             }
-        }, watch: {}, methods: {
-            search() {
-                router.push('/views/search/search')
-            },
+        },
+        methods: {
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
             },
-            toggleBox() {
-                if ($('.layer').css('display') == "block") {
-                    $('.item-box').removeClass('fix');
-                    $('body').css('overflow', 'auto');
-
-                } else {
-                    $('.item-box').addClass('fix');
-                    //禁止滚动
-                    $('body').css('overflow', 'hidden')
-                }
-                $('.layer').slideToggle();
-            },
-            hideenBox() {
-                $('.layer').slideUp(50)
-                $('body').css('overflow', 'auto');
-                $('.item-box').removeClass('fix');
-            },
-            toSort(num, mesg) {
-                var that = this;
+            toSort(item) {
+                let that = this;
                 axios.get('https://elm.cangdu.org/shopping/restaurants', {
                     params: {
                         latitude: 31.22967,
                         longitude: 121.4762,
-                        order_by: num
+                        order_by: item.index
                     }
                 }).then(function (response) {
                     that.restaurantsItems = response.data
 
                 });
-                this.sortnormal = mesg;
-                this.isActive = num;
-                $('.firstList').addClass('active')
-
+                this.sort_normal = item.name;
+                this.isActive = item.index
             }
         },
         mounted: function () {
-            var that = this;
+            let that = this;
             //商铺列表
             axios.get('https://elm.cangdu.org/shopping/restaurants', {
                 params: {
@@ -129,7 +113,6 @@
                 }
             }).then(function (response) {
                 that.restaurantsItems = response.data
-                // that.showLoading = false
 
             });
             //食物分类列表
@@ -139,21 +122,8 @@
                     longitude: 121.4762
                 }
             }).then(function (res) {
-                // console.log(res);
                 that.categoryItems = res.data
             });
-
-            // window.onscroll = function () {
-            //     console.log(that)
-            //     var top = document.body.scrollTop || document.documentElement.scrollTop;
-            //     if (top > 220) {
-            //         console.log(1, that.isFixed)
-            //         that.isFixed = true
-            //     } else {
-            //         that.isFixed = false
-            //         console.log(2, that.isFixed)
-            //     }
-            // }
         }
     }
 </script>
@@ -161,6 +131,15 @@
 <style lang="scss" scoped>
     /deep/ .shop-item-box {
         margin-top: -1px;
+    }
+
+    .body {
+        height: 100vh;
+        overflow: auto;
+    }
+
+    .over_hide {
+        overflow: hidden;
     }
 
     footer /deep/ ul.footer li:nth-child(1) {
@@ -262,7 +241,7 @@
             top: 138px;
             left: 0;
             background-color: rgba(0, 0, 0, 0.3);
-            height: 73vh;
+            height: 100%;
             .next-box {
                 width: 100%;
                 position: absolute;
@@ -285,7 +264,7 @@
                     content: '√';
                     position: absolute;
                     right: 33px;
-                    top: 0px;
+                    top: 0;
                     color: #3190e8;
                 }
             }
