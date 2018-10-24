@@ -9,10 +9,11 @@ import axios from 'axios'
 
 import store from './assets/vuex/store';
 
-Vue.use(MintUI)
-//封装axios      全局loading
+Vue.use(MintUI);
+//封装axios的      全局loading
 axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
+    // Do something before request is sent,
+    // 这里用store是因为不用的话在这里无法获取和改变页面值的状态
     store.commit('showLoading', true)
     return config;
 }, function (error) {
@@ -31,7 +32,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-//全局注册组件开始
+//全局注册组件(不用import导入就能直接用)-------开始
 const requireComponent = require.context(
     // 其组件目录的相对路径
     './components',
@@ -39,7 +40,7 @@ const requireComponent = require.context(
     false,
     // 匹配基础组件文件名的正则表达式
     /Base[A-Z]\w+\.(vue|js)$/
-)
+);
 
 requireComponent.keys().forEach(fileName => {
     // 获取组件配置
@@ -61,10 +62,10 @@ requireComponent.keys().forEach(fileName => {
         // 否则回退到使用模块的根。
         componentConfig.default || componentConfig
     )
-})
+});
 //全局注册组件结束
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
     components: {App},

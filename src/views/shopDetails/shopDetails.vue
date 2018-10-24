@@ -1,6 +1,6 @@
 <!--suppress VueDuplicateTag -->
 <template>
-    <div> 
+    <div>
         <header>
             <base-back></base-back>
             <div class="shopDetailsBox">
@@ -242,7 +242,6 @@
                 showFoodsList: false, //是否显示订单列表
                 menuList: [], //食品分类列表
                 menuIndex: 0, //已选菜单索引值，默认为0
-                menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
                 shopListTop: [], //商品列表的高度集合
                 TitleDetailIndex: null, //点击展示列表头部详情
                 categoryNum: [], //商品类型右上角已加入购物车的数量
@@ -251,22 +250,6 @@
                 cartFoodList: [], //购物车商品列表
                 showCartList: false,//显示购物车列表
                 addClick: false, //添加按钮点击
-                ratingList: null, //评价列表
-                ratingOffset: 0, //评价获取数据offset值
-                ratingScoresData: null, //评价总体分数
-                ratingTagsList: null, //评价分类列表
-                ratingTageIndex: 0, //评价分类索引
-                preventRepeatRequest: false,// 防止多次触发数据请求
-                ratingTagName: '',//评论的类型
-                loadRatings: false, //加载更多评论是显示加载组件
-                foodScroll: null,  //食品列表scroll
-                showSpecs: false,//控制显示食品规格
-                specsIndex: 0, //当前选中的规格索引值
-                showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
-                windowHeight: null, //屏幕的高度
-                elLeft: 0, //当前点击加按钮在网页中的绝对top值
-                elBottom: 0, //当前点击加按钮在网页中的绝对left值
-                ratingScroll: null, //评论页Scroll
                 foods: null,
             }
         },

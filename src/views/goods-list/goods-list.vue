@@ -1,5 +1,5 @@
 <template>
-    <div> 
+    <div>
         <header>
             <div>地址</div>
             <input @click="search" type="search" placeholder="搜索饿了么商家、商品名称"/>
@@ -8,7 +8,7 @@
             <mt-swipe class="swipe" :auto="0">
                 <mt-swipe-item>
                     <ul>
-                        <li v-for="(item,index) in categoryItems" :key="index">
+                        <li v-if="index<10" v-for="(item,index) in categoryItems" :key="index">
                             <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
                                 <img :src="imgBaseUrl + item.image_url">
                                 <p>{{item.title}}</p>
@@ -18,7 +18,7 @@
                 </mt-swipe-item>
                 <mt-swipe-item>
                     <ul>
-                        <li v-if="index>10" v-for="(item,index) in categoryItems" :key="index">
+                        <li v-if="index>=10" v-for="(item,index) in categoryItems" :key="index">
                             <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
                                 <img :src="imgBaseUrl + item.image_url">
                                 <p>{{item.title}}</p>
@@ -50,7 +50,6 @@
             <BaseGoodslist :restaurantsItems='restaurantsItems'></BaseGoodslist>
         </section>
         <BaseFooter></BaseFooter>
-        <!--<BaseLoading></BaseLoading>-->
     </div>
 </template>
 
@@ -199,13 +198,14 @@
     .swipe {
         margin-top: 97px;
         height: 177px;
-        /*background-color: #7457ff;*/
         ul {
             font-size: 0;
+            text-align: left;
             li {
                 display: inline-block;
                 width: 20%;
                 padding: 10px 0;
+                text-align: center;
                 img {
                     width: 45px;
                     height: 45px;

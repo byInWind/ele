@@ -1,5 +1,5 @@
 <template>
-    <div>payment</div>
+    <div>这是订单页</div>
 </template>
 
 <script>
@@ -8,6 +8,6 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
