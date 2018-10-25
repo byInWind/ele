@@ -6,19 +6,18 @@
                     <section v-show="index!=num2" @click="jump(item.id)">
                         <!--<router-link :to='"/views/shopDetails/shopDetails/"+item.id'>-->
                         <img :src="imgBaseUrl2 +item.image_path" alt="xxxx">
-                        <!--<img src="" alt="xxxx">-->
                         <div class="center">
                             <h4 class="title"><span class="brand">品牌</span>{{item.name}}</h4>
                             <p class="info">评分：{{item.rating}} 月售{{item.recent_order_num}}单</p>
                             <p class="tips">¥20起送 {{item.piecewise_agent_fee.tips}}</p>
                         </div>
                         <div class="center-right">
-                            <p @click.stop="toast(index)">...</p>
+                            <p @click.stop="num = index">...</p>
                             <p class="info" v-if="item.delivery_mode"><span>{{item.delivery_mode.text}}</span></p>
                             <p>{{item.distance}} | {{item.order_lead_time}}</p>
                         </div>
                         <!--</router-link>-->
-                        <div v-show="index==num" @click.stop="hide()" class="toast">
+                        <div v-show="index==num" @click.stop="num = -1" class="toast">
                             <div @click.stop="hidebox(index)">不喜欢</div>
                         </div>
                     </section>
@@ -30,35 +29,21 @@
 
 <script>
     import router from '../router'
-    import axios from 'axios'
     import {Toast} from 'mint-ui';
 
     export default {
         name: "BaseGoodslist",
         data: function () {
             return {
-                sortnormal: '综合排序',
-                imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
-                // isFixed: false
-                categoryItems: [],
-                loading: false,
-                isActive: 4, //筛选列表选中类型,
-                title: '',  //标题
                 num: -1,
                 num2: -1
             }
         },
         props: ['restaurantsItems'],
         methods: {
-            toast(index) {
-                this.num = index
-            },
-            hide() {
-                this.num = -1
-            },
             hidebox(index) {
-                this.num2 = index
+                this.num2 = index;
                 Toast({
                     message: '已将此商家置于底部',
                     position: 'bottom',
@@ -68,44 +53,6 @@
             jump: function (id) {
                 router.push({path: '/views/shopDetails/shopDetails/' + id})
             }
-        },
-        mounted: function () {
-            this.title = this.$route.params.title || '美食外卖';
-            var that = this;
-            // console.log(that.$route.params.id, this.$route.params)
-            // //商铺列表
-            // axios.get('https://elm.cangdu.org/shopping/restaurants', {
-            //     params: {
-            //         latitude: 31.22967,
-            //         longitude: 121.4762,
-            //         restaurant_category_id: that.$route.params.id  //餐馆分类id
-            //     }
-            // }).then(function (response) {
-            //     console.log(response);
-            //     that.restaurantsItems = response.data
-            // });
-            //食物分类列表
-            axios.get('https://elm.cangdu.org/v2/index_entry', {
-                params: {
-                    latitude: 31.22967,
-                    longitude: 121.4762
-                }
-            }).then(function (res) {
-                // console.log(res);
-                that.categoryItems = res.data
-            });
-
-            // window.onscroll = function () {
-            //     console.log(that)
-            //     var top = document.body.scrollTop || document.documentElement.scrollTop;
-            //     if (top > 220) {
-            //         console.log(1, that.isFixed)
-            //         that.isFixed = true
-            //     } else {
-            //         that.isFixed = false
-            //         console.log(2, that.isFixed)
-            //     }
-            // }
         }
     }
 </script>
@@ -135,7 +82,6 @@
                     height: 50px;
                     border-radius: 100%;
                     text-align: center;
-                    height: 50px;
                     color: #333;
                     padding-top: 15px;
                     background-color: white;
