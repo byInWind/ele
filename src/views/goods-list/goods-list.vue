@@ -32,21 +32,7 @@
 
             <div class="recommend">-- 推荐商家 --</div>
             <div class="item-box" :class="{fix: toggle_layer == false}">
-                <ul>
-                    <li class="firstList" :class="{ active: isActive!=4 }" @click="toggle_layer = false">
-                        {{sort_normal}}
-                    </li>
-                    <li @click="toSort(arr[1])">销量最高</li>
-                    <li @click="toSort(arr[4])">距离最近</li>
-                    <li class="active">筛选</li>
-                </ul>
-                <section class="layer" :class="{ none: toggle_layer }" @click="toggle_layer = true">
-                    <ol class="next-box">
-                        <li v-for="(item,index) in arr" :key="index" :class="{ listActive: isActive==item.index }"
-                            @click="toSort(item)">{{item.name}}
-                        </li>
-                    </ol>
-                </section>
+                <BaseFilterList ref="xxxx"></BaseFilterList>
             </div>
             <BaseGoodslist :restaurantsItems='restaurantsItems'></BaseGoodslist>
         </section>
@@ -56,7 +42,6 @@
 
 <script>
     import Vue from 'vue'
-    import router from '../../router'
     import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui'
 
@@ -66,41 +51,10 @@
         name: "goods-list",
         data: function () {
             return {
-                sort_normal: '综合排序',
                 restaurantsItems: [],
                 imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
                 imgBaseUrl2: '//elm.cangdu.org/img/', //生产环境图片域名地址
                 categoryItems: [],
-                isActive: '4', //筛选列表选中类型
-                toggle_layer: true,  //显示layer的变量
-                arr: [
-                    {index: 4, name: '综合排序'},
-                    {index: 6, name: '销量最高'},
-                    {index: 2, name: '配送最快'},
-                    {index: 3, name: '评分最高'},
-                    {index: 5, name: '距离最近'},
-                    {index: 1, name: '起送价最低'}
-                ],
-            }
-        },
-        methods: {
-            jump: function (id) {
-                router.push({path: '/views/shopDetails/shopDetails/' + id})
-            },
-            toSort(item) {
-                let that = this;
-                axios.get('https://elm.cangdu.org/shopping/restaurants', {
-                    params: {
-                        latitude: 31.22967,
-                        longitude: 121.4762,
-                        order_by: item.index
-                    }
-                }).then(function (response) {
-                    that.restaurantsItems = response.data
-
-                });
-                this.sort_normal = item.name;
-                this.isActive = item.index
             }
         },
         mounted: function () {
@@ -124,6 +78,7 @@
             }).then(function (res) {
                 that.categoryItems = res.data
             });
+            console.log(this.$refs.xxxx.toggle_layer)
         }
     }
 </script>
