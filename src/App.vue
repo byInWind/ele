@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <base-loading v-show="fetchLoading"></base-loading>
-        <router-view></router-view>
+        <router-view></router-view> 
     </div>
 </template>
 <script>
