@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div></div>
-                <div @click="showDiscount" class="discount">
+                <div class="discount">
                     <div class="left">
                         <span class="jian">满减</span>
                         <span class="">满10减5，满40减15，满70减25</span>
@@ -247,7 +247,6 @@
                         //计算总价
                         price += foodsnum * this.menuList[i].foods[j].specfoods[0].price;
                         //把食物列表记录到cartFoodList里,,,如果foodsnum>0
-                        //计算购物车中总共商品的数量,在这的话每次点击结果都被push进去了，,,,错误,
                         if (foodsnum > 0) {
                             arr.push({
                                 name: this.menuList[i].foods[j].name,
@@ -289,8 +288,6 @@
                 if (this.totalNum > 0) {
                     this.showFoodsList = !this.showFoodsList;
                 }
-            },
-            showDiscount() {
             },
             //点击左侧食品列表标题，相应列表移动到最顶层
             chooseMenu(index) {
