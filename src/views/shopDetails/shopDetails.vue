@@ -143,9 +143,9 @@
                         <section class="cart_food_list">
                             <header>
                                 <h4>购物车</h4>
-                                <div>
+                                <div @click="clearCart">
                                     <img src="../../assets/img/del.png" alt="">
-                                    <span class="clear_cart" @click="clearCart">清空</span>
+                                    <span class="clear_cart">清空</span>
                                 </div>
                             </header>
                             <section class="cart_food_details" id="cartFood">
@@ -160,9 +160,7 @@
                                             <span>{{item.price}}</span>
                                         </div>
                                         <section class="cart_list_control">
-                                            <span>
-                                               <img @click.stop="minusShops2()" src="../../assets/img/-.png" alt="">
-                                            </span>
+                                            <img @click.stop="minusShops2()" src="../../assets/img/-.png" alt="">
                                             <span class="cart_num">{{item.num}}</span>
                                             <img @click.stop="addShops2()" src="../../assets/img/+.png" alt=""
                                                  class="cart_add">
@@ -850,7 +848,8 @@
                         .cart_list_control {
                             display: inline-block;
                             img {
-                                vertical-align: sub;
+                                vertical-align: text-bottom;
+                                width: 25px;
                             }
                             .specs_reduce_icon {
                                 fill: #999;

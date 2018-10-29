@@ -5,7 +5,8 @@
     </div>
 </template>
 <script>
-    import store from './assets/vuex/store';
+    import store from './assets/vuex/store'
+    import ss from 'amfe-flexible'
 
     export default {
         data: function () {
@@ -13,7 +14,7 @@
         },
         computed: {
             fetchLoading() {
-               return store.state.fetchLoading
+                return store.state.fetchLoading
             }
         }
     }
