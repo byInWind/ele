@@ -1,5 +1,5 @@
 // vue.config.js
 module.exports = {
-    // 选项...
+    // 选项... 
     assetsDir: 'assets'
 }
