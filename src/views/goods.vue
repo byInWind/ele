@@ -2,7 +2,7 @@
     <div>
         <header>
             <div>
-                <BaseBack></BaseBack>
+                <base-back></base-back>
                 {{title}}
             </div>
         </header>
@@ -24,7 +24,6 @@
                     </ol>
                 </section>
             </div>
-            <BaseGoodslist></BaseGoodslist>
         </section>
         <BaseGoodslist :restaurantsItems='restaurantsItems'></BaseGoodslist>
     </div>
@@ -32,17 +31,13 @@
 
 <script>
     import Vue from 'vue'
-    import router from '../router'
     import axios from 'axios'
     import {Swipe, SwipeItem} from 'mint-ui'
-    import $ from 'jquery'
-    import BaseFooter from "../components/BaseFooter";
 
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     export default {
         name: "goods",
-        components: {BaseFooter},
         data: function () {
             return {
                 sort_normal: '综合排序',
@@ -64,7 +59,7 @@
             }
         },
         methods: {
-            toSort(num, mesg) {
+            toSort(item) {
                 let that = this;
                 axios.get('https://elm.cangdu.org/shopping/restaurants', {
                     params: {
@@ -82,7 +77,7 @@
         },
         mounted: function () {
             this.title = this.$route.params.title || '美食外卖';
-            var that = this;
+            let that = this;
             // console.log(that.$route.params.id, this.$route.params)
             //商铺列表
             axios.get('https://elm.cangdu.org/shopping/restaurants', {
@@ -180,7 +175,7 @@
         .layer {
             position: fixed;
             width: 100%;
-            top: 138px;
+            top: 84px;
             left: 0;
             background-color: rgba(0, 0, 0, 0.3);
             height: 73vh;
@@ -206,12 +201,11 @@
                     content: '√';
                     position: absolute;
                     right: 33px;
-                    top: 0px;
+                    top: 0;
                     color: #3190e8;
                 }
             }
         }
-
     }
 
 </style>

@@ -1,8 +1,6 @@
 <template>
     <div>
-        <BaseInput ref="xx"></BaseInput>
         <router-link to="/views/goods-list/goods-list">点击进入</router-link>
-        <h2>{{$refs.xx}}</h2>
     </div>
 </template>
 
@@ -13,9 +11,6 @@
             return {
 
             }
-        },
-        created:function () {
-            console.log(this.$refs.xx)
         }
     }
 </script>

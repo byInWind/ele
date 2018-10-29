@@ -6,21 +6,18 @@
             <div class="shopDetailsBox">
                 <div class="box-img">
                     <img v-if="shopDetailData" :src="imgBaseUrl+shopDetailData.image_path">
-
                 </div>
                 <div class="img">
                     <span class="mini-tag">品牌</span>
-                    <img class="index-3eDRn"
-                         v-if="shopDetailData" :src="imgBaseUrl+shopDetailData.image_path">
-                </div><!---->
+                    <img v-if="shopDetailData" :src="imgBaseUrl+shopDetailData.image_path">
+                </div>
                 <div class="title-box" v-if="shopDetailData">
-                    <h2 class="top"><span>{{shopDetailData.name}}</span><i @click="showBox"
-                                                                           class="">⬇</i></h2>
+                    <h2 class="top"><span>{{shopDetailData.name}}</span></h2>
                     <div class="bottom">
                         <span>评价{{shopDetailData.rating}}</span><span>月售{{shopDetailData.recent_order_num}}单</span><span>蜂鸟快送<span>约20分钟</span></span>
                     </div>
                 </div>
-                <div class="index-3Zu2B"></div>
+                <div></div>
                 <div @click="showDiscount" class="discount">
                     <div class="left">
                         <span class="jian">满减</span>
@@ -63,23 +60,22 @@
                                 </header>
                                 <section v-for="(foods,foodindex) in item.foods" :key="foodindex"
                                          class="menu_detail_list">
-                                    <router-link to=""
-                                                 tag="div" class="menu_detail_link">
+                                    <router-link to="" tag="div" class="menu_detail_link">
                                         <section class="menu_food_img">
                                             <img :src="imgBaseUrl + foods.image_path">
                                         </section>
                                         <section class="menu_food_description">
                                             <h4 class="food_description_head">
                                                 <strong class="description_foodname">{{foods.name}}</strong>
-                                                <ul v-if="foods.attributes.length" class="attributes_ul">
-                                                    <li v-for="(attribute, foodindex) in foods.attributes"
-                                                        :key="foodindex"
-                                                        :style="{color: '#' + attribute.icon_color,borderColor:'#' +attribute.icon_color}"
-                                                        :class="{attribute_new: attribute.icon_name == '新'}">
-                                                        <p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">
-                                                            {{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>
-                                                    </li>
-                                                </ul>
+                                                <!--<ul v-if="foods.attributes.length" class="attributes_ul">-->
+                                                <!--<li v-for="(attribute, foodindex) in foods.attributes"-->
+                                                <!--:key="foodindex"-->
+                                                <!--:style="{color: '#' + attribute.icon_color,borderColor:'#' +attribute.icon_color}"-->
+                                                <!--:class="{attribute_new: attribute.icon_name == '新'}">-->
+                                                <!--<p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">-->
+                                                <!--{{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>-->
+                                                <!--</li>-->
+                                                <!--</ul>-->
 
                                             </h4>
                                             <p class="food_description_content">{{foods.description}}</p>
@@ -103,11 +99,11 @@
                                                 <transition name="animate1">
                                                     <section v-if="foods.__v>0">
                                                         <img @click="minusShops(foods)" class="minus"
-                                                             :src="`${baseUrl}-.png`" alt="">
+                                                             src="../../assets/img/-.png" alt="">
                                                         <i>{{foods.__v}}</i>
                                                     </section>
                                                 </transition>
-                                                <img @click="addShops(foods)" class="add" :src="`${baseUrl}+.png`"
+                                                <img @click="addShops(foods)" class="add" src="../../assets/img/+.png"
                                                      alt="">
                                             </div>
                                         </section>
@@ -125,7 +121,7 @@
                                 <span v-if="totalNum>0" class="cart_list_length">
                                     {{totalNum}}
                                 </span>
-                            <img :src="`${baseUrl}buy1.png`" class="cart_icon"/>
+                            <img src="../../assets/img/buy1.png" class="cart_icon"/>
                         </div>
                         <div class="cart_num">
                             <div>¥ {{totalPrice}}</div>
@@ -148,7 +144,7 @@
                             <header>
                                 <h4>购物车</h4>
                                 <div>
-                                    <img :src="`${baseUrl}del.png`" alt="">
+                                    <img src="../../assets/img/del.png" alt="">
                                     <span class="clear_cart" @click="clearCart">清空</span>
                                 </div>
                             </header>
@@ -165,10 +161,10 @@
                                         </div>
                                         <section class="cart_list_control">
                                             <span>
-                                               <img @click.stop="minusShops2()" :src="`${baseUrl}-.png`" alt="">
+                                               <img @click.stop="minusShops2()" src="../../assets/img/-.png" alt="">
                                             </span>
                                             <span class="cart_num">{{item.num}}</span>
-                                            <img @click.stop="addShops2()" :src="`${baseUrl}+.png`" alt=""
+                                            <img @click.stop="addShops2()" src="../../assets/img/+.png" alt=""
                                                  class="cart_add">
                                         </section>
                                     </li>
@@ -220,24 +216,20 @@
     </div>
 </template>
 <script>
-    import $ from 'jquery'
     import Vue from 'vue'
     import {Navbar, TabItem} from 'mint-ui';
     import axios from 'axios'
-    import BaseBack from "../../components/BaseBack";
 
     Vue.component(Navbar.name, Navbar);
     Vue.component(TabItem.name, TabItem);
     export default {
         name: "shopDetails",
-        components: {BaseBack},
         data: function () {
             return {
                 baseUrl: process.env.BASE_URL,
                 imgBaseUrl: '//elm.cangdu.org/img/',
                 //需要是字符串类型，num类型无效
                 selected: "1",
-                showInfo: false,
                 shopDetailData: null, //商铺详情
                 showFoodsList: false, //是否显示订单列表
                 menuList: [], //食品分类列表
@@ -251,9 +243,9 @@
                 showCartList: false,//显示购物车列表
                 addClick: false, //添加按钮点击
                 foods: null,
+                ratingScoresData: '', //评价分数数据
             }
         },
-        watch: {},
         methods: {
             //计算总价和选购数以及购物车中总共商品的数量,把食物push到cartFoodList里
             calculation() {
@@ -267,7 +259,7 @@
                         //计算总价
                         price += foodsnum * this.menuList[i].foods[j].specfoods[0].price;
                         //把食物列表记录到cartFoodList里,,,如果foodsnum>0
-                        //每次点击结果都被push进去了，,,,错误
+                        //计算购物车中总共商品的数量,在这的话每次点击结果都被push进去了，,,,错误,
                         if (foodsnum > 0) {
                             arr.push({
                                 name: this.menuList[i].foods[j].name,
@@ -310,9 +302,6 @@
                     this.showFoodsList = !this.showFoodsList;
                 }
             },
-            showBox() {
-                this.showInfo = true
-            },
             showDiscount() {
             },
             //点击左侧食品列表标题，相应列表移动到最顶层
@@ -321,7 +310,7 @@
                 //计算滚动的距离,前n个数的和
                 var distance = 0;
                 for (let i = 1; i < index + 1; i++) {
-                    distance += $('.menu_right>ul>li:nth-child(' + i + ')').height()
+                    distance += document.querySelector('.menu_right>ul>li:nth-child(' + i + ')').height()
                 }
                 //$.scrollTop在浏览器console里有效，在代码里无效??
                 //$('.menu_right').scrollTop = distance
@@ -354,7 +343,7 @@
             }
         },
         mounted: function () {
-            var that = this;
+            let that = this;
             //食品列表
             axios.get('https://elm.cangdu.org/shopping/v2/menu', {
                 params: {
@@ -378,12 +367,11 @@
             ).then(function (response) {
                 // console.log(response);
                 that.ratingList = response.data
-
             });
             //评价分数
             axios.get('https://elm.cangdu.org/ugc/v2/restaurants/' + that.$route.params.id + '/ratings/scores'
             ).then(function (response) {
-                that.ratingScoresData = response.data
+                that.ratingScoresData = response.data;
             });
         }
     }
@@ -501,20 +489,6 @@
             border-bottom: 1px solid #f1f1f1;
             margin-bottom: .3rem;
         }
-        .actibities_ul {
-            padding: 0 .6rem;
-            li {
-                margin-bottom: .2rem;
-                span:nth-of-type(1) {
-                    padding: .1rem;
-                    border: 1px;
-                    border-radius: 0.1rem;
-                    margin-right: .2rem;
-                }
-                span:nth-of-type(2) {
-                }
-            }
-        }
     }
 
     .itemBox {
@@ -538,8 +512,6 @@
                         position: relative;
                         width: 80px;
                         background-color: #f5f5f5;
-                        span {
-                        }
                         .category_num {
                             position: absolute;
                             top: .1rem;
@@ -646,8 +618,6 @@
                                 -ms-flex-pack: justify;
                                 justify-content: space-between;
                                 margin-bottom: .2rem;
-                                .description_foodname {
-                                }
                                 .attributes_ul {
                                     display: flex;
                                     li {
@@ -688,8 +658,6 @@
                             .food_description_sale_rating {
                                 line-height: 22px;
                                 font-size: 13px;
-                                span {
-                                }
                             }
                             .food_activity {
                                 line-height: 13px;
@@ -701,7 +669,6 @@
                                     display: inline-block;
                                     transform: scale(.8);
                                     margin-left: -0.35rem;
-
                                 }
                             }
                         }
@@ -711,9 +678,6 @@
                         font-size: 10px;
                         margin-top: .3rem;
                         .food_price {
-                            span {
-
-                            }
                             span:nth-of-type(1) {
                                 margin-right: .05rem;
                                 font-size: 14px;
@@ -725,8 +689,6 @@
                                 font-weight: 700;
                                 margin-right: .3rem;
                             }
-                            span:nth-of-type(3) {
-                            }
                             .food_price-div {
                                 float: right;
                                 margin-right: 20px;
@@ -736,15 +698,11 @@
                                 }
                                 img {
                                     width: 25px;
-                                    /*height: 10px;*/
                                 }
                                 i {
                                     font-size: 18px;
                                     padding: 0 8px;
                                     vertical-align: super;
-                                }
-                                .add {
-
                                 }
                             }
                         }
@@ -795,8 +753,6 @@
                         color: white;
                     }
                 }
-                .move_in_cart {
-                }
                 .cart_icon_activity {
                     background-color: #3190e8;
                 }
@@ -805,7 +761,6 @@
                     top: 50%;
                     transform: translateY(-50%);
                     left: 90px;
-
                     div {
                         color: #fff;
                     }
@@ -867,10 +822,6 @@
                         img {
                             vertical-align: middle;
                         }
-                        h4 {
-                        }
-                        .clear_cart {
-                        }
                     }
                 }
                 .cart_food_details {
@@ -885,8 +836,6 @@
                             p:nth-of-type(1) {
                                 font-weight: bold;
                             }
-                            p:nth-of-type(2) {
-                            }
                         }
                         .cart_list_price {
                             display: inline-block;
@@ -900,9 +849,6 @@
                         }
                         .cart_list_control {
                             display: inline-block;
-                            span {
-
-                            }
                             img {
                                 vertical-align: sub;
                             }

@@ -2,7 +2,7 @@
     <div class="loading_container">
         <div class="load_img" :style="{backgroundPositionY: -(positionY%7)*75 + 'px'}">
         </div>
-        <img class="load_ellipse" src="../../public/a.png" alt="">
+        <img class="load_ellipse" src="../assets/img/a.png" alt="">
     </div>
 </template>
 
@@ -62,7 +62,7 @@
     }
 
     .load_img {
-        background: url("../../public/icon_loading.png") no-repeat 0 0;
+        background: url("../assets/img/icon_loading.png") no-repeat 0 0;
         background-size: 75px auto;
         transform: translateY(0px);
         animation: load .6s infinite ease-in-out;
