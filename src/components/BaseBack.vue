@@ -22,6 +22,7 @@
         top: 0;
         padding-top: 10px;
         left: 0;
+        z-index: 999;
         width: 43px;
         text-align: center;
         height: 43px;

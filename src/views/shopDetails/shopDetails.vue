@@ -67,16 +67,6 @@
                                         <section class="menu_food_description">
                                             <h4 class="food_description_head">
                                                 <strong class="description_foodname">{{foods.name}}</strong>
-                                                <!--<ul v-if="foods.attributes.length" class="attributes_ul">-->
-                                                <!--<li v-for="(attribute, foodindex) in foods.attributes"-->
-                                                <!--:key="foodindex"-->
-                                                <!--:style="{color: '#' + attribute.icon_color,borderColor:'#' +attribute.icon_color}"-->
-                                                <!--:class="{attribute_new: attribute.icon_name == '新'}">-->
-                                                <!--<p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">-->
-                                                <!--{{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>-->
-                                                <!--</li>-->
-                                                <!--</ul>-->
-
                                             </h4>
                                             <p class="food_description_content">{{foods.description}}</p>
                                             <p class="food_description_sale_rating">
@@ -306,9 +296,10 @@
             chooseMenu(index) {
                 this.menuIndex = index;
                 //计算滚动的距离,前n个数的和
-                var distance = 0;
+                let distance = 0;
+
                 for (let i = 1; i < index + 1; i++) {
-                    distance += document.querySelector('.menu_right>ul>li:nth-child(' + i + ')').height()
+                    distance += document.querySelector('.menu_right>ul>li:nth-child(' + i + ')').offsetHeight
                 }
                 //$.scrollTop在浏览器console里有效，在代码里无效??
                 //$('.menu_right').scrollTop = distance
@@ -377,41 +368,41 @@
 
 <style scoped lang="scss">
     header {
-        font-size: 14px;
+        font-size: (14rem/36);
         .shopDetailsBox {
             position: relative;
             .box-img {
                 position: relative;
                 overflow: hidden;
-                height: 97px;
+                height: (97rem/36);
                 img {
                     width: 100%;
                     position: absolute;
                     top: 0;
                     left: 0;
                     z-index: 9;
-                    filter: blur(10px);
+                    filter: blur((10rem/36));
                 }
             }
             .img {
                 width: 20vw;
                 height: 20vw;
                 position: absolute;
-                top: 97px;
+                top: (97rem/36);
                 z-index: 9999;
                 left: 50%;
                 margin-left: -10vw;
                 margin-top: -16vw;
                 .mini-tag {
                     position: absolute !important;
-                    top: -2px;
-                    left: -3px;
+                    top: (-2rem/36);
+                    left: (-3rem/36);
                     border-top-left-radius: .8vw;
                     border-bottom-right-radius: .8vw;
                     background-image: linear-gradient(90deg, #fff100, #ffe339);
                     width: 7.866667vw;
                     height: 4.2vw;
-                    font-size: 12px;
+                    font-size: (12rem/36);
                     transform: scale(0.8);
                     color: #6f3f15;
                     font-weight: 700;
@@ -424,9 +415,9 @@
                 }
             }
             .title-box {
-                margin-top: 28px;
+                margin-top: (28rem/36);
                 h2 {
-                    line-height: 18px;
+                    line-height: (18rem/36);
                     span {
                         display: inline-block;
                         margin: 0 auto;
@@ -434,7 +425,7 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        font-size: 18px;
+                        font-size: (18rem/36);
                     }
                 }
                 .bottom {
@@ -442,7 +433,7 @@
                     font-size: .293333rem;
                     color: #666;
                     span + span {
-                        margin-left: 7px;
+                        margin-left: (7rem/36);
                     }
                 }
             }
@@ -451,15 +442,15 @@
                 justify-content: space-between;
                 margin-top: .5rem;
                 padding-right: 1rem;
-                font-size: 13px;
+                font-size: (13rem/36);
                 .left {
                     width: 84%;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     .jian {
-                        padding: 0 3px;
-                        margin-right: 3px;
+                        padding: 0 (3rem/36);
+                        margin-right: (3rem/36);
                         border-radius: .1rem;
                         font-size: .4rem;
                         display: inline-block;
@@ -473,7 +464,7 @@
     }
 
     .toggleItem {
-        padding-bottom: 10px;
+        padding-bottom: (10rem/36);
         border-bottom: 1px solid #e6e6e6;
     }
 
@@ -491,216 +482,221 @@
 
     .itemBox {
         text-align: left;
-        .menu_container {
-            display: flex;
-            flex: 1;
-            height: 61.4vh;
-            overflow-y: scroll;
-            position: relative;
-            .menu_left {
-                text-align: center;
-                font-size: 13px;
-                ul {
-                    margin-bottom: 60px;
-                    .menu_left_li {
-                        padding: 16px 0;
-                        border-bottom: 0.025rem solid #ededed;
-                        box-sizing: border-box;
-                        border-left: 0.15rem solid #f8f8f8;
-                        position: relative;
-                        width: 80px;
-                        background-color: #f5f5f5;
-                        .category_num {
-                            position: absolute;
-                            top: .1rem;
-                            right: .1rem;
-                            background-color: #ff461d;
-                            line-height: 15px;
-                            text-align: center;
-                            border-radius: 50%;
-                            border: 0.025rem solid #ff461d;
-                            min-width: .6rem;
-                            height: 15px;
-                            padding: 0 4px;
-                            color: white;
-                            font-size: 12px;
-                        }
-                    }
-                    .activity_menu {
-                        border-left: 0.15rem solid #3190e8;
-                        background-color: #fff;
-                        span:nth-of-type(1) {
-                            font-weight: bold;
-                        }
-                    }
-                }
-            }
-            .menu_right {
-                position: absolute;
-                top: 0;
-                height: 63.5vh;
-                margin-left: 80px;
-                overflow: scroll;
-                padding-bottom: 7px;
-                .menu_detail_header {
-                    width: 100%;
-                    padding: .4rem;
-                    position: relative;
-                    align-items: center;
-                    background-color: #f5f5f5;
-                    .menu_detail_header_left {
-                        background-color: #f5f5f5;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        .menu_item_title {
-                            font-weight: bold;
-                            font-size: 16px;
-                        }
-                        .menu_item_description {
-                            width: 30%;
-                            margin-left: 8px;
-                            overflow: hidden;
-                        }
-                    }
-                    .menu_detail_header_right {
-                        display: block;
-                        background-size: 100% .4rem;
-                        background-position: left center;
-                    }
-                    .description_tip {
-                        background-color: #39373a;
-                        opacity: 0.95;
-                        position: absolute;
-                        top: 1.5rem;
-                        z-index: 14;
-                        width: 8rem;
-                        right: .2rem;
-                        padding: .5rem .4rem;
-                        border: 1px;
-                        border-radius: .2rem;
-                        span {
-                            color: #fff;
-                            line-height: .6rem;
-                            font-size: .55rem;
-                        }
-                    }
-                    .description_tip::after {
-                        content: '';
-                        position: absolute;
-                        background-color: #39373a;
-                        top: -.5rem;
-                        right: .7rem;
-                        transform: rotate(-45deg) translateY(.41rem);
-                    }
-                }
-                .menu_detail_list {
-                    background-color: #fff;
-                    padding: .6rem .4rem;
-                    border-bottom: 1px solid #f8f8f8;
-                    position: relative;
-                    overflow: hidden;
-                    .menu_detail_link {
-                        display: flex;
-                        .menu_food_img {
-                            margin: 0 10px;
-                            img {
-                                width: 90px;
-                                height: 90px;
-                                display: block;
+        .spcItemBox {
+            position: fixed;
+            bottom: 0;
+            .menu_container {
+                display: flex;
+                flex: 1;
+                height: 10.5rem;
+                overflow-y: scroll;
+                position: relative;
+                .menu_left {
+                    text-align: center;
+                    font-size: (13rem/36);
+                    ul {
+                        margin-bottom: (60rem/36);
+                        .menu_left_li {
+                            padding: (16rem/36) 0;
+                            border-bottom: 0.025rem solid #ededed;
+                            box-sizing: border-box;
+                            border-left: 0.15rem solid #f8f8f8;
+                            position: relative;
+                            width: (80rem/36);
+                            background-color: #f5f5f5;
+                            .category_num {
+                                position: absolute;
+                                top: 2px;
+                                right: 8px;
+                                background-color: #ff461d;
+                                line-height: (15rem/36);
+                                text-align: center;
+                                border-radius: 50%;
+                                border: 1px solid #ff461d;
+                                height: 0.38rem;
+                                padding: 0 (4rem/36);
+                                color: white;
+                                font-size: (12rem/36);
+                                min-width: .2rem;
                             }
                         }
-                        .menu_food_description {
-                            width: 100%;
-                            .food_description_head {
-                                display: flex;
-                                -ms-flex-pack: justify;
-                                justify-content: space-between;
-                                margin-bottom: .2rem;
-                                .attributes_ul {
-                                    display: flex;
-                                    li {
-                                        font-size: .3rem;
-                                        height: 16px;
-                                        line-height: 15px;
-                                        padding: 1px;
-                                        border: 1px solid #666;
-                                        border-radius: 0.3rem;
-                                        margin-right: .1rem;
-                                        transform: scale(.8);
-                                        p {
-                                            white-space: nowrap;
-                                        }
-                                    }
-                                    .attribute_new {
-                                        position: absolute;
-                                        top: 0;
-                                        left: 0;
-                                        background-color: #4cd964;
-                                        display: flex;
-                                        align-items: flex-end;
-                                        transform: rotate(-45deg) translate(-.1rem, -1.5rem);
-                                        border: none;
-                                        border-radius: 0;
-                                        p {
-                                            text-align: center;
-                                            flex: 1;
-                                        }
-                                    }
-                                }
-                            }
-                            .food_description_content {
-                                line-height: 22px;
-                                font-size: 13px;
-                                color: #999;
-                            }
-                            .food_description_sale_rating {
-                                line-height: 22px;
-                                font-size: 13px;
-                            }
-                            .food_activity {
-                                line-height: 13px;
-                                span {
-                                    font-size: .3rem;
-                                    border: 1px solid currentColor;
-                                    border-radius: 0.3rem;
-                                    padding: .08rem;
-                                    display: inline-block;
-                                    transform: scale(.8);
-                                    margin-left: -0.35rem;
-                                }
-                            }
-                        }
-                    }
-                    .menu_detail_footer {
-                        margin-left: 2.4rem;
-                        font-size: 10px;
-                        margin-top: .3rem;
-                        .food_price {
+                        .activity_menu {
+                            border-left: 1px solid #3190e8;
+                            background-color: #fff;
                             span:nth-of-type(1) {
-                                margin-right: .05rem;
-                                font-size: 14px;
-                                color: #f60;
+                                font-weight: bold;
                             }
-                            span:nth-of-type(2) {
-                                font-size: 17px;
-                                color: #f60;
-                                font-weight: 700;
-                                margin-right: .3rem;
+                        }
+                    }
+                }
+                .menu_right {
+                    position: absolute;
+                    top: 0;
+                    height: 10.5rem;
+                    padding: 0 0.3rem 1rem 0;
+                    width: 80%;
+                    margin-left: 2rem;
+                    overflow: scroll;
+                    .menu_detail_header {
+                        width: 100%;
+                        padding: .1rem;
+                        position: relative;
+                        align-items: center;
+                        background-color: #f5f5f5;
+                        .menu_detail_header_left {
+                            background-color: #f5f5f5;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            .menu_item_title {
+                                font-weight: bold;
+                                font-size: (16rem/36);
                             }
-                            .food_price-div {
-                                float: right;
-                                margin-right: 20px;
-                                section {
-                                    float: left;
-                                    margin-top: -2px;
-                                }
+                            .menu_item_description {
+                                width: 30%;
+                                margin-left: (8rem/36);
+                                overflow: hidden;
+                            }
+                        }
+                        .menu_detail_header_right {
+                            display: block;
+                            background-size: 100% .4rem;
+                            background-position: left center;
+                        }
+                        .description_tip {
+                            background-color: #39373a;
+                            opacity: 0.95;
+                            position: absolute;
+                            top: 1.5rem;
+                            z-index: 14;
+                            width: 8rem;
+                            right: .2rem;
+                            padding: .5rem .4rem;
+                            border: 1px;
+                            border-radius: .2rem;
+                            span {
+                                color: #fff;
+                                line-height: .6rem;
+                                font-size: .55rem;
+                            }
+                        }
+                        .description_tip::after {
+                            content: '';
+                            position: absolute;
+                            background-color: #39373a;
+                            top: -.5rem;
+                            right: .7rem;
+                            transform: rotate(-45deg) translateY(.41rem);
+                        }
+                    }
+                    .menu_detail_list {
+                        background-color: #fff;
+                        padding: .6rem .4rem;
+                        border-bottom: 1px solid #f8f8f8;
+                        position: relative;
+                        overflow: hidden;
+                        .menu_detail_link {
+                            display: flex;
+                            .menu_food_img {
+                                margin: 0 (10rem/36);
                                 img {
-                                    width: 25px;
+                                    width: (90rem/36);
+                                    height: (90rem/36);
+                                    display: block;
                                 }
-                                i {
-                                    font-size: 18px;
-                                    padding: 0 8px;
-                                    vertical-align: super;
+                            }
+                            .menu_food_description {
+                                width: 100%;
+                                .food_description_head {
+                                    display: flex;
+                                    -ms-flex-pack: justify;
+                                    justify-content: space-between;
+                                    margin-bottom: .2rem;
+                                    .attributes_ul {
+                                        display: flex;
+                                        li {
+                                            font-size: .3rem;
+                                            height: (16rem/36);
+                                            line-height: (15rem/36);
+                                            padding: 1px;
+                                            border: 1px solid #666;
+                                            border-radius: 0.3rem;
+                                            margin-right: .1rem;
+                                            transform: scale(.8);
+                                            p {
+                                                white-space: nowrap;
+                                            }
+                                        }
+                                        .attribute_new {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            background-color: #4cd964;
+                                            display: flex;
+                                            align-items: flex-end;
+                                            transform: rotate(-45deg) translate(-.1rem, -1.5rem);
+                                            border: none;
+                                            border-radius: 0;
+                                            p {
+                                                text-align: center;
+                                                flex: 1;
+                                            }
+                                        }
+                                    }
+                                }
+                                .food_description_content {
+                                    line-height: (22rem/36);
+                                    font-size: (13rem/36);
+                                    color: #999;
+                                }
+                                .food_description_sale_rating {
+                                    line-height: (22rem/36);
+                                    font-size: (13rem/36);
+                                }
+                                .food_activity {
+                                    line-height: (13rem/36);
+                                    span {
+                                        font-size: .3rem;
+                                        border: 1px solid currentColor;
+                                        border-radius: 0.3rem;
+                                        padding: .08rem;
+                                        display: inline-block;
+                                        transform: scale(.8);
+                                        margin-left: -0.35rem;
+                                    }
+                                }
+                            }
+                        }
+                        .menu_detail_footer {
+                            margin-left: 2.4rem;
+                            font-size: (10rem/36);
+                            margin-top: .3rem;
+                            .food_price {
+                                span:nth-of-type(1) {
+                                    margin-right: .05rem;
+                                    font-size: (14rem/36);
+                                    color: #f60;
+                                }
+                                span:nth-of-type(2) {
+                                    font-size: (17rem/36);
+                                    color: #f60;
+                                    font-weight: 700;
+                                    margin-right: .3rem;
+                                }
+                                .food_price-div {
+                                    float: right;
+                                    margin-right: (20rem/36);
+                                    section {
+                                        float: left;
+                                        margin-top: (-2rem/36);
+                                    }
+                                    img {
+                                        width: (25rem/36);
+                                    }
+                                    i {
+                                        font-size: (18rem/36);
+                                        padding: 0 (8rem/36);
+                                        vertical-align: super;
+                                    }
                                 }
                             }
                         }
@@ -717,7 +713,7 @@
             z-index: 13;
             display: flex;
             width: 100%;
-            height: 50px;
+            height: (50rem/36);
             .cart_icon_num {
                 flex: 1;
                 .move_in_cart {
@@ -727,27 +723,27 @@
                     display: flex;
                     background-color: #3d3d3f;
                     position: absolute;
-                    padding: 9px;
+                    padding: (9rem/36);
                     border: 0.18rem solid #444;
                     border-radius: 50%;
-                    left: 15px;
-                    top: -12px;
+                    left: (15rem/36);
+                    top: (-12rem/36);
                     .cart_icon {
-                        width: 30px;
-                        height: 30px;
+                        width: (30rem/36);
+                        height: (30rem/36);
                     }
                     .cart_list_length {
                         position: absolute;
-                        top: -.25rem;
-                        right: -.25rem;
+                        top: -.15rem;
+                        right: -.15rem;
                         background-color: #ff461d;
-                        line-height: 14px;
+                        line-height: (14rem/36);
                         text-align: center;
                         border-radius: 50%;
-                        border: 0.025rem solid #ff461d;
-                        min-width: 14px;
-                        height: 14px;
-                        font-size: 12px;
+                        border: 1px solid #ff461d;
+                        min-width: (14rem/36);
+                        height: (14rem/36);
+                        font-size: (12rem/36);
                         color: white;
                     }
                 }
@@ -758,17 +754,17 @@
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
-                    left: 90px;
+                    left: (90rem/36);
                     div {
                         color: #fff;
                     }
                     div:nth-of-type(1) {
-                        font-size: 18px;
+                        font-size: (18rem/36);
                         font-weight: bold;
-                        margin-bottom: -7px;
+                        margin-bottom: (-7rem/36);
                     }
                     div:nth-of-type(2) {
-                        font-size: 12px;
+                        font-size: (12rem/36);
                     }
                 }
             }
@@ -776,7 +772,7 @@
                 position: absolute;
                 right: 0;
                 background-color: #535356;
-                width: 130px;
+                width: (130rem/36);
                 height: 100%;
                 text-align: center;
                 display: -ms-flexbox;
@@ -804,19 +800,19 @@
                 position: fixed;
                 width: 100%;
                 z-index: 12;
-                bottom: 50px;
+                bottom: (50rem/36);
                 left: 0;
                 background-color: #fff;
                 header {
-                    padding: 0 20px;
-                    height: 48px;
-                    line-height: 48px;
+                    padding: 0 (20rem/36);
+                    height: (48rem/36);
+                    line-height: (48rem/36);
                     background-color: #eceff1;
                     position: relative;
                     div {
                         top: 0;
                         position: absolute;
-                        right: 20px;
+                        right: (20rem/36);
                         img {
                             vertical-align: middle;
                         }
@@ -824,10 +820,12 @@
                 }
                 .cart_food_details {
                     background-color: #fff;
-                    padding: 0 20px;
+                    padding: 0 (20rem/36);
+                    max-height: 8rem;
+                    overflow: scroll;
                     .cart_food_li {
-                        height: 51px;
-                        line-height: 51px;
+                        height: (51rem/36);
+                        line-height: (51rem/36);
                         .cart_list_num {
                             width: 55%;
                             display: inline-block;
@@ -840,7 +838,7 @@
                             color: #f60;
                             font-family: Helvetica Neue, Tahoma;
                             font-weight: 700;
-                            margin-right: 20px;
+                            margin-right: (20rem/36);
                             span:nth-of-type(2) {
                                 font-weight: bold;
                             }
@@ -849,13 +847,13 @@
                             display: inline-block;
                             img {
                                 vertical-align: text-bottom;
-                                width: 25px;
+                                width: (25rem/36);
                             }
                             .specs_reduce_icon {
                                 fill: #999;
                             }
                             .cart_num {
-                                padding: 5px;
+                                padding: (5rem/36);
                                 text-align: center;
                             }
                         }
@@ -866,11 +864,11 @@
         .shop_status_info {
             background-color: #fff;
             margin-bottom: .4rem;
-            padding-left: 10px;
+            padding-left: (10rem/36);
             header {
-                font-size: 18px;
+                font-size: (18rem/36);
                 font-weight: bold;
-                line-height: 38px;
+                line-height: (38rem/36);
                 padding: 0 .6rem;
                 border-bottom: 0.025rem solid #f1f1f1;
             }
@@ -889,12 +887,12 @@
         }
         .rating_header {
             text-align: center;
-            padding: 20px;
+            padding: (20rem/36);
             .rating_header_left {
                 width: 40%;
                 display: inline-block;
                 b {
-                    font-size: 40px;
+                    font-size: (40rem/36);
                     color: #ff6000;
                 }
                 span {
@@ -908,14 +906,14 @@
                 div {
                     display: inline-block;
                     width: 30%;
-                    font-size: 13px;
+                    font-size: (13rem/36);
                     p {
                         color: #666;
                     }
                     span {
-                        font-size: 20px;
+                        font-size: (20rem/36);
                         display: inline-block;
-                        margin-top: 5px;
+                        margin-top: (5rem/36);
                     }
                 }
             }
