@@ -1,4 +1,4 @@
-<template> 
+<template>
     <div class="body" :class="{over_hide: toggle_layer == false}">
         <header>
             <div>地址</div>
@@ -11,7 +11,7 @@
                 <mt-swipe-item>
                     <ul>
                         <li v-if="index<10" v-for="(item,index) in categoryItems" :key="index">
-                            <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
+                            <router-link :to="{ name: 'goods', query: { id: item.id,title:item.title }}">
                                 <img :src="imgBaseUrl + item.image_url">
                                 <p>{{item.title}}</p>
                             </router-link>
@@ -21,7 +21,7 @@
                 <mt-swipe-item>
                     <ul>
                         <li v-if="index>=10" v-for="(item,index) in categoryItems" :key="index">
-                            <router-link :to="{ name: 'goods', params: { id: item.id,title:item.title }}">
+                            <router-link :to="{ name: 'goods', query: { id: item.id,title:item.title }}">
                                 <img :src="imgBaseUrl + item.image_url">
                                 <p>{{item.title}}</p>
                             </router-link>

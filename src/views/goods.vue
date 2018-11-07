@@ -76,7 +76,7 @@
             }
         },
         mounted: function () {
-            this.title = this.$route.params.title || '美食外卖';
+            this.title = this.$route.query.title || '美食外卖';
             let that = this;
             // console.log(that.$route.params.id, this.$route.params)
             //商铺列表

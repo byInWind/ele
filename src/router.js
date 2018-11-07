@@ -14,7 +14,7 @@ export default new Router({
             name: 'payment',
             component: () => import('./views/payment.vue')
         }, {
-            path: '/views/goods/:id',
+            path: '/views/goods',
             name: 'goods',
             component: () => import('./views/goods.vue')
         }, {
