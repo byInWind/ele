@@ -32,3 +32,4 @@ npm run serve
 17. :duration="{ enter: 5000 }进入无效？效果与-enter-active不完全相同，在是否写-enter-to里产生了差异，以实际效果为准吧  
 18. $.scrollTop在浏览器console里有效，在代码里无效??  
 19. vue子组件的值如何响应式影响父组件的class，通过点击，不适合，未提取组件
+20. vue-router路由参数刷新消失的问题 方法:使用this.$route.query替代以前使用this.$route.params,这样可以解决，不过地址栏带上了有些丑的参数(这个问题待解决)
